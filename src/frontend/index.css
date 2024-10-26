@@ -1,6 +1,8 @@
 :root {
     --login-form-padding: 16px;
-    --maxwidth-login-form: 400px
+    --maxwidth-login-form: 400px;
+    --col-row-gap: 12px;
+    --color-name: #ffffff;
 }
 
 main {
@@ -9,23 +11,28 @@ main {
 
     display: flex;
     flex-direction: column;
-    justify-content: center;
-
+    justify-content: center; 
+    
     text-align: center;
     max-width: var(--maxwidth-login-form, 400px);
 }
 
 main form {
-    row-gap: 12px;
+    row-gap: var(--col-row-gap, 12px);
 }
 
 main h1 {
     font-weight: bold;
     font-size: 1.5rem;
+    color: white;
 }
 
-main p {
+main > p {
     color: grey;
+}
+
+.product-name {
+    color: var(--color-name);
 }
 
 input {
@@ -36,10 +43,29 @@ input {
     border: none;
 }
 
+main > div {
+    position: relative;
+}
+
+main > div > p:first-child {
+    position: absolute;
+    left: 8px;
+}
+
+main > div > p:last-child {
+    position: absolute;
+    right: 8px;
+}
+
 input[type=text],
 input[type=password] {
     background-color: rgb(30, 30, 30);
     color: white;
+}
+
+input[type=submit] {
+    background-color: rgb(240, 240, 240);
+    color: black;
 }
 
 main a:visited,
@@ -48,3 +74,6 @@ main a:link {
     text-decoration: none;
 }
 
+main a:active {
+    border: 1px solid grey;
+}
