@@ -1,0 +1,74 @@
+:root {
+    --header-height: 48px;
+    --header-backdrop-filter-blur: 32px;
+    --font-family: -apple-system, system-ui, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+}
+
+* {
+    font-family: var(--font-family, sans-serif);
+}
+
+html {
+    height: 100vh;
+    width: 100vw;
+}
+
+.grid-container {
+    display: grid;
+}
+
+.col-1 {
+    grid-template-columns: 100%;
+}
+
+.col-2 {
+    grid-template-columns: 50% 50%;
+}
+
+.col-3 {
+    grid-template-columns: 33.33% 33.34% 33.33%;
+}
+
+.col-4 {
+    grid-template-columns: 25% 25% 25% 25%;
+}
+
+body {
+    height: 100%;
+    width: 100%;
+    background-color: black;
+    color: white;
+    font-size: 1rem;
+}
+
+header,
+main,
+nav {
+    width: 100%;
+}
+
+header,
+nav {
+    height: var(--header-height, 48px);
+    padding: 8px;
+    background-color: rgba(0,0,0, 0.5);
+    backdrop-filter: blur(var(--header-backdrop-filter-blur, 32px));
+    -webkit-backdrop-filter: blur(var(--header-backdrop-filter-blur, 32px));
+}
+
+header {
+    position: fixed;
+    top: 0;
+}
+
+nav {
+    position: fixed;
+    bottom: 0;
+}
+
+main {
+    margin: 0 auto;
+    max-width: 500px;
+    height: 100%;
+    padding: var(--header-height, 48px) 0;
+}
