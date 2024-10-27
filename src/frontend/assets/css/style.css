@@ -1,7 +1,8 @@
-:root {
+s:root {
     --main-padding-lr: 16px;
     --header-height: 48px;
     --header-backdrop-filter-blur: 32px;
+    --color-product-name: #d5deff;
     --font-family: -apple-system, system-ui, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
 }
 
@@ -13,12 +14,19 @@
 html {
     height: 100vh;
     width: 100vw;
+    min-width: 265px;
+    font-size: calc(12px + 0.3vw);
 }
 
 h1 {
     font-weight: bold;
     font-size: 1.5rem;
     color: white;
+}
+
+.product-name {
+    color: var(--color-product-name);
+    font-weight: bold;
 }
 
 .grid-container {
@@ -68,6 +76,23 @@ nav {
 header {
     position: fixed;
     top: 0;
+
+    display: flex;
+    justify-content: center;
+}
+
+header a {
+    height: 100%;
+    transition: 0.15s ease-in transform;
+}
+
+header a:hover {
+    transform: scale(1.1);
+}
+
+header svg {
+    /* width: 32px; */
+    height: 100%;
 }
 
 nav {
@@ -102,7 +127,8 @@ input:-webkit-autofill {
 
 
 input[type=text],
-input[type=password] {
+input[type=password],
+input[type=email] {
     background-color: rgb(30, 30, 30);
     color: white;
 }

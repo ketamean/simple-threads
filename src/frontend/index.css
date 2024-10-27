@@ -1,7 +1,6 @@
 :root {
     --maxwidth-login-form: 420px;
     --col-row-gap: 12px;
-    --color-product-name: #d5deff;
 }
 
 main {
@@ -27,13 +26,12 @@ main > p {
     padding-right: 12px;
 }
 
-.product-name {
-    color: var(--color-product-name);
-    font-weight: bold;
-}
-
 main > div {
     position: relative;
+}
+
+main > div p {
+    color: grey;
 }
 
 main > div > p:first-child {

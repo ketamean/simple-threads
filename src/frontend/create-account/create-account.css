@@ -1,0 +1,31 @@
+:root {
+    --input-gap: 12px;
+}
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--input-gap, 12px);
+    text-align: center;
+}
+
+main form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--input-gap, 12px);
+}
+
+main a:visited,
+main a:link {
+    color: white;
+    text-decoration: none;
+}
+
+main a:active {
+    border: 1px solid grey;
+}
+
+#password-input-container {
+    gap: var(--input-gap, 12px);
+    grid-template-columns: calc(50% - var(--input-gap, 12px) / 2) calc(50% - var(--input-gap, 12px) / 2);
+}
