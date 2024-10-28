@@ -15,7 +15,7 @@ html {
     height: 100vh;
     width: 100vw;
     min-width: 265px;
-    font-size: calc(12px + 0.3vw);
+    font-size: calc(12px + 0.15vw); /* define 1rem */
 }
 
 h1 {
