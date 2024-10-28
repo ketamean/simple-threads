@@ -18,11 +18,16 @@
     <main>
         <h1>Join <span class="product-name">Simple-Threads</span></h1>
         <form class="grid-container col-1" action="" method="post">
-            <input type="text" name="username" placeholder="Username" value="" required>
-            <input type="email" name="email" placeholder="Email" value="" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required>
+            <input type="text" name="username" placeholder="Username" value="" title="Username" required>
+            <input type="email" name="email" placeholder="Email" value="" title="Email address" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required>
             <div class="grid-container" id="password-input-container">
-                <input type="password" name="password" placeholder="Password" value="" required>
-                <input type="password" placeholder="Confirm password" value="" required>    
+                <div id="init-password-container">
+                    <input type="password" name="password" placeholder="Password" value="" title="At least 8 characters, with numbers, speacial characters, uppercase letters, and lowercase letters" required>
+                    <div id="password-strength-bar">
+
+                    </div>
+                </div>
+                <input type="password" placeholder="Confirm password" value="" title="Re-enter your password" required>
             </div>
             <input type="submit" value="Sign up">
         </form>
