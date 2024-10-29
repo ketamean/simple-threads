@@ -1,4 +1,4 @@
-s:root {
+:root {
     --main-padding-lr: 16px;
     --header-height: 48px;
     --header-backdrop-filter-blur: 32px;
@@ -48,6 +48,10 @@ h1 {
 
 .col-4 {
     grid-template-columns: 25% 25% 25% 25%;
+}
+
+.col-5 {
+    grid-template-columns: 20% 20% 20% 20% 20%;
 }
 
 body {
@@ -137,4 +141,8 @@ input[type=submit] {
     background-color: rgb(240, 240, 240);
     color: black;
     font-weight: bold;
+}
+
+.debug{
+    border: 2px red dashed;
 }

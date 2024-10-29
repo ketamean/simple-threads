@@ -1,0 +1,161 @@
+.profile-container{
+    width: 100%;
+    height: 100%;
+}
+
+.profile-header{
+    width: 100%;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-footer{
+    width: 100%;
+    height: 60px;
+    display: grid;
+    position: fixed;
+    text-align: center;
+    line-height: 60px;
+}
+
+.nav-svg{
+    width: 30px;
+    height: 30px;
+    color: rgba(243, 245, 247, 0.35);
+}
+
+.nav-svg.active{
+    fill: #F3F5F7;
+}
+
+.profile-main{
+    width: 100%;
+    height: calc(100% - 50px);
+    padding: 48px 0;
+}
+
+.basic-info{
+    width: 100%;
+    height: 138px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 16px 12px 10px 12px;
+}
+
+.bio{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+}
+
+.user-info{
+    height: 64px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.user-avatar{
+    width: 64px;
+    height: 64px;
+    border-radius: 100%;
+}
+
+.alias{
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.username{
+    font-size: 1.2rem;
+    font-weight: 400;
+}
+
+.followers-preview{
+    height: 36px;
+}
+
+.image-preview{
+    position: relative;
+}
+
+.number-of-follower{
+    width: 100%;
+    height: 1rem;
+    margin-left: 30px;
+    text-wrap: nowrap;
+    text-align: center;
+    line-height: 1rem;
+    font-size: 15px;
+    color: #777777;
+}
+
+.number-of-follower:hover{
+    text-decoration: underline;
+}
+
+.preview-followers{
+    width: 16px;
+    height: 16px;
+    border-radius: 100%;
+    position: absolute;
+}
+
+.preview-followers:nth-child(2){
+    margin-left: 10px;
+}
+
+.preview-followers:nth-child(3){
+    margin-left: 20px;
+}
+
+.share-n-edit{
+    width: 100%;
+    height: 34px;
+    display: flex;
+    justify-content: space-evenly;
+    font-size: 13px;
+    line-height: 21px;
+    margin-top: 24px;
+}
+
+.edit-profile, .share-profile{
+    width: 48%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    cursor: pointer;
+    border: .8px solid rgba(243, 245, 247, 0.15);
+    background-color: #0a0a0a;
+    color: #F3F5F7;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.tabs{
+    width: 100%;
+    height: 48px;
+    margin-top: 20px;
+    font-size: 15px;
+    display: grid;
+    text-align: center;
+    line-height: 48px;
+    color: rgb(119, 119, 119);
+    border-bottom: 1px solid rgba(243, 245, 247, 0.15);
+    font-weight: 600;
+}
+
+.tabs > div{
+    cursor: pointer;
+}
+
+.tabs > .active{
+    color: rgb(243, 245, 247);
+    border-bottom: 1px solid rgba(243, 245, 247);
+}
