@@ -1,0 +1,148 @@
+.activity-container {
+  width: 100%;
+  height: 100%;
+}
+
+.header-logo {
+  display: flex;
+  align-items: center;
+  max-width: 100%;
+  justify-content: center;
+}
+
+.activity-header {
+  width: 100%;
+  max-width: 500px;
+  height: 60px;
+  margin: auto;
+  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr 50vw 1fr;
+  grid-template-rows: 1fr;
+}
+
+.threads-svg {
+  cursor: pointer;
+  transition-property: transform;
+  transition-duration: 0.2s;
+  width: 18%;
+}
+
+.top-bar {
+  width: 21px;
+  height: 2.5px;
+}
+
+.bottom-bar {
+  width: 14px;
+  height: 2.5px;
+}
+
+.see-more-svg {
+  height: 24px;
+  width: 24px;
+  flex-shrink: 0;
+  display: block;
+  position: relative;
+  fill: #777777;
+  left: 50%;
+}
+
+.see-more-button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+.activity-footer {
+  width: 100%;
+  height: 60px;
+  display: grid;
+  position: fixed;
+  bottom: 0;
+  text-align: center;
+  line-height: 60px;
+  max-width: 500px;
+  left: 50%; /* Left based on the size of the parent, transform: translate based on the element, same for top */
+  /* Basically move to the right 50% - 50% of the element*/
+  transform: translateX(
+    -50%
+  ); /* Will not need this if length of element is 0 */
+}
+
+.nav-svg {
+  width: 30px;
+  height: 30px;
+  color: rgba(243, 245, 247, 0.35);
+  cursor: pointer;
+}
+
+.active {
+  fill: #f3f5f7;
+}
+
+.activity-main {
+  width: 100%;
+  height: calc(100% - 50px);
+  padding: 48px 0;
+}
+
+/* tag bar threa*/
+
+.activity-main-tag {
+  margin: 1rem;
+  max-width: 100%;
+  display: flex;
+  position: relative;
+  height: 42px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  column-gap: 6px;
+  align-self: center;
+  overflow-x: auto;
+}
+
+.activity-link-tag {
+  min-width: 100px;
+  max-width: 100%;
+  height: 34px;
+  border: 1px solid rgba(243, 245, 247, 0.15);
+  border-radius: 10px;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  white-space: nowrap;
+  flex-basis: auto;
+  flex-shrink: 0;
+  text-decoration: none;
+  padding-left: 16px;
+  padding-right: 16px;
+  color: #f3f5f7;
+}
+
+.tag-active {
+  background-color: white;
+  color: black;
+}
+
+.activity-content-tag {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.activity-none {
+  display: flex;
+  height: calc(100% - 60px);
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.activity-none span {
+  color: rgb(119, 119, 119);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: calc(1.4* 1em);
+  position: relative;
+}
