@@ -2,11 +2,15 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <title>User</title>
         <link rel="stylesheet" href="style.css" />
         <link rel="stylesheet" href="../frontend/assets/css/normalize.css" />
         <link rel="stylesheet" href="../frontend/assets/css/style.css" />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/gh/iconoir-icons/iconoir@main/css/iconoir.css"
+        />
     </head>
     <body>
         <div class="profile-container">
@@ -73,6 +77,65 @@
                     <div class="threads active">Threads</div>
                     <div class="replies">Replies</div>
                     <div class="reposts">Reposts</div>
+                </div>
+                <div class="post-tab">
+                    <div class="thread-container">
+                        <img
+                            src="../frontend/assets/img/user-placeholder.jpg"
+                            alt=""
+                            class="user-avatar"
+                        />
+                        <div class="thread-content">
+                            <div class="post-info">
+                                <div class="username">sea_pea_04</div>
+                                <div class="date-posted">30/10/2024</div>
+                            </div>
+                            <p class="thread-text">
+                                Lorem ipsum dolor sit amet, consectetur
+                                adipiscing elit. Praesent vestibulum pretium
+                                pharetra. Integer lacinia consectetur elit vitae
+                                rutrum. Maecenas in.
+                            </p>
+                            <div class="thread-images-container">
+                                <img
+                                    src="../frontend/assets/img/placeholder.jpg"
+                                    alt=""
+                                    class="thread-image"
+                                />
+                                <img
+                                    src="../frontend/assets/img/placeholder.jpg"
+                                    alt=""
+                                    class="thread-image"
+                                />
+                                <img
+                                    src="../frontend/assets/img/placeholder.jpg"
+                                    alt=""
+                                    class="thread-image"
+                                />
+                            </div>
+                            <div class="user-actions">
+                                <div class="action love">
+                                    <i class="iconoir-heart"></i>
+                                    <div class="stat like-number">1k</div>
+                                </div>
+                                <div class="action comment">
+                                    <i
+                                        class="iconoir-chat-bubble-empty"
+                                        style="transform: rotate(90deg)"
+                                    ></i>
+                                    <div class="stat comment-number">300</div>
+                                </div>
+                                <div class="action repost">
+                                    <i class="iconoir-refresh-double"></i>
+                                    <div class="stat repost-number">30</div>
+                                </div>
+                                <div class="action chat">
+                                    <i class="iconoir-link"></i>
+                                    <div class="stat chat-number">23</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </main>
             <main class="profile-follow-board">
@@ -401,7 +464,7 @@
                     </div>
                 </div>
                 <div class="tab tab-following">
-                                        <div class="user">
+                    <div class="user">
                         <img
                             class="user-avatar"
                             alt=""
@@ -718,8 +781,18 @@
             <div class="unfollow-modal">
                 <div class="unfollow-card">
                     <div class="prompt-user">
-                        <img src="../frontend/assets/img/user-placeholder.jpg" alt="" class="unfollowee-avatar">
-                        <div class="question">Unfollow&nbsp;<div class="unfollowee-username">Lorem_ipsum_dolor_lipsum_iteeca</div>?</div>
+                        <img
+                            src="../frontend/assets/img/user-placeholder.jpg"
+                            alt=""
+                            class="unfollowee-avatar"
+                        />
+                        <div class="question">
+                            Unfollow&nbsp;
+                            <div class="unfollowee-username">
+                                Lorem_ipsum_dolor_lipsum_iteeca
+                            </div>
+                            ?
+                        </div>
                     </div>
                     <div class="choices col-2">
                         <div class="cancel">Cancel</div>
