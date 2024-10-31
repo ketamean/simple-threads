@@ -1,8 +1,8 @@
 :root {
     --input-gap: 12px;
     --password-strength-weak-color: #fc6868;
-    --password-strength-average-color: #fbff96;
-    --password-strength-strong-color: #a7ffad;
+    --password-strength-average-color: #faff6d;
+    --password-strength-strong-color: #84ff8d;
     --password-strength-weak-width: 30%;
     --password-strength-average-width: 60%;
     --password-strength-strong-width: 100%;
@@ -32,10 +32,11 @@ main a:active {
 }
 
 #password-input-container {
-    gap: var(--input-gap, 12px);
+    column-gap: var(--input-gap, 12px);
     grid-template-columns: calc(50% - var(--input-gap, 12px) / 2) calc(50% - var(--input-gap, 12px) / 2);
 }
 
+#cf-password-container,
 #init-password-container {
     width: 100%;
     display: flex;
@@ -44,9 +45,21 @@ main a:active {
     gap: 4px;
 }
 
+#password-match-bar,
 #password-strength-bar {
-    height: 2px;
-    width: var(--password-strength-average-width);
-    background-color: var(--password-strength-average-color);
+    
+    height: 4px;
     border-radius: 8px;
+}
+
+#password-strength-bar {
+    width: var(--password-strength-weak-width);
+    background-color: var(--password-strength-weak-color);
+    display: none;
+}
+
+#password-match-bar {
+    width: var(--password-strength-strong-width);
+    background-color: var(--password-strength-strong-color);
+    display: none;
 }
