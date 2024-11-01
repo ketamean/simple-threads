@@ -1,0 +1,14 @@
+{
+  "name": "thread-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Đỗ Đình Hải, Trương Thanh Toàn, Phạm Thanh Vinh, Lê Quốc Khôi",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "express": "^4.21.1"
+  }
+}
