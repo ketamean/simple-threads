@@ -444,11 +444,17 @@
 .thread-image{
     padding: 12px;
     padding-bottom: 0;
-    width: 100%;
+    width: max-content;
+    min-width: 50%;
+    max-width: 100%;
     height: 300px;
     border-radius: 20px;
     object-fit: cover;
     object-position: center;
+}
+
+.thread-image:only-child{
+    width: 100%;
 }
 
 .user-actions{
