@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Threads</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="scripts.js" defer></script>
+</head>
+<body>
+
+    <nav class="left-nav">
+        <div class="logo">Threads</div>
+        <div class="nav-links">
+            <a href="#" class="nav-link active">🏠 <span>Home</span></a>
+            <a href="#" class="nav-link">🔍 <span>Search</span></a>
+            <a href="#" class="nav-link">✍️ <span>Write</span></a>
+            <a href="#" class="nav-link">♡ <span>Activity</span></a>
+            <a href="#" class="nav-link">👤 <span>Profile</span></a>
+        </div>
+    </nav>
+
+    <main class="main-container">
+        
+        <div class="feed-filter">
+            <div class="dropdown-container">
+                <button class="dropdown-button">
+                    <span class="selected-text">For you</span>
+                </button>
+                <div class="dropdown-menu">
+                    <div class="dropdown-item active" data-value="for-you">For you</div>
+                    <div class="dropdown-item" data-value="following">Following</div>
+                    <div class="dropdown-item" data-value="liked">Liked</div>
+                    <div class="dropdown-item" data-value="saved">Saved</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="compose-box">
+                <div class="avatar"></div>
+                <form class="compose-form">
+                    <textarea 
+                        class="compose-input" 
+                        placeholder="Start a thread..."
+                        rows="3"
+                    ></textarea>
+                    <div class="compose-actions">
+                        <div class="compose-tools">
+                            <button type="button" class="tool-button">📷</button>
+                            <button type="button" class="tool-button">😊</button>
+                        </div>
+                        <button type="submit" class="post-button" disabled>Post</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="feed">
+                <article class="thread">
+                    <div class="avatar"></div>
+                    <div class="thread-content">
+                        <div class="thread-header">
+                            <span class="username">john_doe</span>
+                            <span class="timestamp">2h</span>
+                        </div>
+                        <p class="thread-text">Just launched my new project! Really excited to share it with everyone. What do you think? #coding #webdev</p>
+                        <img class="thread-image" src="/api/placeholder/500/300" alt="Project screenshot">
+                        <div class="thread-actions">
+                            <button class="action-button">♡ 42</button>
+                            <button class="action-button">💬 12</button>
+                            <button class="action-button">⟲ 8</button>
+                            <button class="action-button">▸</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="thread">
+                    <div class="avatar"></div>
+                    <div class="thread-content">
+                        <div class="thread-header">
+                            <span class="username">sarah_dev</span>
+                            <span class="timestamp">4h</span>
+                        </div>
+                        <p class="thread-text">Learning React has been such a game-changer! The component-based architecture makes so much sense once you get used to it. 🚀</p>
+                        <div class="thread-actions">
+                            <button class="action-button">♡ 89</button>
+                            <button class="action-button">💬 24</button>
+                            <button class="action-button">⟲ 15</button>
+                            <button class="action-button">▸</button>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
