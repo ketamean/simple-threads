@@ -1,16 +1,18 @@
-let love = document.querySelector('.love');
-let loveIcon = document.querySelector('.iconoir-heart');
-let likeNum = document.querySelector('.like-number');
-love.addEventListener('click', () => {
-    if (loveIcon.classList.contains('iconoir-heart-solid')) {
-        likeNum.textContent = parseInt(likeNum.textContent) - 1;
-        loveIcon.classList.remove('iconoir-heart-solid');
-        loveIcon.classList.add('iconoir-heart');
-        love.style.color = '#CCCCCC';
-    } else {
-        likeNum.textContent = parseInt(likeNum.textContent) + 1;
-        loveIcon.classList.remove('iconoir-heart');
-        loveIcon.classList.add('iconoir-heart-solid');
-        love.style.color = '#fe0034';
-    }
-});
+let love = document.querySelectorAll('.love');
+let loveIcon = document.querySelectorAll('.iconoir-heart');
+let likeNum = document.querySelectorAll('.like-number');
+for (let i = 0; i < love.length; i++) {
+    love[i].addEventListener('click', () => {
+        if (loveIcon[i].classList.contains('iconoir-heart-solid')) {
+            likeNum[i].textContent = parseInt(likeNum[i].textContent) - 1;
+            loveIcon[i].classList.remove('iconoir-heart-solid');
+            loveIcon[i].classList.add('iconoir-heart');
+            love[i].style.color = '#CCCCCC';
+        } else {
+            likeNum[i].textContent = parseInt(likeNum[i].textContent) + 1;
+            loveIcon[i].classList.remove('iconoir-heart');
+            loveIcon[i].classList.add('iconoir-heart-solid');
+            love[i].style.color = '#fe0034';
+        }
+    });
+}
