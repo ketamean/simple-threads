@@ -8,14 +8,22 @@ composeInput.addEventListener('input', function() {
     postButton.classList.toggle('active', !postButton.disabled);
 });
 
+function createThread(threadContent) {
+    const $thread = document.querySelector('.thread').cloneNode(true);
+    console.log($thread);
+    const $threadText = $thread.querySelector('.thread-text');
+    $threadText.textContent = threadContent;
+    const $feed = document.querySelector('.feed');
+    $feed.prepend($thread); 
+}
+
 document.querySelector('.compose-form').addEventListener('submit', function(e) {
     e.preventDefault();
     if (composeInput.value.trim()) {
-        // Here you would normally send the post to your backend
-        alert('Post submitted: ' + composeInput.value);
         composeInput.value = '';
         postButton.disabled = true;
         postButton.classList.remove('active');
+        createThread(composeInput.value);
     }
 });
 
@@ -63,7 +71,7 @@ dropdownItems.forEach(item => {
         // Close dropdown
         dropdownMenu.classList.remove('active');
         
-        // You can emit an event or call a function here to handle the filter change
+        // Log selected value
         const selectedValue = item.dataset.value;
         console.log('Selected filter:', selectedValue);
     });
