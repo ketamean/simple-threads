@@ -160,7 +160,7 @@
 .activity-follow-block {
   display: block;
   position: relative;
-  height: 60px;
+  height: auto;
   margin-top: 12px;
   margin-bottom: 12px;
 }
@@ -313,7 +313,7 @@
   line-height: calc(1.4 * 1em);
   max-width: 100%;
   overflow: hidden;
-  word-wrap: break-word;
+  word-wrap: break-word;  
 }
 
 .activity-follow-infor-right {
@@ -358,6 +358,7 @@
 .activity-follow-infor-react-flex {
   display: flex;
   gap: 2.5rem;
+  user-select: none;
 }
 
 .activity-follow-infor-react {
@@ -369,11 +370,35 @@
   width: calc(100vw / 10);
   gap: 4px;
 }
+
+.activity-follow-infor-react.span {
+  font-size: 13px;
+  color: #cccccc;
+}
+
 .react-svg {
   height: 18px;
   width: 18px;
   stroke-width: 2;
   stroke: currentColor;
-  color: rgb(204, 204, 204);
+  color: #cccccc;
   flex-shrink: 0;
+}
+
+.react-reposts {
+  height: 18px;
+  width: 18px;
+  flex-shrink: 0;
+  color: #cccccc;
+  fill: currentColor;
+}
+
+.react-shared {
+  /*display inside*/
+  fill: none;
+}
+
+.react-like-on {
+  color: red;
+  fill:red;
 }
