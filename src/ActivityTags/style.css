@@ -215,12 +215,19 @@
 .activity-follow-img-svg {
   height: 18px;
   width: 18px;
-  background-color: #6e3def;
   border: 2px solid #121212;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
+}
+
+.avt-color {
+  background-color: #6e3def;
+}
+
+.star-color {
+  background-color: #007aff;
 }
 
 .activity-svg-avt {
@@ -269,6 +276,10 @@
   text-overflow: ellipsis;
   align-items: center;
 }
+
+.change-width {
+  max-width: calc(100vw / 1.7);
+}
 .activity-follow-infor-header-name span {
   font-size: 15px;
   font-weight: 600;
@@ -292,6 +303,17 @@
   text-overflow: ellipsis;
   line-height: calc(1.4 * 1em);
   max-width: 100%;
+}
+
+.activity-follow-infor-content {
+  padding-top: 0.5em;
+  font-size: 15px;
+  font-weight: 400;
+  color: #f3f5f7;
+  line-height: calc(1.4 * 1em);
+  max-width: 100%;
+  overflow: hidden;
+  word-wrap: break-word;
 }
 
 .activity-follow-infor-right {
@@ -324,4 +346,34 @@
 
 .active-content {
   color: #f3f5f7;
+}
+
+.activity-follow-infor-react-container {
+  display: flex;
+  height: 20px;
+  margin-top: 6px;
+  margin-bottom: 10px;
+  position: relative;
+}
+.activity-follow-infor-react-flex {
+  display: flex;
+  gap: 2.5rem;
+}
+
+.activity-follow-infor-react {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  width: calc(100vw / 10);
+  gap: 4px;
+}
+.react-svg {
+  height: 18px;
+  width: 18px;
+  stroke-width: 2;
+  stroke: currentColor;
+  color: rgb(204, 204, 204);
+  flex-shrink: 0;
 }
