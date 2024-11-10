@@ -260,7 +260,7 @@ div {
 .activity-follow-infor-block {
   grid-column-start: 2;
   border-bottom: 0.5px solid rgba(243, 245, 247, 0.15);
-  display: block;
+  display: flex;
   padding-right: 12px;
 }
 
@@ -269,6 +269,7 @@ div {
   padding-bottom: 12px;
   flex-grow: 1;
   min-width: 0;
+  max-width: 100%;
   cursor: pointer;
 }
 
@@ -567,4 +568,69 @@ div {
   position: relative;
   color: rgb(243, 245, 247);
   fill: currentColor;
+}
+
+@media (min-width: 600px) {
+  .activity-container {
+    display: flex;
+  }
+  .activity-header {
+    display: none;
+  }
+
+  .activity-footer {
+    display: none;
+  }
+
+  .activity-main {
+    max-width: 640px;
+    min-height: 100vh;
+    display: flex;
+    padding: 0;
+    flex-direction: column;
+    position: relative;
+    flex-grow: 1;
+  }
+
+  .activity-main-tag {
+    min-height: 60px;
+    width: 100%;
+    top: 0;
+    background-color: #121212;
+    display: flex;
+    /* fixed header */
+    position: sticky;
+    align-items: center;
+    z-index: 1;
+  }
+  .activity-link-tag {
+    display: none;
+  }
+
+  .activity-follow-infor-react-flex {
+    gap: 1rem;
+  }
+
+  .activity-follow-infor-container {
+    padding-bottom: 18px;
+  }
+
+  .activity-follow {
+    padding-top: 8px;
+    overscroll-behavior-y: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: rgb(24, 24, 24);
+    border: 0.5px solid rgb(45, 45, 45);
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    width: 100%;
+    position: relative;
+    flex-grow: 1;
+    will-change: scroll-position;
+    scrollbar-width: none;
+    transform-style: preserve-3d;
+    box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.04);
+    flex-basis: 100%;
+  }
 }
