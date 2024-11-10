@@ -1,5 +1,6 @@
 /* hidden hover for a element */
-a {
+a,
+div {
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
 }
@@ -420,6 +421,7 @@ a {
 .react-like-on {
   color: red;
   fill: red;
+  font-weight: 600;
 }
 
 /*navbar setting*/

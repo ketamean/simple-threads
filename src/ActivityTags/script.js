@@ -2,6 +2,11 @@ const activity_tag = document.querySelectorAll(".activity-link-tag");
 const activity_follow_screen = document.querySelectorAll(".activity-follow");
 const see_more_button = document.querySelector(".see-more-svg");
 const navSettingContainer = document.querySelector(".nav-setting-container");
+const like_button = document.querySelectorAll(
+  ".activity-follow-infor-react.like"
+);
+
+console.log(like_button);
 
 // change screen tag handle
 activity_tag.forEach((tag) => {
@@ -12,9 +17,9 @@ activity_tag.forEach((tag) => {
     currentTag.classList.add("pop-up");
     setTimeout(() => {
       currentTag.classList.remove("pop-up");
-    }, 300);
+      currentTag.classList.add("tag-active");
+    }, 200);
 
-    event.currentTarget.classList.add("tag-active");
     const tag_content = event.currentTarget.textContent.trim();
     switch (tag_content) {
       case "All":
@@ -110,4 +115,30 @@ document.addEventListener("click", (event) => {
     navSettingContainer.classList.add("hidden");
     see_more_button.classList.remove("active");
   }
+});
+
+// react-icon
+
+like_button.forEach((button) => {
+  button.addEventListener("click", (event) => {
+    const currentTag = event.currentTarget;
+    currentTag.classList.add("pop-up");
+    setTimeout(() => {
+      currentTag.classList.remove("pop-up");
+    }, 300);
+
+    const svgElement = currentTag.querySelector("svg");
+    const spanElement = currentTag.querySelector("span");
+
+    if (
+      svgElement.classList.contains("react-like-on") &&
+      spanElement.classList.contains("react-like-on")
+    ) {
+      svgElement.classList.remove("react-like-on");
+      spanElement.classList.remove("react-like-on");
+    } else {
+      svgElement.classList.add("react-like-on");
+      spanElement.classList.add("react-like-on");
+    }
+  });
 });
