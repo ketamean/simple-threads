@@ -28,7 +28,7 @@
     left: 50%; /* Left based on the size of the parent, transform: translate based on the element, same for top */
     /* Basically move to the right 50% - 50% of the element*/
     transform: translateX(-50%); /* Will not need this if length of element is 0 */
-    z-index: 9999;
+    z-index: 2;
     background-color: #0a0a0a;
 }
 
@@ -99,6 +99,8 @@
 
 .followers-preview{
     height: 36px;
+    cursor: pointer;
+    user-select: none;
 }
 
 .image-preview{
@@ -185,7 +187,7 @@
 .profile-follow-board{
     position: absolute;
     background-color: #181818;
-    height: calc(100% - 60px);
+    height: 0;
     width: 100%;
     bottom: 0;
     z-index: 9999;
@@ -194,9 +196,13 @@
     left: 50%;
     transform: translateX(-50%);
     overflow-y: hidden;
+    transition: height 0.5s ease-in-out;
+}
+
+.profile-follow-board.active{
+    height: calc(100% - 60px - 60px);
     padding-bottom: 30px;
-    display: none; 
-    /* hide the follow board, if show, change to block */
+    margin-bottom: 60px;
 }
 
 .followers, .following{
@@ -299,6 +305,10 @@
     left: 0;
     display: none; 
     /* hide modal, if show, change to flex */
+}
+
+.unfollow-modal.active{
+    display: flex;
 }
 
 .unfollow-card{
@@ -477,11 +487,68 @@
     justify-content: flex-start;
 }
 
-/* .action:hover{
-    opacity: 0.5;
-} */
-
 .stat{
     font-size: 16px;
     color:#ccc;
+}
+
+.share-modal{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    display: none; 
+    /* hide modal, if show, change to flex */
+}
+
+.share-modal.active{
+    display: flex;
+}
+
+.share-card{
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    max-width: 536px;
+    height: 136px;
+    background-color: #181818;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 16px 16px 0 0;
+    border: 0.8px solid rgba(243, 245, 247, 0.15);
+    padding: 16px;
+    overflow: hidden;
+}
+
+.share-item{
+    width: 100%;
+    height: 50%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    font-size: 15px;
+    font-weight: 600;
+    background-color: rgb(30, 30, 30);
+}
+
+.share-item:nth-child(1){
+    border-bottom: 0.8px solid rgba(243, 245, 247, 0.15);
+    border-radius: 16px 16px 0 0;
+}
+
+.share-item:nth-child(2){
+    border-top: 0.8px solid rgba(243, 245, 247, 0.15);
+    border-radius: 0 0 16px 16px;
+}
+
+.share-item:hover{
+    background-color: rgba(243, 245, 247, 0.15);
 }
