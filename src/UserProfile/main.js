@@ -9,6 +9,13 @@ const followBoard = document.querySelector('.profile-follow-board');
 const cancelUnfollow = document.querySelector('.cancel');
 const actionRepost = document.querySelectorAll('.action.repost');
 const shareModal = document.querySelector('.share-modal');
+const editProfile = document.querySelector('.edit-profile');
+const editProfileModal = document.querySelector(".edit-profile-modal");
+const editProfileCancel = document.querySelector(".edit-profile-header-item.cancel");
+const editProfileSave = document.querySelector(".edit-profile-header-item.save");
+const editProfileForm = document.querySelector(".edit-profile-form");
+const editProfileAvatarLabel = document.querySelector(".avatar-label");
+const editProfileAvatarInput = document.querySelector(".avatar-input");
 
 for (let i = 0; i < love.length; i++) {
     love[i].addEventListener('click', () => {
@@ -75,4 +82,34 @@ shareModal.addEventListener('click', (e) => {
         shareModal.classList.remove('active');
         document.body.style.overflow = 'auto';
     }
+});
+
+editProfile.addEventListener('click', () => {
+    editProfileModal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+});
+
+editProfileCancel.addEventListener('click', () => {
+    editProfileModal.classList.remove('active');
+    document.body.style.overflow = 'auto';
+});
+
+editProfileSave.addEventListener('click', () => {
+    editProfileForm.submit();
+    setTimeout(() => {
+        editProfileModal.classList.remove('active');
+        document.body.style.overflow = 'auto';
+    }, 2000);
+});
+
+editProfileAvatarInput.addEventListener('change', () => {
+    const file = editProfileAvatarInput.files[0];
+    const blob = URL.createObjectURL(file);
+    editProfileAvatarLabel.style.backgroundImage = `url(${blob})`;
+    editProfileAvatarLabel.style.backgroundSize = 'cover';
+    editProfileAvatarLabel.style.backgroundPosition = 'center';
+});
+
+editProfileAvatarLabel.addEventListener('click', () => {
+    editProfileAvatarInput.click();
 });

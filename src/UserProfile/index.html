@@ -852,12 +852,57 @@
             </div>
             <div class="share-modal">
                 <div class="share-card">
-                    <div class="share-item repost">Repost
-                        <i class="iconoir-refresh-double" style="font-size: 18px;"></i>
+                    <div class="share-item repost">
+                        Repost
+                        <i
+                            class="iconoir-refresh-double"
+                            style="font-size: 18px"
+                        ></i>
                     </div>
-                    <div class="share-item embed">Quote
-                        <i class="iconoir-quote-message" style="font-size: 18px;"></i>
+                    <div class="share-item embed">
+                        Quote
+                        <i
+                            class="iconoir-quote-message"
+                            style="font-size: 18px"
+                        ></i>
                     </div>
+                </div>
+            </div>
+            <div class="edit-profile-modal">
+                <div class="edit-profile-header">
+                    <div class="edit-profile-header-item cancel">Cancel</div>
+                    <div class="edit-profile-header-item title">
+                        Edit Profile
+                    </div>
+                    <div class="edit-profile-header-item save">Save</div>
+                </div>
+                <div class="edit-profile-card">
+                    <form
+                        action="#"
+                        class="edit-profile-form"
+                        enctype="multipart/form-data"
+                    >
+                        <label for="Avatar" class="avatar-label"></label>
+                        <input
+                            type="file"
+                            name="Avatar"
+                            style="display: none"
+                            class="avatar-input"
+                            accept="image/png, image/jpeg, image/jpg, image/gif"
+                        />
+                        <div class="form-item">
+                            <label for="Name">Name</label>
+                            <input type="text" name="Name"  value="Placeholder"/>
+                        </div>
+                        <div class="form-item">
+                            <label for="Bio">Bio</label>
+                            <input type="text" name="Bio" />
+                        </div>
+                        <!-- <div class="form-item">
+                            <label for="Link">Link</label>
+                            <input type="text" name="Link" />
+                        </div> -->
+                    </form>
                 </div>
             </div>
             <footer class="profile-footer col-5">
