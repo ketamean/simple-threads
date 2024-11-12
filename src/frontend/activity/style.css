@@ -73,6 +73,7 @@ div {
   display: flex;
   align-items: center;
 }
+
 .activity-footer {
   width: 100%;
   height: 60px;
@@ -87,6 +88,8 @@ div {
   transform: translateX(
     -50%
   ); /* Will not need this if length of element is 0 */
+  background-color: #0a0a0a;
+  z-index: 2;
 }
 
 .nav-svg {
