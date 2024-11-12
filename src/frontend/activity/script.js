@@ -5,6 +5,7 @@ const navSettingContainer = document.querySelector(".nav-setting-container");
 const like_button = document.querySelectorAll(
   ".activity-follow-infor-react.like"
 );
+const profile = document.querySelector(".profile");
 
 console.log(like_button);
 
@@ -141,4 +142,10 @@ like_button.forEach((button) => {
       spanElement.classList.add("react-like-on");
     }
   });
+});
+
+profile.addEventListener("click", (event) => {
+  let a = document.createElement("a");
+  a.href = "../profile/index.html";
+  a.click();
 });
