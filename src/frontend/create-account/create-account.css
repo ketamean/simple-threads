@@ -1,12 +1,3 @@
-:root {
-    --input-gap: 12px;
-    --password-strength-weak-color: #fc6868;
-    --password-strength-average-color: #fbff96;
-    --password-strength-strong-color: #a7ffad;
-    --password-strength-weak-width: 30%;
-    --password-strength-average-width: 60%;
-    --password-strength-strong-width: 100%;
-}
 main {
     display: flex;
     flex-direction: column;
@@ -31,22 +22,27 @@ main a:active {
     border: 1px solid grey;
 }
 
-#password-input-container {
-    gap: var(--input-gap, 12px);
-    grid-template-columns: calc(50% - var(--input-gap, 12px) / 2) calc(50% - var(--input-gap, 12px) / 2);
+.password-input-container > div:nth-child(3),
+.password-input-container > div:nth-child(4) {
+    text-align: left;
 }
 
-#init-password-container {
-    width: 100%;
+.password-input-container > div:nth-child(3) {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: row;
     gap: 4px;
+
+    grid-column: 1/ span 1;
 }
 
-#password-strength-bar {
-    height: 2px;
-    width: var(--password-strength-average-width);
-    background-color: var(--password-strength-average-color);
-    border-radius: 8px;
+.password-input-container > div:nth-child(4) {
+    grid-column: 2/ span 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+
+    color: #84ff8d;
+
+    visibility: hidden;
 }
