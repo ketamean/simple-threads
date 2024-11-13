@@ -1,8 +1,10 @@
-const pswInput = document.querySelector('#password');
-const pswStrengthBar = document.querySelector('#password-strength-bar')
+const pswInput = document.querySelector('#password')
 const cfPswInput = document.querySelector('#cf-password')
-const pswMatchSymbol = document.querySelector('#password-match')
-import { passwordScoring } from '../pswcheck.js'
+
+const pswStrengthBar = document.querySelector('.password-strength-bar')
+const pswMatchSymbol = document.querySelector('.password-match-container')
+
+import { passwordScoring, checkPswMatch } from '../pswcheck.js'
 
 pswInput.addEventListener(
     'input',
@@ -29,7 +31,10 @@ pswInput.addEventListener(
             return
         } else pswStrengthBar.style.visibility = 'visible'
         // remove password matched notation
-        checkPswMatch()
+        if ( checkPswMatch(pswInput.value, cfPswInput.value) )
+            pswMatchSymbol.style.visibility = 'visible'
+        else
+            pswMatchSymbol.style.visibility = 'hidden'
 
         // check password strength
         let score = passwordScoring(str)
@@ -46,14 +51,14 @@ pswInput.addEventListener(
     }
 )
 
-function checkPswMatch() {
-    if (cfPswInput.value !== pswInput.value) pswMatchSymbol.style.visibility = 'hidden'
-    else pswMatchSymbol.style.visibility = 'visible'
-}
-
 cfPswInput.addEventListener(
     'input',
-    () => checkPswMatch()
+    () => {
+        if ( checkPswMatch(pswInput.value, cfPswInput.value) )
+            pswMatchSymbol.style.visibility = 'visible'
+        else
+            pswMatchSymbol.style.visibility = 'hidden'
+    }
 )
 
 document.querySelector('#show-password').addEventListener('change', (e) => {
