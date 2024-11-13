@@ -27,6 +27,8 @@ const home = document.querySelector(".home");
 const seeMore = document.querySelector(".see-more-button");
 const setting = document.querySelector(".nav-setting-container");
 const navSettingContent = document.querySelectorAll(".nav-setting-content");
+const unfollow = document.querySelector(".unfollow");
+let currentFollowStatus = -1;
 
 for (let i = 0; i < love.length; i++) {
 	love[i].addEventListener("click", () => {
@@ -82,10 +84,14 @@ followBoardItem.forEach((item) => {
 	});
 });
 
-followStatus.forEach((status) => {
+followStatus.forEach((status, index) => {
 	status.addEventListener("click", () => {
-		unfollowModal.classList.add("active");
-		document.body.style.overflow = "hidden";
+		if(status.textContent.trim() === "Following") {
+			console.log("unfollow");
+			currentFollowStatus = index;
+			unfollowModal.classList.add("active");
+			document.body.style.overflow = "hidden";
+		}
 	});
 });
 
@@ -172,10 +178,29 @@ navSettingContent.forEach((content) => {
 
 document.addEventListener("click", (event) => {
     if(!setting.contains(event.target) && !seeMore.contains(event.target)) {
-        console.log("hidden");
+        setting.classList.add("hidden");
     }
 });
 
 seeMore.addEventListener("click", () => {
 	setting.classList.toggle("hidden");
+});
+
+followStatus.forEach((status, index) => {
+	status.addEventListener("click", () => {
+		if (status.textContent === "Follow") {
+			status.textContent = "Following";
+			status.style.backgroundColor = "transparent";
+			status.style.border = "0.8px solid rgba(243, 245, 247, 0.15)";
+			status.style.color = "rgb(119, 119, 119)";
+		}
+	});
+});
+
+unfollow.addEventListener("click", () => {
+	followStatus[currentFollowStatus].textContent = "Follow";
+	followStatus[currentFollowStatus].style.backgroundColor = "#fe0034";
+	followStatus[currentFollowStatus].style.color = "#FFFFFF";
+	unfollowModal.classList.remove("active");
+	document.body.style.overflow = "auto";
 });

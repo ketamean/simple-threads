@@ -34,6 +34,32 @@ main a:active {
 #password-input-container {
     column-gap: var(--input-gap, 12px);
     grid-template-columns: calc(50% - var(--input-gap, 12px) / 2) calc(50% - var(--input-gap, 12px) / 2);
+    row-gap: 8px;
+}
+
+#password-input-container > div:nth-child(3),
+#password-input-container > div:nth-child(4) {
+    text-align: left;
+}
+
+#password-input-container > div:nth-child(3) {
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+
+    grid-column: 1/ span 1;
+}
+
+#password-input-container > div:nth-child(4) {
+    grid-column: 2/ span 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+
+    color: #84ff8d;
+
+    visibility: hidden;
 }
 
 #cf-password-container,
@@ -45,7 +71,6 @@ main a:active {
     gap: 4px;
 }
 
-#password-match-bar,
 #password-strength-bar {
     
     height: 4px;
@@ -55,11 +80,5 @@ main a:active {
 #password-strength-bar {
     width: var(--password-strength-weak-width);
     background-color: var(--password-strength-weak-color);
-    display: none;
-}
-
-#password-match-bar {
-    width: var(--password-strength-strong-width);
-    background-color: var(--password-strength-strong-color);
-    display: none;
+    visibility: hidden;
 }
