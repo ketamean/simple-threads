@@ -8,6 +8,40 @@
     <script src="scripts.js" defer></script>
 </head>
 <body>
+
+    <div class="popup-overlay">
+        <div class="popup">
+            <div class="popup-header">
+                <button class="header-button" id="cancelButton">Cancel</button>
+        
+                <span class="header-title">New thread</span>
+        
+                <button class="header-button">Draft</button>
+            </div>
+
+            <div class="popup-content">
+                <div class="thread-composer">
+                    <div class="avatar"></div>
+                    <div class="compose-area">
+                        <div class="username">vinh_pham</div>
+                        <textarea 
+                            class="thread-input" 
+                            placeholder="What's new?"
+                            id="threadInput"
+                            maxlength="500"
+                        ></textarea>
+                        <div class="opt-section">
+                            <img src="../assets/card-image.svg" alt="">
+                            <img src="../assets/filetype-gif.svg" alt="">
+                            <img src="../assets/geo-alt.svg" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
     <nav class="left-nav">
         <div class="logo">Threads</div>
         <div class="nav-links">
@@ -34,30 +68,10 @@
             <div class="selection-bar">
                 <button class="tab-item active" data-value="for-you">For you</button>
                 <button class="tab-item" data-value="following">Following</button>
-                <button class="tab-item" data-value="liked">Liked</button>
-                <button class="tab-item" data-value="saved">Saved</button>
             </div>
         </div>
 
         <div class="content">
-            <div class="compose-box">
-                <div class="avatar"></div>
-                <form class="compose-form">
-                    <textarea 
-                        class="compose-input" 
-                        placeholder="Start a thread..."
-                        rows="3"
-                    ></textarea>
-                    <div class="compose-actions">
-                        <div class="compose-tools">
-                            <button type="button" class="tool-button">📷</button>
-                            <button type="button" class="tool-button">😊</button>
-                        </div>
-                        <button type="submit" class="post-button" disabled>Post</button>
-                    </div>
-                </form>
-            </div>
-
             <div class="feed">
                 <article class="thread">
                     <div class="avatar"></div>
@@ -173,31 +187,27 @@
                         </div>
                     </div>
                 </article>
-
-                
-
             </div>
         </div>
     </main>
-
-    <button class="new-thread-button">
-        ✍️
-    </button>
     
     <nav class="bottom-nav">
         <div class="nav-list">
-            <a href="#" class="nav-item active">
-                🏠
-            </a>
-            <a href="#" class="nav-item">
-                🔍
-            </a>
-            <a href="#" class="nav-item">
-                ♡
-            </a>
-            <a href="#" class="nav-item">
-                👤
-            </a>
+            <div href="#" class="nav-item active">
+                <img src="../assets/house-door-fill.svg" alt="">
+            </div>
+            <div href="#" class="nav-item">
+                <img src="../assets/search.svg" alt="">
+            </div>
+            <div class="nav-item">
+                <img src="../assets/pencil-square.svg" alt="" id="post">
+            </div>
+            <div href="#" class="nav-item">
+                <img src="../assets/heart.svg" alt="">
+            </div>
+            <div href="#" class="nav-item">
+                <img src="../assets/person.svg" alt="">
+            </div>
         </div>
     </nav>
 
