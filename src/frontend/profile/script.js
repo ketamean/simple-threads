@@ -87,7 +87,6 @@ followBoardItem.forEach((item) => {
 followStatus.forEach((status, index) => {
 	status.addEventListener("click", () => {
 		if(status.textContent.trim() === "Following") {
-			console.log("unfollow");
 			currentFollowStatus = index;
 			unfollowModal.classList.add("active");
 			document.body.style.overflow = "hidden";
