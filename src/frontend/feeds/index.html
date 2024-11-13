@@ -8,7 +8,6 @@
     <script src="scripts.js" defer></script>
 </head>
 <body>
-
     <nav class="left-nav">
         <div class="logo">Threads</div>
         <div class="nav-links">
@@ -21,18 +20,22 @@
     </nav>
 
     <main class="main-container">
+        
+        <div class="header-nav">
+            <div class="logo-section">
+                <img src="../assets/thread-white.png" alt="">
+            </div>
+            <div class="burger-menu">
+                <img src="../assets/list.svg" alt="">
+            </div>
+        </div>
 
         <div class="feed-filter">
-            <div class="dropdown-container">
-                <button class="dropdown-button">
-                    <span class="selected-text">For you</span>
-                </button>
-                <div class="dropdown-menu">
-                    <div class="dropdown-item active" data-value="for-you">For you</div>
-                    <div class="dropdown-item" data-value="following">Following</div>
-                    <div class="dropdown-item" data-value="liked">Liked</div>
-                    <div class="dropdown-item" data-value="saved">Saved</div>
-                </div>
+            <div class="selection-bar">
+                <button class="tab-item active" data-value="for-you">For you</button>
+                <button class="tab-item" data-value="following">Following</button>
+                <button class="tab-item" data-value="liked">Liked</button>
+                <button class="tab-item" data-value="saved">Saved</button>
             </div>
         </div>
 
@@ -185,19 +188,15 @@
         <div class="nav-list">
             <a href="#" class="nav-item active">
                 🏠
-                <span>Home</span>
             </a>
             <a href="#" class="nav-item">
                 🔍
-                <span>Search</span>
             </a>
             <a href="#" class="nav-item">
                 ♡
-                <span>Activity</span>
             </a>
             <a href="#" class="nav-item">
                 👤
-                <span>Profile</span>
             </a>
         </div>
     </nav>
