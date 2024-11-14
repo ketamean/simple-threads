@@ -42,17 +42,6 @@
         </div>
     </div>
 
-    <nav class="left-nav">
-        <div class="logo">Threads</div>
-        <div class="nav-links">
-            <a href="#" class="nav-link active">🏠 <span>Home</span></a>
-            <a href="#" class="nav-link">🔍 <span>Search</span></a>
-            <a href="#" class="nav-link">✍️ <span>Write</span></a>
-            <a href="#" class="nav-link">♡ <span>Activity</span></a>
-            <a href="#" class="nav-link">👤 <span>Profile</span></a>
-        </div>
-    </nav>
-
     <main class="main-container">
         
         <div class="header-nav">
@@ -84,7 +73,9 @@
                         <img class="thread-image" src="/api/placeholder/500/300" alt="Project screenshot">
                         <div class="thread-actions">
                             <button class="action-button">♡ 42</button>
-                            <button class="action-button">💬 12</button>
+                            <a href="../comments/index.html" class="action-button-link">
+                                <button class="action-button" id="comment">💬 12</button>
+                            </a>
                             <button class="action-button">⟲ 8</button>
                             <button class="action-button">▸</button>
                         </div>
@@ -105,7 +96,9 @@
 							</p>
 							<div class="thread-actions">
 								<button class="action-button">♡ 89</button>
-								<button class="action-button">💬 24</button>
+								<a href="../comments/index.html" class="action-button-link">
+                                     <button class="action-button" id="comment">💬 24</button>
+                                </a>
 								<button class="action-button">⟲ 15</button>
 								<button class="action-button">▸</button>
 							</div>
@@ -151,7 +144,9 @@
 							</div>
 							<div class="thread-actions">
 								<button class="action-button">♡ 234</button>
-								<button class="action-button">💬 42</button>
+								<a href="../comments/index.html" class="action-button-link">
+                                    <button class="action-button" id="comment">💬 42</button>
+                                </a>
 								<button class="action-button">⟲ 18</button>
 								<button class="action-button">▸</button>
 							</div>
@@ -172,7 +167,9 @@
 							</p>
 							<div class="thread-actions">
 								<button class="action-button">♡ 89</button>
-								<button class="action-button">💬 24</button>
+								<a href="../comments/index.html" class="action-button-link">
+                                    <button class="action-button" id="comment">💬 24</button>
+                                </a>
 								<button class="action-button">⟲ 15</button>
 								<button class="action-button">▸</button>
 							</div>
@@ -193,7 +190,9 @@
 							</p>
 							<div class="thread-actions">
 								<button class="action-button">♡ 89</button>
-								<button class="action-button">💬 24</button>
+								<a href="../comments/index.html" class="action-button-link">
+                                    <button class="action-button" id="comment">💬 24</button>
+                                </a>
 								<button class="action-button">⟲ 15</button>
 								<button class="action-button">▸</button>
 							</div>
@@ -210,7 +209,9 @@
                         <p class="thread-text">Learning React has been such a game-changer! The component-based architecture makes so much sense once you get used to it. 🚀</p>
                         <div class="thread-actions">
                             <button class="action-button">♡ 89</button>
-                            <button class="action-button">💬 24</button>
+                            <a href="../comments/index.html" class="action-button-link">
+                                <button class="action-button" id="comment">💬 24</button>
+                            </a>
                             <button class="action-button">⟲ 15</button>
                             <button class="action-button">▸</button>
                         </div>
@@ -222,21 +223,21 @@
     
     <nav class="bottom-nav">
         <div class="nav-list">
-            <div class="nav-item active">
-                <img src="../assets/house-door-fill.svg" alt="">
-            </div>
+            <a href="../feeds/index.html" class="nav-item active">
+                <img src="../assets/house-door-fill.svg" alt="Home">
+            </a>
+            <a href="../searching/index.html" class="nav-item">
+                <img src="../assets/search.svg" alt="Search">
+            </a>
             <div class="nav-item">
-                <img src="../assets/search.svg" alt="">
+                <img src="../assets/pencil-square.svg" alt="New post" id="post">
             </div>
-            <div class="nav-item">
-                <img src="../assets/pencil-square.svg" alt="" id="post">
-            </div>
-            <div class="nav-item">
-                <img src="../assets/heart.svg" alt="">
-            </div>
-            <div class="nav-item">
-                <img src="../assets/person.svg" alt="">
-            </div>
+            <a href="../activity/index.html" class="nav-item">
+                <img src="../assets/heart.svg" alt="Activity">
+            </a>
+            <a href="../profile/index.html" class="nav-item">
+                <img src="../assets/person.svg" alt="Profile">
+            </a>
         </div>
     </nav>
 

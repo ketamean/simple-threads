@@ -99,62 +99,14 @@ body {
   border-radius: 3px;
 }
 
-/* Left Navigation */
-.left-nav {
-  position: fixed;
-  left: 0;
-  top: 0;
-  height: 100vh;
-  width: 275px;
-  border-right: 1px solid #333;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  background-color: #090909;
-}
-
-.logo {
-  font-size: 1.5rem;
-  font-weight: bold;
-  padding: 0.5rem;
-}
-
-.nav-links {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.nav-link {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 0.75rem;
-  color: #fff;
-  text-decoration: none;
-  border-radius: 0.5rem;
-  font-size: 1.1rem;
-}
-
-.nav-link:hover {
-  background-color: #1a1a1a;
-}
-
-.nav-link.active {
-  font-weight: bold;
-}
-
-
 /* Bottom navigation */
 
 .bottom-nav {
-  display: none;
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: rgba(0, 0, 0, 0.95);
+  background-color: rgba(0, 0, 0, 0.9);
   backdrop-filter: blur(12px);
   border-top: 1px solid #333;
   padding: 0.5rem 0;
@@ -284,8 +236,7 @@ body {
 
 /* Main Content */
 .main-container {
-  margin-left: 275px;
-  width: calc(100% - 275px);
+  width: 100%;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -381,6 +332,15 @@ body {
   color: #888;
 }
 
+.action-button-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.action-button-link:hover {
+  color: #fff;
+}
+
 .action-button {
   background: none;
   border: none;
@@ -400,42 +360,8 @@ body {
 /* Media screen */
 
 @media (max-width: 1024px) {
-  .left-nav {
-      width: 88px;
-      padding: 1rem 0.5rem;
-  }
-
-  .nav-link span {
-      display: none;
-  }
-
-  .main-container {
-      margin-left: 88px;
-      width: calc(100% - 88px);
-  }
-
   .logo {
       text-align: center;
       font-size: 1.25rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .left-nav {
-      display: none;
-  }
-
-  .main-container {
-      margin-left: 0;
-      width: 100%;
-  }
-
-  .bottom-nav {
-    display: block;
-  }
-
-  /* Add padding to main content to account for bottom nav */
-  .main-container {
-      padding-bottom: 4rem;
   }
 }
