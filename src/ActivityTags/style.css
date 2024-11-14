@@ -360,10 +360,15 @@ div {
   height: auto;
   margin-top: 12px;
   margin-bottom: 12px;
+  overflow-x: hidden;
 }
 
 .unread {
   background-color: rgba(30, 30, 30, 0.9);
+  margin-left: 3px;
+  border-top-left-radius: 16px;
+  border-bottom-left-radius: 16px;
+  overflow-x: hidden;
 }
 .activity-follow-container {
   width: 100%;
