@@ -332,6 +332,15 @@ body {
   color: #888;
 }
 
+.action-button-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.action-button-link:hover {
+  color: #fff;
+}
+
 .action-button {
   background: none;
   border: none;
