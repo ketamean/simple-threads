@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="./create-account.css">
     <link rel="icon" href="../assets/img/logo.png">
+    <link rel="stylesheet" href="../assets/css/password-input.css">
 </head>
 <body>
     <header>
@@ -20,14 +21,23 @@
         <form class="grid-container col-1" action="" method="post">
             <input type="text" id="username" name="username" placeholder="Username" value="" title="Username" required>
             <input type="email" id="email" name="email" placeholder="Email" value="" title="Email address" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required>
-            <div class="grid-container" id="password-input-container">
-                <div id="init-password-container">
+            <div class="grid-container password-input-container">
+                <div class="init-password-container">
                     <input type="password" id="password" name="password" placeholder="Password" value="" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)” + “(?=.*[-+_!@#$%^&*., ?]).+$" minlength="8" title="At least 8 characters, with numbers, speacial characters, uppercase letters, and lowercase letters" required>
-                    <div id="password-strength-bar"></div>
+                    <div class="password-strength-bar"></div>
                 </div>
-                <div id="cf-password-container">
+                <div class="cf-password-container">
                     <input type="password" id="cf-password" name="cf-password" placeholder="Confirm password" value="" title="Re-enter your password" required>
-                    <div id="password-match-bar"></div>
+                </div>
+                <div>
+                    <input type="checkbox" id="show-password">
+                    <label for="show-password">Show password</label>
+                </div>
+                <div class="password-match-container">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#84ff8d" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                    </svg>
+                    Password matched
                 </div>
             </div>
             <input type="submit" value="Sign up">
@@ -35,5 +45,5 @@
         <a href="../index.html">Already have an account?</a>
     </main>
 </body>
-<script src="./create-account.js"></script>
+    <script src="./create-account.js" type="module"></script>
 </html>

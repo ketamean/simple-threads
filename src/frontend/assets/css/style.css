@@ -137,15 +137,17 @@ input[type=email] {
     color: white;
 }
 
+input[type=checkbox] {
+    height: auto;
+    width: 12px;
+}
+
 input[type=submit] {
     background-color: rgb(240, 240, 240);
     color: black;
     font-weight: bold;
 }
-<<<<<<< HEAD
 
 .debug{
     border: 2px red dashed;
 }
-=======
->>>>>>> toan-prototype
