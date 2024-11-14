@@ -95,6 +95,22 @@
         </div>
         <!-- Reposts button -->
 
+        <!-- delete confirmation overlay -->
+        <div class="delete-confirmation-overlay hidden">
+            <div class="delete-confirmation-container">
+                <div class="delete-confirmation-box">
+                    <div class="delete-confirmation-content">
+                        <span>Are you sure you want to delete this notification?</span>
+                        <div class="delete-confirmation-buttons">
+                            <button type="button" class="confirm-delete-button">Yes</button>
+                            <button type="button" class="cancel-delete-button">No</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- delete confirmation overlay -->
+
         <!-- header activity tag -->
         <header class="activity-header">
             <a href="#" class="notification">
@@ -123,7 +139,6 @@
         <!-- header activity tag -->
 
         <main class="activity-main">
-
             <!-- tag choice -->
             <div class="activity-main-tag" role="toolbar">
                 <a class="activity-link-tag tag-active" href="#" role="link" tabindex="0">
@@ -149,6 +164,17 @@
                 </a>
             </div>
             <!-- tag choice -->
+
+            <!-- mark read or delete -->
+            <div class="activity-notification-block hidden">
+                <button type="button" class="mark-read-button"><span>Mark as read</span>
+                    <i class="fa-solid fa-square-check"></i>
+                </button>
+
+                <button type="button" class="delete-button"><span>Delete</span>
+                    <i class="fa-solid fa-trash"></i>
+                </button>
+            </div>
 
             <!-- none screen -->
             <div class="activity-follow none hidden">
@@ -318,38 +344,11 @@
             </div>
             <!-- follow screen -->
 
-            <!-- delete confirmation overlay -->
-            <div class="delete-confirmation-overlay hidden">
-                <div class="delete-confirmation-container">
-                    <div class="delete-confirmation-box">
-                        <div class="delete-confirmation-content">
-                            <span>Are you sure you want to delete this notification?</span>
-                            <div class="delete-confirmation-buttons">
-                                <button type="button" class="confirm-delete-button">Yes</button>
-                                <button type="button" class="cancel-delete-button">No</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- delete confirmation overlay -->
-
             <!-- all screen -->
             <div class="activity-follow all">
-
-                <!-- mark read or delete -->
-                <div class="activity-notification-block hidden">
-                    <button type="button" class="mark-read-button"><span>Mark as read</span>
-                        <i class="fa-solid fa-square-check"></i>
-                    </button>
-
-                    <button type="button" class="delete-button"><span>Delete</span>
-                        <i class="fa-solid fa-trash"></i>
-                    </button>
-                </div>
                 <!--Follow-->
                 <div class="activity-follow-block">
-                    <div class="activity-follow-container">
+                    <div class="activity-follow-container unread">
                         <div class="activity-follow-img">
                             <div class="activity-follow-img-block">
                                 <a href="#" class="activity-follow-img-link-container" role="link" tabindex="0">
@@ -384,6 +383,165 @@
                                         <div class="activity-follow-infor-button" role="button" tabindex="0">
                                             <div class="activity-follow-infor-button-content active-content">Follow
                                             </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- check box -->
+                        <div class="activity-follow-checkbox hidden">
+                            <label class="custom-checkbox">
+                                <input type="checkbox" class="check-box" name="checkbox">
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                        <!-- check box -->
+                    </div>
+                </div>
+                <!--Content-->
+                <div class="activity-follow-block">
+                    <div class="activity-follow-container unread">
+                        <div class="activity-follow-img">
+                            <div class="activity-follow-img-block">
+                                <a href="#" class="activity-follow-img-link-container" role="link" tabindex="0">
+                                    <div class="activity-follow-img-div">
+                                        <img src="img/avt.jpg" alt="img-avt">
+                                    </div>
+                                </a>
+                                <div class="activity-follow-img-svg-container">
+                                    <div class="activity-follow-img-svg star-color">
+                                        <svg aria-label="" role="img" viewBox="0 0 18 18" class="activity-svg-avt">
+                                            <title>svg-icon-star</title>
+                                            <path
+                                                d="M6.534 12.5799C6.45955 12.5247 6.41391 12.4502 6.3971 12.3566C6.38269 12.2629 6.3983 12.1512 6.44393 12.0215L7.19688 9.78069L5.27308 8.39728C5.1602 8.31802 5.08214 8.23636 5.03891 8.1523C4.99568 8.06824 4.98847 7.98178 5.01729 7.89291C5.04611 7.80645 5.10255 7.7416 5.18662 7.69837C5.27068 7.65514 5.38236 7.63472 5.52166 7.63713L7.88138 7.65154L8.59831 5.39989C8.64154 5.2678 8.69558 5.16812 8.76042 5.10087C8.82767 5.03362 8.90693 5 8.9982 5C9.09187 5 9.17112 5.03362 9.23597 5.10087C9.30322 5.16812 9.35846 5.2678 9.40169 5.39989L10.1186 7.65154L12.4783 7.63713C12.6176 7.63472 12.7293 7.65514 12.8134 7.69837C12.8974 7.7416 12.9539 7.80645 12.9827 7.89291C13.0115 7.98178 13.0043 8.06824 12.9611 8.1523C12.9179 8.23636 12.8398 8.31802 12.7269 8.39728L10.8031 9.78069L11.5561 12.0215C11.6017 12.1512 11.6161 12.2629 11.5993 12.3566C11.5849 12.4502 11.5405 12.5247 11.466 12.5799C11.3915 12.6376 11.3075 12.6568 11.2138 12.6376C11.1201 12.6208 11.0181 12.5727 10.9076 12.4935L8.9982 11.092L7.09241 12.4935C6.98193 12.5727 6.87985 12.6208 6.78618 12.6376C6.69252 12.6568 6.60845 12.6376 6.534 12.5799Z">
+                                            </path>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="activity-follow-infor-block">
+                            <div class="activity-follow-infor-container">
+                                <div class="activity-follow-infor-element">
+                                    <div class="activity-follow-infor-left">
+                                        <div class="activity-follow-infor-header">
+                                            <div class="activity-follow-infor-header-name change-width">
+                                                <span>quocn11111111111111111111111111111111111111111111111111111goaaaaa17</span>
+                                            </div>
+                                            <div class="activity-follow-infor-header-time"><span>23/10/24</span></div>
+                                        </div>
+                                        <div class="activity-follow-infor-footer"><span>Post their first thread</span>
+                                        </div>
+                                        <div class="activity-follow-infor-content"><span>Lorem ipsum dolor sit amet,
+                                                consectetur adipisicing elit. Ipsum assumenda laudantium similique quae,
+                                                unde consectetur aliquam modi illo, placeat optio numquam nulla quisquam
+                                                velit sed sequi laborum vero et ratione?</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- check box -->
+                        <div class="activity-follow-checkbox hidden">
+                            <label class="custom-checkbox">
+                                <input type="checkbox" class="check-box" name="checkbox">
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                        <!-- check box -->
+                    </div>
+                </div>
+                <!--Content-->
+                <div class="activity-follow-block">
+                    <div class="activity-follow-container unread">
+                        <div class="activity-follow-img">
+                            <div class="activity-follow-img-block">
+                                <a href="#" class="activity-follow-img-link-container" role="link" tabindex="0">
+                                    <div class="activity-follow-img-div">
+                                        <img src="img/avt.jpg" alt="img-avt">
+                                    </div>
+                                </a>
+                                <div class="activity-follow-img-svg-container">
+                                    <div class="activity-follow-img-svg star-color">
+                                        <svg aria-label="" role="img" viewBox="0 0 18 18" class="activity-svg-avt">
+                                            <title>svg-icon-star</title>
+                                            <path
+                                                d="M6.534 12.5799C6.45955 12.5247 6.41391 12.4502 6.3971 12.3566C6.38269 12.2629 6.3983 12.1512 6.44393 12.0215L7.19688 9.78069L5.27308 8.39728C5.1602 8.31802 5.08214 8.23636 5.03891 8.1523C4.99568 8.06824 4.98847 7.98178 5.01729 7.89291C5.04611 7.80645 5.10255 7.7416 5.18662 7.69837C5.27068 7.65514 5.38236 7.63472 5.52166 7.63713L7.88138 7.65154L8.59831 5.39989C8.64154 5.2678 8.69558 5.16812 8.76042 5.10087C8.82767 5.03362 8.90693 5 8.9982 5C9.09187 5 9.17112 5.03362 9.23597 5.10087C9.30322 5.16812 9.35846 5.2678 9.40169 5.39989L10.1186 7.65154L12.4783 7.63713C12.6176 7.63472 12.7293 7.65514 12.8134 7.69837C12.8974 7.7416 12.9539 7.80645 12.9827 7.89291C13.0115 7.98178 13.0043 8.06824 12.9611 8.1523C12.9179 8.23636 12.8398 8.31802 12.7269 8.39728L10.8031 9.78069L11.5561 12.0215C11.6017 12.1512 11.6161 12.2629 11.5993 12.3566C11.5849 12.4502 11.5405 12.5247 11.466 12.5799C11.3915 12.6376 11.3075 12.6568 11.2138 12.6376C11.1201 12.6208 11.0181 12.5727 10.9076 12.4935L8.9982 11.092L7.09241 12.4935C6.98193 12.5727 6.87985 12.6208 6.78618 12.6376C6.69252 12.6568 6.60845 12.6376 6.534 12.5799Z">
+                                            </path>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="activity-follow-infor-block">
+                            <div class="activity-follow-infor-container">
+                                <div class="activity-follow-infor-element">
+                                    <div class="activity-follow-infor-left">
+                                        <div class="activity-follow-infor-header">
+                                            <div class="activity-follow-infor-header-name change-width">
+                                                <span>quocn11111111111111111111111111111111111111111111111111111goaaaaa17</span>
+                                            </div>
+                                            <div class="activity-follow-infor-header-time"><span>23/10/24</span></div>
+                                        </div>
+                                        <div class="activity-follow-infor-footer"><span>Post their first thread</span>
+                                        </div>
+                                        <div class="activity-follow-infor-content"><span>Lorem ipsum dolor sit amet,
+                                                consectetur adipisicing elit. Ipsum assumenda laudantium similique quae,
+                                                unde consectetur aliquam modi illo, placeat optio numquam nulla quisquam
+                                                velit sed sequi laborum vero et ratione?</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- check box -->
+                        <div class="activity-follow-checkbox hidden">
+                            <label class="custom-checkbox">
+                                <input type="checkbox" class="check-box" name="checkbox">
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                        <!-- check box -->
+                    </div>
+                </div>
+                <!--Content-->
+                <div class="activity-follow-block">
+                    <div class="activity-follow-container">
+                        <div class="activity-follow-img">
+                            <div class="activity-follow-img-block">
+                                <a href="#" class="activity-follow-img-link-container" role="link" tabindex="0">
+                                    <div class="activity-follow-img-div">
+                                        <img src="img/avt.jpg" alt="img-avt">
+                                    </div>
+                                </a>
+                                <div class="activity-follow-img-svg-container">
+                                    <div class="activity-follow-img-svg star-color">
+                                        <svg aria-label="" role="img" viewBox="0 0 18 18" class="activity-svg-avt">
+                                            <title>svg-icon-star</title>
+                                            <path
+                                                d="M6.534 12.5799C6.45955 12.5247 6.41391 12.4502 6.3971 12.3566C6.38269 12.2629 6.3983 12.1512 6.44393 12.0215L7.19688 9.78069L5.27308 8.39728C5.1602 8.31802 5.08214 8.23636 5.03891 8.1523C4.99568 8.06824 4.98847 7.98178 5.01729 7.89291C5.04611 7.80645 5.10255 7.7416 5.18662 7.69837C5.27068 7.65514 5.38236 7.63472 5.52166 7.63713L7.88138 7.65154L8.59831 5.39989C8.64154 5.2678 8.69558 5.16812 8.76042 5.10087C8.82767 5.03362 8.90693 5 8.9982 5C9.09187 5 9.17112 5.03362 9.23597 5.10087C9.30322 5.16812 9.35846 5.2678 9.40169 5.39989L10.1186 7.65154L12.4783 7.63713C12.6176 7.63472 12.7293 7.65514 12.8134 7.69837C12.8974 7.7416 12.9539 7.80645 12.9827 7.89291C13.0115 7.98178 13.0043 8.06824 12.9611 8.1523C12.9179 8.23636 12.8398 8.31802 12.7269 8.39728L10.8031 9.78069L11.5561 12.0215C11.6017 12.1512 11.6161 12.2629 11.5993 12.3566C11.5849 12.4502 11.5405 12.5247 11.466 12.5799C11.3915 12.6376 11.3075 12.6568 11.2138 12.6376C11.1201 12.6208 11.0181 12.5727 10.9076 12.4935L8.9982 11.092L7.09241 12.4935C6.98193 12.5727 6.87985 12.6208 6.78618 12.6376C6.69252 12.6568 6.60845 12.6376 6.534 12.5799Z">
+                                            </path>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="activity-follow-infor-block">
+                            <div class="activity-follow-infor-container">
+                                <div class="activity-follow-infor-element">
+                                    <div class="activity-follow-infor-left">
+                                        <div class="activity-follow-infor-header">
+                                            <div class="activity-follow-infor-header-name change-width">
+                                                <span>quocn11111111111111111111111111111111111111111111111111111goaaaaa17</span>
+                                            </div>
+                                            <div class="activity-follow-infor-header-time"><span>23/10/24</span></div>
+                                        </div>
+                                        <div class="activity-follow-infor-footer"><span>Post their first thread</span>
+                                        </div>
+                                        <div class="activity-follow-infor-content"><span>Lorem ipsum dolor sit amet,
+                                                consectetur adipisicing elit. Ipsum assumenda laudantium similique quae,
+                                                unde consectetur aliquam modi illo, placeat optio numquam nulla quisquam
+                                                velit sed sequi laborum vero et ratione?</span>
                                         </div>
                                     </div>
                                 </div>

@@ -6,14 +6,19 @@ const notificationButton = document.querySelector(".notification-svg");
 const like_button = document.querySelectorAll(
   ".activity-follow-infor-react.like"
 );
+const followContainer = document.querySelectorAll(".activity-follow-container");
 
 // delete or mark read button
 const markOrDeleteContainer = document.querySelector(
   ".activity-notification-block"
 );
 const deleteButton = document.querySelector(".delete-button");
-
-let followContainer;
+const markButton = document.querySelector(".mark-read-button");
+const deleteConfirmationOverlay = document.querySelector(
+  ".delete-confirmation-overlay"
+);
+const confirmDeleteButton = document.querySelector(".confirm-delete-button");
+const cancelDeleteButton = document.querySelector(".cancel-delete-button");
 
 // change screen tag handle
 activity_tag.forEach((tag) => {
@@ -26,7 +31,9 @@ activity_tag.forEach((tag) => {
       currentTag.classList.remove("pop-up");
       currentTag.classList.add("tag-active");
     }, 200);
-
+    if (notificationButton.classList.contains("active")) {
+      handleNotificationButtonClick();
+    }
     const tag_content = event.currentTarget.textContent.trim();
     switch (tag_content) {
       case "All":
@@ -152,22 +159,16 @@ like_button.forEach((button) => {
 
 //handle notificationButton
 
-notificationButton.addEventListener("click", (event) => {
-  const currentTag = event.currentTarget;
+function handleNotificationButtonClick() {
+  console.log("1111");
+  const currentTag = notificationButton;
   currentTag.classList.add("pop-up");
   setTimeout(() => {
     currentTag.classList.remove("pop-up");
   }, 300);
-
-  const activeFollowScreens = document.querySelector(
-    ".activity-follow:not(.hidden)"
-  );
   if (currentTag.classList.contains("active")) {
     markOrDeleteContainer.classList.add("hidden");
     currentTag.classList.remove("active");
-    followContainer = activeFollowScreens.querySelectorAll(
-      ".activity-follow-container"
-    );
     followContainer.forEach((container) => {
       container.classList.remove("grid-check-box");
       container
@@ -185,9 +186,6 @@ notificationButton.addEventListener("click", (event) => {
   } else {
     markOrDeleteContainer.classList.remove("hidden");
     currentTag.classList.add("active");
-    followContainer = activeFollowScreens.querySelectorAll(
-      ".activity-follow-container"
-    );
     followContainer.forEach((container) => {
       container.classList.add("grid-check-box");
       container
@@ -203,4 +201,58 @@ notificationButton.addEventListener("click", (event) => {
       }
     });
   }
+}
+
+notificationButton.addEventListener("click", () =>
+  handleNotificationButtonClick()
+);
+
+// handle delete notification
+
+deleteButton.addEventListener("click", () => {
+  console.log("delete");
+  deleteConfirmationOverlay.classList.remove("hidden");
+});
+
+// confirm delete notification
+confirmDeleteButton.addEventListener("click", () => {
+  console.log("confirm delete");
+  followContainer.forEach((container) => {
+    const checkbox = container.querySelector(".check-box");
+    if (checkbox.checked) {
+      container.remove();
+    }
+  });
+  deleteConfirmationOverlay.classList.add("hidden");
+});
+
+// cancel delete notification
+cancelDeleteButton.addEventListener("click", () => {
+  console.log("cancel delete");
+  followContainer.forEach((container) => {
+    const checkbox = container.querySelector(".check-box");
+    checkbox.checked = false;
+  });
+  deleteConfirmationOverlay.classList.add("hidden");
+});
+
+deleteConfirmationOverlay.addEventListener("click", (event) => {
+  const deleteConfirmationContainer = document.querySelector(
+    ".delete-confirmation-container"
+  );
+  if (!deleteConfirmationContainer.contains(event.target)) {
+    deleteConfirmationOverlay.classList.add("hidden");
+  }
+});
+
+// mark read
+markButton.addEventListener("click", () => {
+  console.log("mark read");
+  followContainer.forEach((container) => {
+    const checkbox = container.querySelector(".check-box");
+    if (checkbox.checked) {
+      container.classList.remove("unread");
+      checkbox.checked = false;
+    }
+  });
 });
