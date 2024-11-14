@@ -1,6 +1,6 @@
 :root {
     --main-padding-lr: 16px;
-    --header-height: 48px;
+    --header-height: 52px;
     --header-backdrop-filter-blur: 32px;
     --color-product-name: #d5deff;
     --font-family: -apple-system, system-ui, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
@@ -71,7 +71,7 @@ nav {
 
 header,
 nav {
-    height: var(--header-height, 48px);
+    height: var(--header-height, 52px);
     padding: 8px;
     background-color: rgba(0,0,0, 0.5);
     backdrop-filter: blur(var(--header-backdrop-filter-blur, 32px));
