@@ -99,57 +99,9 @@ body {
   border-radius: 3px;
 }
 
-/* Left Navigation */
-.left-nav {
-  position: fixed;
-  left: 0;
-  top: 0;
-  height: 100vh;
-  width: 275px;
-  border-right: 1px solid #333;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  background-color: #090909;
-}
-
-.logo {
-  font-size: 1.5rem;
-  font-weight: bold;
-  padding: 0.5rem;
-}
-
-.nav-links {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.nav-link {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 0.75rem;
-  color: #fff;
-  text-decoration: none;
-  border-radius: 0.5rem;
-  font-size: 1.1rem;
-}
-
-.nav-link:hover {
-  background-color: #1a1a1a;
-}
-
-.nav-link.active {
-  font-weight: bold;
-}
-
-
 /* Bottom navigation */
 
 .bottom-nav {
-  display: none;
   position: fixed;
   bottom: 0;
   left: 0;
@@ -400,10 +352,6 @@ body {
 /* Media screen */
 
 @media (max-width: 1024px) {
-  .left-nav {
-      width: 88px;
-      padding: 1rem 0.5rem;
-  }
 
   .nav-link span {
       display: none;
@@ -421,17 +369,10 @@ body {
 }
 
 @media (max-width: 768px) {
-  .left-nav {
-      display: none;
-  }
 
   .main-container {
       margin-left: 0;
       width: 100%;
-  }
-
-  .bottom-nav {
-    display: block;
   }
 
   /* Add padding to main content to account for bottom nav */
