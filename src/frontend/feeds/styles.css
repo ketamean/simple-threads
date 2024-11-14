@@ -230,13 +230,18 @@ body {
   width: 100%;
   padding: 1rem;
   .compose-area {
+    width: 100%;
     margin-left: 1rem;
     textarea {
       border: none;
       background-color: #0a0a0a;
       color: white;
+      resize: none;
+      height: auto;
+      width: 100%;
+      text-wrap: wrap;
     }
-    textarea::focus {
+    textarea:focus {
       outline: none;
       border: none;
     }
@@ -252,6 +257,29 @@ body {
       cursor: pointer;
     }
   }
+}
+
+.thread-input {
+  border: none;
+  background-color: #0a0a0a;
+  color: white;
+  resize: none;
+  min-height: 80px;
+  max-height: 300px;
+  width: 100%;
+  overflow-y: hidden;
+  padding: 8px 0;
+  text-wrap: wrap;
+  line-height: 1.5;
+}
+
+.thread-input:focus {
+  outline: none;
+  border: none;
+}
+
+.thread-input::placeholder {
+  color: gray;
 }
 
 /* Main Content */
