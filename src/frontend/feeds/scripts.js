@@ -21,29 +21,17 @@ document.querySelectorAll('.action-button').forEach(button => {
     }
 });
 
-const $mainContainer = document.querySelector('.main-container');
-const $popupOverlay = document.querySelector('.popup-overlay');
-
-const $bottomNav = document.querySelector('.bottom-nav');
-$bottomNav.addEventListener('click', (event) => {
-    if (event.target.id === 'post') {
-
-        $popupOverlay.style.display = 'block';
-        $mainContainer.style.display = 'none'; 
-    }
-})
-
+// Post functionality
 const $postCancel = document.querySelector('#cancelButton');
 $postCancel.addEventListener('click', () => {
+    const $mainContainer = document.querySelector('.main-container');
+    const $popupOverlay = document.querySelector('.popup-overlay');
     $popupOverlay.style.display = 'none';
     $mainContainer.style.display = 'block'; 
 })
 
 const textarea = document.querySelector('.thread-input');
-
-function autoResize() {
+textarea.addEventListener('input', function () {
     this.style.height = 'auto';
     this.style.height = this.scrollHeight + 'px';
-}
-
-textarea.addEventListener('input', autoResize);
+});

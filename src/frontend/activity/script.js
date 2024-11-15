@@ -1,13 +1,8 @@
 const activity_tag = document.querySelectorAll(".activity-link-tag");
 const activity_follow_screen = document.querySelectorAll(".activity-follow");
-const see_more_button = document.querySelector(".see-more-svg");
-const navSettingContainer = document.querySelector(".nav-setting-container");
 const like_button = document.querySelectorAll(
 	".activity-follow-infor-react.like"
 );
-const profile = document.querySelector(".profile");
-const navSettingContent = document.querySelectorAll(".nav-setting-content");
-console.log(like_button);
 
 // change screen tag handle
 activity_tag.forEach((tag) => {
@@ -92,32 +87,6 @@ activity_tag.forEach((tag) => {
 	});
 });
 
-//change see more button and on/off nav setting
-see_more_button.addEventListener("click", (event) => {
-	const currentTag = event.currentTarget;
-	currentTag.classList.add("pop-up");
-	setTimeout(() => {
-		currentTag.classList.remove("pop-up");
-	}, 300);
-	if (currentTag.classList.contains("active")) {
-		currentTag.classList.remove("active");
-		navSettingContainer.classList.add("hidden");
-	} else {
-		currentTag.classList.add("active");
-		navSettingContainer.classList.remove("hidden");
-	}
-});
-
-document.addEventListener("click", (event) => {
-	if (
-		!navSettingContainer.contains(event.target) &&
-		!see_more_button.contains(event.target)
-	) {
-		navSettingContainer.classList.add("hidden");
-		see_more_button.classList.remove("active");
-	}
-});
-
 // react-icon
 
 like_button.forEach((button) => {
@@ -141,23 +110,5 @@ like_button.forEach((button) => {
 			svgElement.classList.add("react-like-on");
 			spanElement.classList.add("react-like-on");
 		}
-	});
-});
-
-profile.addEventListener("click", (event) => {
-	let a = document.createElement("a");
-	a.href = "../profile/index.html";
-	a.click();
-});
-
-// nav content effect
-navSettingContent.forEach((content) => {
-	content.addEventListener("click", (event) => {
-		content.style.backgroundColor = "#232729";
-		content.classList.add("pop-up");
-		setTimeout(() => {
-			content.classList.remove("pop-up");
-			content.style.backgroundColor = "transparent";
-		}, 500);
 	});
 });
