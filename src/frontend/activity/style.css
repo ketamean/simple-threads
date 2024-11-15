@@ -15,7 +15,7 @@ div {
 /* trans pop-up */
 .pop-up {
   transition-timing-function: ease-in-out;
-  transition-duration: 0.3s;
+  transition-duration: 0.5s;
   transform: scale(0.9);
 }
 

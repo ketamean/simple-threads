@@ -4,23 +4,21 @@
 		<meta charset="UTF-8" />
 		<meta
 			name="viewport"
-			content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+			content="width=device-width, initial-scale=1.0"
 		/>
 		<title>User</title>
 		<link rel="stylesheet" href="style.css" />
 		<link rel="stylesheet" href="../assets/css/normalize.css" />
 		<link rel="stylesheet" href="../assets/css/style.css" />
+		<link rel="stylesheet" href="../assets/css/header.css">
+		<link rel="stylesheet" href="../assets/css/footer.css">
 		<link
 			rel="stylesheet"
 			href="https://cdn.jsdelivr.net/gh/iconoir-icons/iconoir@main/css/iconoir.css"
 		/>
-		<link
-			rel="stylesheet"
-			href="/node_modules/bootstrap-icons/font/bootstrap-icons.min.css"
-		/>
 	</head>
 	<body>
-			<header class="profile-header">
+			<header class="header">
 				<a href="../feeds/index.html" title="Threads" id="header-logo">
 					<svg
 						aria-label="Threads"
@@ -1031,8 +1029,8 @@
 					</form>
 				</div>
 			</div>
-			<footer class="profile-footer col-5">
-				<div class="footer-nav-item home">
+			<footer class="footer col-5">
+				<a href="../feeds/index.html" class="footer-nav-item home">
 					<svg
 						aria-label="Home"
 						role="img"
@@ -1048,8 +1046,8 @@
 							stroke-width="2.5"
 						></path>
 					</svg>
-				</div>
-				<div class="footer-nav-item search">
+				</a>
+				<a href="../searching/index.html" class="footer-nav-item search">
 					<svg
 						aria-label="Search"
 						role="img"
@@ -1063,8 +1061,8 @@
 							fill-rule="evenodd"
 						></path>
 					</svg>
-				</div>
-				<div class="footer-nav-item post">
+				</a>
+				<a href="." class="footer-nav-item post">
 					<svg
 						aria-label="Post"
 						role="img"
@@ -1084,8 +1082,8 @@
 							stroke-width="2.5"
 						></path>
 					</svg>
-				</div>
-				<div class="footer-nav-item notifications">
+				</a>
+				<a href="../activity/index.html" class="footer-nav-item notifications">
 					<svg
 						aria-label="Notifications"
 						role="img"
@@ -1098,8 +1096,8 @@
 							stroke-width="2.5"
 						></path>
 					</svg>
-				</div>
-				<div class="footer-nav-item profile">
+				</a>
+				<a href="../profile/index.html" class="footer-nav-item profile">
 					<svg
 						aria-label="Profile"
 						role="img"
@@ -1120,8 +1118,10 @@
 							stroke-width="2.5"
 						></path>
 					</svg>
-				</div>
+				</a>
 			</footer>
 	</body>
 	<script src="./script.js" defer></script>
+	<script src="../assets/js/header.js"></script>
+	<script src="../assets/js/footer.js"></script>
 </html>

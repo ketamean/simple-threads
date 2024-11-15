@@ -21,17 +21,7 @@ document.querySelectorAll('.action-button').forEach(button => {
     }
 });
 
-const $bottomNav = document.querySelector('.bottom-nav');
-
 // Post functionality
-$bottomNav.addEventListener('click', (event) => {
-    if (event.target.id === 'post') {
-        const $mainContainer = document.querySelector('.main-container');
-        const $popupOverlay = document.querySelector('.popup-overlay');
-        $popupOverlay.style.display = 'block';
-        $mainContainer.style.display = 'none'; 
-    }
-})
 const $postCancel = document.querySelector('#cancelButton');
 $postCancel.addEventListener('click', () => {
     const $mainContainer = document.querySelector('.main-container');
