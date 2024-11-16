@@ -142,7 +142,7 @@ header a.pop-up {
 	transition-timing-function: ease-in-out !important;
 	transition-duration: 0.5s !important;
 	transform: scale(0.8) !important;
-	background-color: #ccc;
+	background-color: #787878;
 }
 
 .setting-container{
