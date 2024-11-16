@@ -14,7 +14,9 @@ navSettingContent.forEach((content) => {
 
 document.addEventListener("click", (event) => {
     if(!setting.contains(event.target) && !seeMore.contains(event.target)) {
-        setting.classList.add("hidden");
+        if(setting.classList.contains("active")) {
+			setting.classList.remove("active");
+		}
     }
 });
 
