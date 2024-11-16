@@ -19,5 +19,5 @@ document.addEventListener("click", (event) => {
 });
 
 seeMore.addEventListener("click", () => {
-	setting.classList.toggle("hidden");
+	setting.classList.toggle("active");
 });
