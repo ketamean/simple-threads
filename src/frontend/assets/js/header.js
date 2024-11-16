@@ -7,7 +7,6 @@ navSettingContent.forEach((content) => {
 		content.classList.add("pop-up");
 		setTimeout(() => {
 			content.classList.remove("pop-up");
-			content.style.backgroundColor = "transparent";
 		}, 500);
 	});
 });
