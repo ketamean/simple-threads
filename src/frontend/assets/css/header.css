@@ -12,7 +12,11 @@
 	position: fixed;
 }
 
-.header  a:hover {
+.header a{
+	text-decoration: none;
+}
+
+.header a:hover {
 	text-decoration: none;
 	transform: scale(1);
 }
