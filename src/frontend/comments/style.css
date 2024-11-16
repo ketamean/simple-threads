@@ -867,7 +867,7 @@ div {
   padding-left: 12px;
   padding-right: 12px;
   padding-bottom: 4px;
-  position: fixed;
+  position: absolute;
   bottom: 60px;
   background-color: black;
 }
