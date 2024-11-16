@@ -29,7 +29,7 @@ body {
   justify-content: space-around;
   gap: 1rem;
   padding: 0 1rem;
-  max-width: 640px;
+  max-width: 720px;
   width: 100%;
 }
 
@@ -163,7 +163,7 @@ body {
 
 .content {
   width: 100%;
-  max-width: 640px;
+  max-width: 720px;
   border-right: 1px solid #333;
   border-left: 1px solid #333;
   background-color: #0a0a0a;
@@ -278,13 +278,4 @@ i{
 
 .action-button:hover {
   color: #fff;
-}
-
-/* Media screen */
-
-@media (max-width: 1024px) {
-  .logo {
-      text-align: center;
-      font-size: 1.25rem;
-  }
 }
