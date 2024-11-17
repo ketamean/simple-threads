@@ -20,13 +20,8 @@ const editProfileSave = document.querySelector(
 const editProfileForm = document.querySelector(".edit-profile-form");
 const editProfileAvatarLabel = document.querySelector(".avatar-label");
 const editProfileAvatarInput = document.querySelector(".avatar-input");
-const notification = document.querySelector(".notifications");
 const followBoardItem = document.querySelectorAll(".follow-board-item");
 const profileTabItem = document.querySelectorAll(".profile-tab-item");
-const home = document.querySelector(".home");
-const seeMore = document.querySelector(".see-more-button");
-const setting = document.querySelector(".nav-setting-container");
-const navSettingContent = document.querySelectorAll(".nav-setting-content");
 const unfollow = document.querySelector(".unfollow");
 let currentFollowStatus = -1;
 
@@ -143,12 +138,6 @@ editProfileAvatarLabel.addEventListener("click", () => {
 	editProfileAvatarInput.click();
 });
 
-notification.addEventListener("click", () => {
-	let anchor = document.createElement("a");
-	anchor.href = "../activity/index.html";
-	anchor.click();
-});
-
 profileTabItem.forEach((item) => {
 	item.addEventListener("click", () => {
 		profileTabItem.forEach((otherItem) => {
@@ -156,33 +145,6 @@ profileTabItem.forEach((item) => {
 		});
 		item.classList.add("active");
 	});
-});
-
-home.addEventListener("click", () => {
-	let anchor = document.createElement("a");
-	anchor.href = "../feeds/index.html";
-	anchor.click();
-});
-
-navSettingContent.forEach((content) => {
-	content.addEventListener("click", (event) => {
-		content.style.backgroundColor = "#232729";
-		content.classList.add("pop-up");
-		setTimeout(() => {
-			content.classList.remove("pop-up");
-			content.style.backgroundColor = "transparent";
-		}, 500);
-	});
-});
-
-document.addEventListener("click", (event) => {
-    if(!setting.contains(event.target) && !seeMore.contains(event.target)) {
-        setting.classList.add("hidden");
-    }
-});
-
-seeMore.addEventListener("click", () => {
-	setting.classList.toggle("hidden");
 });
 
 followStatus.forEach((status, index) => {

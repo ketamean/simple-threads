@@ -37,3 +37,13 @@ bootstrap-icons/
 
 # Express
 express/
+
+# Linux
+*:Zone.Identifier
+*.jpg:Zone.Identifier
+*.jpeg:Zone.Identifier
+*.gif:Zone.Identifier
+*.png:Zone.Identifier
+*.svg:Zone.Identifier
+*.bmp:Zone.Identifier
+*.ico:Zone.Identifier

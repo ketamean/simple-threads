@@ -1,13 +1,22 @@
 const activity_tag = document.querySelectorAll(".activity-link-tag");
 const activity_follow_screen = document.querySelectorAll(".activity-follow");
-const see_more_button = document.querySelector(".see-more-svg");
-const navSettingContainer = document.querySelector(".nav-setting-container");
+const notificationButton = document.querySelector(".notification-svg");
 const like_button = document.querySelectorAll(
 	".activity-follow-infor-react.like"
 );
-const profile = document.querySelector(".profile");
-const navSettingContent = document.querySelectorAll(".nav-setting-content");
-console.log(like_button);
+const followContainer = document.querySelectorAll(".activity-follow-container");
+
+// delete or mark read button
+const markOrDeleteContainer = document.querySelector(
+	".activity-notification-block"
+);
+const deleteButton = document.querySelector(".delete-button");
+const markButton = document.querySelector(".mark-read-button");
+const deleteConfirmationOverlay = document.querySelector(
+	".delete-confirmation-overlay"
+);
+const confirmDeleteButton = document.querySelector(".confirm-delete-button");
+const cancelDeleteButton = document.querySelector(".cancel-delete-button");
 
 // change screen tag handle
 activity_tag.forEach((tag) => {
@@ -20,11 +29,12 @@ activity_tag.forEach((tag) => {
 			currentTag.classList.remove("pop-up");
 			currentTag.classList.add("tag-active");
 		}, 200);
-
+		if (notificationButton.classList.contains("active")) {
+			handleNotificationButtonClick();
+		}
 		const tag_content = event.currentTarget.textContent.trim();
 		switch (tag_content) {
 			case "All":
-				console.log("All selected");
 				activity_follow_screen.forEach((tag) => {
 					tag.classList.add("hidden");
 				});
@@ -33,7 +43,6 @@ activity_tag.forEach((tag) => {
 					.classList.remove("hidden");
 				break;
 			case "Follow":
-				console.log("Follow selected");
 				activity_follow_screen.forEach((tag) => {
 					tag.classList.add("hidden");
 				});
@@ -42,7 +51,6 @@ activity_tag.forEach((tag) => {
 					.classList.remove("hidden");
 				break;
 			case "Replies":
-				console.log("Replies selected");
 				activity_follow_screen.forEach((tag) => {
 					tag.classList.add("hidden");
 				});
@@ -51,7 +59,6 @@ activity_tag.forEach((tag) => {
 					.classList.remove("hidden");
 				break;
 			case "Mentions":
-				console.log("Mentions selected");
 				activity_follow_screen.forEach((tag) => {
 					tag.classList.add("hidden");
 				});
@@ -60,7 +67,6 @@ activity_tag.forEach((tag) => {
 					.classList.remove("hidden");
 				break;
 			case "Quotes":
-				console.log("Quotes selected");
 				activity_follow_screen.forEach((tag) => {
 					tag.classList.add("hidden");
 				});
@@ -69,7 +75,6 @@ activity_tag.forEach((tag) => {
 					.classList.remove("hidden");
 				break;
 			case "Reposts":
-				console.log("Reposts selected");
 				activity_follow_screen.forEach((tag) => {
 					tag.classList.add("hidden");
 				});
@@ -78,7 +83,6 @@ activity_tag.forEach((tag) => {
 					.classList.remove("hidden");
 				break;
 			case "Verified":
-				console.log("Verified selected");
 				activity_follow_screen.forEach((tag) => {
 					tag.classList.add("hidden");
 				});
@@ -87,35 +91,9 @@ activity_tag.forEach((tag) => {
 					.classList.remove("hidden");
 				break;
 			default:
-				console.log("Default");
+				break;
 		}
 	});
-});
-
-//change see more button and on/off nav setting
-see_more_button.addEventListener("click", (event) => {
-	const currentTag = event.currentTarget;
-	currentTag.classList.add("pop-up");
-	setTimeout(() => {
-		currentTag.classList.remove("pop-up");
-	}, 300);
-	if (currentTag.classList.contains("active")) {
-		currentTag.classList.remove("active");
-		navSettingContainer.classList.add("hidden");
-	} else {
-		currentTag.classList.add("active");
-		navSettingContainer.classList.remove("hidden");
-	}
-});
-
-document.addEventListener("click", (event) => {
-	if (
-		!navSettingContainer.contains(event.target) &&
-		!see_more_button.contains(event.target)
-	) {
-		navSettingContainer.classList.add("hidden");
-		see_more_button.classList.remove("active");
-	}
 });
 
 // react-icon
@@ -144,20 +122,101 @@ like_button.forEach((button) => {
 	});
 });
 
-profile.addEventListener("click", (event) => {
-	let a = document.createElement("a");
-	a.href = "../profile/index.html";
-	a.click();
+//handle notificationButton
+
+function handleNotificationButtonClick() {
+	const currentTag = notificationButton;
+	currentTag.classList.add("pop-up");
+	setTimeout(() => {
+		currentTag.classList.remove("pop-up");
+	}, 300);
+	if (currentTag.classList.contains("active")) {
+		markOrDeleteContainer.classList.add("hidden");
+		currentTag.classList.remove("active");
+		followContainer.forEach((container) => {
+			container.classList.remove("grid-check-box");
+			container
+				.querySelector(".activity-follow-checkbox")
+				.classList.add("hidden");
+			const rightInfo = container.querySelector(
+				".activity-follow-infor-right"
+			);
+			if (rightInfo != null) {
+				rightInfo.classList.remove("hidden");
+			} else {
+				container
+					.querySelector(".activity-follow-infor-header-name")
+					.classList.add("change-width");
+			}
+		});
+	} else {
+		markOrDeleteContainer.classList.remove("hidden");
+		currentTag.classList.add("active");
+		followContainer.forEach((container) => {
+			container.classList.add("grid-check-box");
+			container
+				.querySelector(".activity-follow-checkbox")
+				.classList.remove("hidden");
+			const rightInfo = container.querySelector(
+				".activity-follow-infor-right"
+			);
+			if (rightInfo != null) {
+				rightInfo.classList.add("hidden");
+			} else {
+				container
+					.querySelector(".activity-follow-infor-header-name")
+					.classList.remove("change-width");
+			}
+		});
+	}
+}
+
+notificationButton.addEventListener("click", () =>
+	handleNotificationButtonClick()
+);
+
+// handle delete notification
+
+deleteButton.addEventListener("click", () => {
+	deleteConfirmationOverlay.classList.remove("hidden");
 });
 
-// nav content effect
-navSettingContent.forEach((content) => {
-	content.addEventListener("click", (event) => {
-		content.style.backgroundColor = "#232729";
-		content.classList.add("pop-up");
-		setTimeout(() => {
-			content.classList.remove("pop-up");
-			content.style.backgroundColor = "transparent";
-		}, 500);
+// confirm delete notification
+confirmDeleteButton.addEventListener("click", () => {
+	followContainer.forEach((container) => {
+		const checkbox = container.querySelector(".check-box");
+		if (checkbox.checked) {
+			container.remove();
+		}
+	});
+	deleteConfirmationOverlay.classList.add("hidden");
+});
+
+// cancel delete notification
+cancelDeleteButton.addEventListener("click", () => {
+	followContainer.forEach((container) => {
+		const checkbox = container.querySelector(".check-box");
+		checkbox.checked = false;
+	});
+	deleteConfirmationOverlay.classList.add("hidden");
+});
+
+deleteConfirmationOverlay.addEventListener("click", (event) => {
+	const deleteConfirmationContainer = document.querySelector(
+		".delete-confirmation-container"
+	);
+	if (!deleteConfirmationContainer.contains(event.target)) {
+		deleteConfirmationOverlay.classList.add("hidden");
+	}
+});
+
+// mark read
+markButton.addEventListener("click", () => {
+	followContainer.forEach((container) => {
+		const checkbox = container.querySelector(".check-box");
+		if (checkbox.checked) {
+			container.classList.remove("unread");
+			checkbox.checked = false;
+		}
 	});
 });
