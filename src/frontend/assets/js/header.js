@@ -7,14 +7,15 @@ navSettingContent.forEach((content) => {
 		content.classList.add("pop-up");
 		setTimeout(() => {
 			content.classList.remove("pop-up");
-			content.style.backgroundColor = "transparent";
 		}, 500);
 	});
 });
 
 document.addEventListener("click", (event) => {
     if(!setting.contains(event.target) && !seeMore.contains(event.target)) {
-        setting.classList.add("hidden");
+        if(setting.classList.contains("active")) {
+			setting.classList.remove("active");
+		}
     }
 });
 

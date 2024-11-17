@@ -224,13 +224,10 @@ div {
 }
 
 .notification-svg {
-  height: 20px;
-  width: 20px;
-  flex-shrink: 0;
-  display: block;
-  position: relative;
-  fill: #777777;
-  left: 30%;
+  font-size: 21px;
+  position: absolute;
+  color: #777777;
+  left: 16px;
 }
 
 .nav-svg {
@@ -576,69 +573,6 @@ div {
   color: red;
   fill: red;
   font-weight: 600;
-}
-
-/*navbar setting*/
-
-.nav-setting-container {
-  position: absolute;
-  transform: translate(calc(100vw - 10px), 54px) translate(-100%, 0px);
-  top: 0;
-  left: 0;
-  display: block;
-  z-index: 10;
-  margin-top: -8px;
-}
-
-.nav-setting-box {
-  height: 340.656px;
-  width: 240px;
-  margin: 0;
-  padding: 0;
-  border: 1px solid rgb(45, 45, 45);
-  background-color: rgb(24, 24, 24);
-  border-radius: 16px;
-}
-
-.nav-setting-top {
-  padding: 8px;
-  border-bottom: 1px solid rgb(51, 54, 56);
-}
-
-.nav-setting-bottom {
-  padding: 8px;
-}
-
-.nav-setting-content {
-  padding: 11.5px;
-  min-height: 24px;
-  display: inline-block;
-  width: 100%;
-}
-
-.nav-setting-text {
-  width: 100%;
-  min-height: 20px;
-  display: flex;
-  align-items: center;
-}
-
-.nav-setting-text span {
-  overflow: hidden;
-  max-width: 100%;
-  flex-grow: 1;
-  text-align: start;
-  word-wrap: break-word;
-  display: block;
-  line-height: calc(1.4 * 1em);
-  color: rgb(243, 245, 247);
-  font-size: 15px;
-  font-weight: 600;
-}
-
-.nav-setting-icon span {
-  transform: rotate(180deg);
-  display: inline-block;
 }
 
 .next-svg {

@@ -660,6 +660,7 @@ div {
   display: flex;
   position: relative;
   flex-direction: column;
+  margin-bottom: calc(12px + 4px + 44px);
 }
 
 .cmt-container {
@@ -859,3 +860,26 @@ div {
   border-radius: 50%;
 }
 /* comment screen display picture and content */
+
+#comment-input { 
+  /* the form */
+  padding-top: 12px;
+  padding-left: 12px;
+  padding-right: 12px;
+  padding-bottom: 4px;
+  position: absolute;
+  bottom: 60px;
+  background-color: black;
+}
+
+#comment-content {
+  height: 44px;
+  padding-left: 36px;
+  background-image: url("./img/rnd-avt.png");
+	background-repeat: no-repeat;
+	background-position: 10px;
+	background-size: 20px;
+	background-color: rgb(24, 24, 24);
+  border-radius: 24px;
+  font-size: 1.1rem;
+}
