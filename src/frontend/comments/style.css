@@ -5,6 +5,10 @@ div {
   -webkit-touch-callout: none;
 }
 
+a {
+  text-decoration: none;
+}
+
 .activity-container {
   width: 100%;
   height: 100%;
@@ -426,16 +430,6 @@ div {
 }
 
 /*navbar setting*/
-
-.nav-setting-container {
-  position: absolute;
-  transform: translate(calc(100vw - 10px), 54px) translate(-100%, 0px);
-  top: 0;
-  left: 0;
-  display: block;
-  z-index: 10;
-  margin-top: -8px;
-}
 
 .nav-setting-box {
   height: 340.656px;
@@ -861,7 +855,7 @@ div {
 }
 /* comment screen display picture and content */
 
-#comment-input { 
+#comment-input {
   /* the form */
   padding-top: 12px;
   padding-left: 12px;
@@ -876,10 +870,10 @@ div {
   height: 44px;
   padding-left: 36px;
   background-image: url("./img/rnd-avt.png");
-	background-repeat: no-repeat;
-	background-position: 10px;
-	background-size: 20px;
-	background-color: rgb(24, 24, 24);
+  background-repeat: no-repeat;
+  background-position: 10px;
+  background-size: 20px;
+  background-color: rgb(24, 24, 24);
   border-radius: 24px;
   font-size: 1.1rem;
 }

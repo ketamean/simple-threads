@@ -237,8 +237,9 @@ div {
   cursor: pointer;
 }
 
-.active {
-  fill: #f3f5f7;
+.active-icon {
+  fill: #f3f5f7 !important;
+  color: #ffffff !important;
 }
 
 .activity-main {

@@ -1,7 +1,5 @@
 const activity_tag = document.querySelectorAll(".activity-link-tag");
 const activity_follow_screen = document.querySelectorAll(".activity-follow");
-const see_more_button = document.querySelector(".see-more-svg");
-const navSettingContainer = document.querySelector(".nav-setting-container");
 const like_button = document.querySelectorAll(
   ".activity-follow-infor-react.like"
 );
@@ -89,32 +87,6 @@ activity_tag.forEach((tag) => {
         console.log("Default");
     }
   });
-});
-
-//change see more button and on/off nav setting
-see_more_button.addEventListener("click", (event) => {
-  const currentTag = event.currentTarget;
-  currentTag.classList.add("pop-up");
-  setTimeout(() => {
-    currentTag.classList.remove("pop-up");
-  }, 300);
-  if (currentTag.classList.contains("active")) {
-    currentTag.classList.remove("active");
-    navSettingContainer.classList.add("hidden");
-  } else {
-    currentTag.classList.add("active");
-    navSettingContainer.classList.remove("hidden");
-  }
-});
-
-document.addEventListener("click", (event) => {
-  if (
-    !navSettingContainer.contains(event.target) &&
-    !see_more_button.contains(event.target)
-  ) {
-    navSettingContainer.classList.add("hidden");
-    see_more_button.classList.remove("active");
-  }
 });
 
 // react-icon
