@@ -11,7 +11,7 @@ document.querySelectorAll('.action-button').forEach(button => {
                 $heart.classList.add('iconoir-heart-solid');
             } else {
                 num -= 1;
-                $heart = document.querySelector('.iconoir-heart-solid');
+                $heart = button.querySelector('.iconoir-heart-solid');
                 $heart.classList.remove('iconoir-heart-solid');
                 $heart.classList.add('iconoir-heart');
             }
