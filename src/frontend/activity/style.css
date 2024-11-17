@@ -224,13 +224,10 @@ div {
 }
 
 .notification-svg {
-  height: 20px;
-  width: 20px;
-  flex-shrink: 0;
-  display: block;
-  position: relative;
-  fill: #777777;
-  left: 30%;
+  font-size: 21px;
+  position: absolute;
+  color: #777777;
+  left: 16px;
 }
 
 .nav-svg {

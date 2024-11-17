@@ -35,7 +35,6 @@ activity_tag.forEach((tag) => {
 		const tag_content = event.currentTarget.textContent.trim();
 		switch (tag_content) {
 			case "All":
-				console.log("All selected");
 				activity_follow_screen.forEach((tag) => {
 					tag.classList.add("hidden");
 				});
@@ -44,7 +43,6 @@ activity_tag.forEach((tag) => {
 					.classList.remove("hidden");
 				break;
 			case "Follow":
-				console.log("Follow selected");
 				activity_follow_screen.forEach((tag) => {
 					tag.classList.add("hidden");
 				});
@@ -53,7 +51,6 @@ activity_tag.forEach((tag) => {
 					.classList.remove("hidden");
 				break;
 			case "Replies":
-				console.log("Replies selected");
 				activity_follow_screen.forEach((tag) => {
 					tag.classList.add("hidden");
 				});
@@ -62,7 +59,6 @@ activity_tag.forEach((tag) => {
 					.classList.remove("hidden");
 				break;
 			case "Mentions":
-				console.log("Mentions selected");
 				activity_follow_screen.forEach((tag) => {
 					tag.classList.add("hidden");
 				});
@@ -71,7 +67,6 @@ activity_tag.forEach((tag) => {
 					.classList.remove("hidden");
 				break;
 			case "Quotes":
-				console.log("Quotes selected");
 				activity_follow_screen.forEach((tag) => {
 					tag.classList.add("hidden");
 				});
@@ -80,7 +75,6 @@ activity_tag.forEach((tag) => {
 					.classList.remove("hidden");
 				break;
 			case "Reposts":
-				console.log("Reposts selected");
 				activity_follow_screen.forEach((tag) => {
 					tag.classList.add("hidden");
 				});
@@ -89,7 +83,6 @@ activity_tag.forEach((tag) => {
 					.classList.remove("hidden");
 				break;
 			case "Verified":
-				console.log("Verified selected");
 				activity_follow_screen.forEach((tag) => {
 					tag.classList.add("hidden");
 				});
@@ -98,7 +91,7 @@ activity_tag.forEach((tag) => {
 					.classList.remove("hidden");
 				break;
 			default:
-				console.log("Default");
+				break;
 		}
 	});
 });
@@ -132,7 +125,6 @@ like_button.forEach((button) => {
 //handle notificationButton
 
 function handleNotificationButtonClick() {
-	console.log("1111");
 	const currentTag = notificationButton;
 	currentTag.classList.add("pop-up");
 	setTimeout(() => {
@@ -186,13 +178,11 @@ notificationButton.addEventListener("click", () =>
 // handle delete notification
 
 deleteButton.addEventListener("click", () => {
-	console.log("delete");
 	deleteConfirmationOverlay.classList.remove("hidden");
 });
 
 // confirm delete notification
 confirmDeleteButton.addEventListener("click", () => {
-	console.log("confirm delete");
 	followContainer.forEach((container) => {
 		const checkbox = container.querySelector(".check-box");
 		if (checkbox.checked) {
@@ -204,7 +194,6 @@ confirmDeleteButton.addEventListener("click", () => {
 
 // cancel delete notification
 cancelDeleteButton.addEventListener("click", () => {
-	console.log("cancel delete");
 	followContainer.forEach((container) => {
 		const checkbox = container.querySelector(".check-box");
 		checkbox.checked = false;
@@ -223,7 +212,6 @@ deleteConfirmationOverlay.addEventListener("click", (event) => {
 
 // mark read
 markButton.addEventListener("click", () => {
-	console.log("mark read");
 	followContainer.forEach((container) => {
 		const checkbox = container.querySelector(".check-box");
 		if (checkbox.checked) {
