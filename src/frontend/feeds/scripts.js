@@ -1,34 +1,24 @@
-
-function createThread(threadContent) {
-    const $thread = document.querySelector('.thread').cloneNode(true);
-    console.log($thread);
-    const $threadText = $thread.querySelector('.thread-text');
-    $threadText.textContent = threadContent;
-    const $feed = document.querySelector('.feed');
-    $feed.prepend($thread); 
-}
-
 // Like functionality
 document.querySelectorAll('.action-button').forEach(button => {
-    if (button.textContent.includes('♡')) {
+    if (button.id === "likes") {
         button.addEventListener('click', function() {
-            const currentLikes = parseInt(this.textContent.split(' ')[1]);
-            const isLiked = this.style.color === 'rgb(255, 255, 255)';
-            
-            this.textContent = `♡ ${isLiked ? currentLikes - 1 : currentLikes + 1}`;
-            this.style.color = isLiked ? '#888' : '#fff';
+            $stat = button.querySelector('.stats');
+            let num = parseInt($stat.textContent);
+            $heart = button.querySelector('.iconoir-heart');
+            if ($heart) {
+                num += 1;
+                $heart.classList.remove('iconoir-heart');
+                $heart.classList.add('iconoir-heart-solid');
+            } else {
+                num -= 1;
+                $heart = document.querySelector('.iconoir-heart-solid');
+                $heart.classList.remove('iconoir-heart-solid');
+                $heart.classList.add('iconoir-heart');
+            }
+            $stat.textContent = num;
         });
     }
 });
-
-// Post functionality
-const $postCancel = document.querySelector('#cancelButton');
-$postCancel.addEventListener('click', () => {
-    const $mainContainer = document.querySelector('.main-container');
-    const $popupOverlay = document.querySelector('.popup-overlay');
-    $popupOverlay.style.display = 'none';
-    $mainContainer.style.display = 'block'; 
-})
 
 const textarea = document.querySelector('.thread-input');
 textarea.addEventListener('input', function () {
