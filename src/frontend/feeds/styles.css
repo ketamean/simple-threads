@@ -273,7 +273,10 @@ i{
   display: flex;
   align-items: center;
   gap: 0.25rem;
-  font-size: 16px;
+  .stats {
+    font-size: 16px;
+    font-style: normal;
+  }
 }
 
 .action-button:hover {
