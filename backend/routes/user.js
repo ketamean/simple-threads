@@ -6,4 +6,6 @@ const router = express.Router();
 router.post("/signUp", userController.signUp);
 router.post("/signIn", userController.signIn);
 router.get("/signOut", userController.signOut);
+router.post("/resetPassword", userController.resetPasswordRequest);
+router.post("/validateOTP", userController.validateOTPAndResetPassword);
 module.exports = router;

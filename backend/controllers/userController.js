@@ -2,6 +2,7 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const User = require("../models/usersModel");
+const sendOTP  = require("../middleware/sendOTP");
 
 const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
 
@@ -10,6 +11,11 @@ const controllers = {};
 // Generate JWT Token
 const generateToken = (userId) => {
   return jwt.sign({ userId }, JWT_SECRET, { expiresIn: "24h" });
+};
+
+// genrateOTP
+const generateOTP = () => {
+  return Math.floor(100000 + Math.random() * 900000).toString();
 };
 
 // Sign Up Controller
@@ -34,7 +40,6 @@ controllers.signUp = async (req, res) => {
     const token = generateToken(newUser.userid);
 
     res.cookie("token", token);
-
     res.status(201).json({
       message: "User registered successfully",
       token,
@@ -89,6 +94,79 @@ controllers.signOut = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       message: "Error during logout",
+      error: error.message,
+    });
+  }
+};
+
+// respassword
+
+controllers.resetPasswordRequest = async (req, res) => {
+  const { identifier } = req.body;
+
+  try {
+    let user;
+    // Use existing model functions to find user
+    if (identifier.includes("@")) {
+      user = await User.findByEmail(identifier);
+    } else {
+      user = await User.findByUsername(identifier);
+    }
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const otp = generateOTP();
+    const tokenOtp = jwt.sign(
+      { userId: user.userid, otp },
+      process.env.JWT_SECRET,
+      { expiresIn: "5m" }
+    );
+
+    // Set OTP token cookie - uses global cookie options
+    res.cookie("tokenOtp", tokenOtp);
+    console.log(`ressetpassword!!! ${otp}`);
+    await sendOTP(user.email, otp);
+  
+
+    return res.status(200).json({
+      message: "OTP has been sent to your email",
+      email: user.email,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Error in password reset request",
+      error: error.message,
+    });
+  }
+};
+
+controllers.validateOTPAndResetPassword = async (req, res) => {
+  const { otp, newPassword } = req.body;
+  const tokenOtp = req.cookies.tokenOtp;
+
+  if (!tokenOtp) {
+    return res.status(400).json({ message: "OTP token is missing" });
+  }
+
+  try {
+    const decoded = jwt.verify(tokenOtp, JWT_SECRET);
+    if (decoded.otp !== otp) {
+      return res.status(400).json({ message: "Invalid OTP" });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    await User.updatePassword(decoded.userId, hashedPassword);
+
+    res.clearCookie("tokenOtp");
+
+    return res
+      .status(200)
+      .json({ message: "Password has been reset successfully" });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Error validating OTP or resetting password",
       error: error.message,
     });
   }

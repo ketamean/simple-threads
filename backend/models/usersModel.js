@@ -57,7 +57,29 @@ const User = {
     }
   },
 
-  // Thêm các phương thức khác nếu cần
+  //find email
+  findByEmail: async (email) => {
+    try {
+      const res = await client.query("SELECT * FROM users WHERE email = $1", [
+        email,
+      ]);
+      return res.rows[0];
+    } catch (err) {
+      throw err;
+    }
+  },
+  updatePassword: async (userid, newPassword) => {
+    const query =
+      "UPDATE users SET password = $1 WHERE userid = $2 RETURNING *";
+    const values = [newPassword, userid];
+    try {
+      const res = await client.query(query, values);
+      return res.rows[0];
+    } catch (err) {
+      console.error("Error updating password", err.stack);
+      throw err;
+    }
+  },
 };
 
 module.exports = User;
