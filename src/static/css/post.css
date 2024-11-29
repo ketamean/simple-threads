@@ -1,0 +1,42 @@
+.post-container {
+    padding: 12px;
+    cursor: auto;
+}
+
+.post-grid {
+    display: grid;
+    grid-template-columns: 48px minmax(0, 1fr);
+    grid-template-rows: 36px 0 max-content max-content;
+}
+
+.post-owner-img-block {
+    position: relative;
+    display: block;
+    grid-row-start: 1;
+    grid-column-start: 1;
+    grid-row-end: span 2;
+}
+
+.post-owner-img-block > a {
+    height: 36px;
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    list-style: none;
+    border-style: none;
+    border-radius: 50%;
+    display: flex;
+}
+
+.mini-avatar-container {
+    display: flex;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+}
+
+.mini-avatar-container img {
+    border-radius: 50%;
+    border: 0;
+    object-fit: cover;
+}

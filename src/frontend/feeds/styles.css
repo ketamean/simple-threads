@@ -279,3 +279,18 @@ i{
 .action-button:hover {
   color: #fff;
 }
+
+.react-svg {
+  height: 24px;
+  width: 24px;
+  stroke-width: 2;
+  stroke: currentColor;
+  color: #cccccc;
+  flex-shrink: 0;
+}
+
+.react-like-on {
+  color: red;
+  fill: red;
+  font-weight: 600;
+}

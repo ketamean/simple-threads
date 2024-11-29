@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Threads</title>
+    {{!-- <link rel="preload" href="/css/normalize.css" as="style">
+    <link rel="preload" href="/css/style.css" as="style">
+    <link rel="preload" href="/css/index.css" as="style"> --}}
+
+    <link rel="stylesheet" type="text/css" href="/css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="/css/universal.css">
+    {{#each css}}
+        <link rel="stylesheet" type="text/css" href="/css/{{this}}">
+    {{/each}}
+    <link rel="icon" type="image/x-icon" href="/img/favicon.png">
+</head>
+<body>
+    <header>
+        <a href="/" id="back-arrow">
+            <svg width="40px" xmlns="http://www.w3.org/2000/svg">
+                <line x1="12" y1="20" x2="40" y2="20"/>
+                <line x1="12" y1="20" x2="20" y2="12"/>
+                <line x1="12" y1="20" x2="20" y2="28"/>
+                <title>Go back</title>
+            </svg>
+        </a>
+    </header>
+    {{{body}}}
+</body>
+</html>

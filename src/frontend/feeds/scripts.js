@@ -9,10 +9,10 @@ function createThread(threadContent) {
 }
 
 // Like functionality
-document.querySelectorAll('.action-button').forEach(button => {
-    if (button.textContent.includes('♡')) {
+document.querySelectorAll('.like-button').forEach(button => {
+    if (true) {
         button.addEventListener('click', function() {
-            const currentLikes = parseInt(this.textContent.split(' ')[1]);
+            const currentLikes = parseInt(this.childNodes[1].textContent);
             const isLiked = this.style.color === 'rgb(255, 255, 255)';
             
             this.textContent = `♡ ${isLiked ? currentLikes - 1 : currentLikes + 1}`;
