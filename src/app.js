@@ -2,7 +2,7 @@ const express = require('express')
 const expHbs = require('express-handlebars')
 const app = express()
 const port =  3000
-const {loginMetadata} = require('./metadata.js')
+const { md_login, md_signup, md_resetPassword, md_feeds } = require('./metadata.js')
 
 app.engine(
     "hbs",
@@ -10,7 +10,8 @@ app.engine(
         layoutsDir: __dirname + '/views/layouts',
         partialsDir: __dirname + '/views/partials',
         extname: "hbs",
-        defaultLayout: 'layoutSurfing'
+        defaultLayout: 'layoutSurfing',
+        defaultView: __dirname + '/views/pages'
     })
 )
 ///////////////////////////
@@ -27,23 +28,54 @@ app.get('/', (req, res) => {
 })
 
 app.get('/login', (req, res) => {
+    res.locals.css = md_login.css
     res.render('login', {layout: 'layoutWelcome'})
 })
 
 app.get('/signup', (req, res) => {
-    res.render('signup')
+    res.locals.css = md_signup.css
+    res.render('signup', {layout: 'layoutWelcome'})
 })
 
 // app.get('/signup', (req, res) => {
 //     res.render('signup', {layout: 'layoutWelcome'})
 // })
 
-// app.get('/reset-password', (req, res) => {
-//     res.render('reset-password', {layout: 'layoutWelcome'})
-// })
+app.get('/reset-password', (req, res) => {
+    res.locals.css = md_resetPassword.css
+    res.render('reset-password-set', {layout: 'layoutWelcome'})
+})
 
 app.get('/feeds', (req, res) => {
-    res.locals.id = [1,2,3,4,5]
+    res.locals.css = md_feeds.css
+    res.locals.metadata = [
+        {
+            username: 'A',
+            avatarImagePath: '',
+            date: '1/1/2024',
+            content: 'hello',
+            nLikes: '30',
+            nComments: '20'
+        },
+        {
+            username: 'K',
+            avatarImagePath: '',
+            date: '1/1/2024',
+            content: 'hello',
+            postImagePaths: ['1.png', 'hehe.png'],
+            nLikes: '30',
+            nComments: '20'
+        },
+        {
+            username: 'B',
+            avatarImagePath: '',
+            date: '1/1/2024',
+            content: 'hello',
+            postImagePaths: ['1.png', 'hehe.png'],
+            nLikes: '30',
+            nComments: '20'
+        }
+    ]
     res.render('feeds')
 })
 
