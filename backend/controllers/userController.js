@@ -3,14 +3,29 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const User = require("../models/usersModel");
 const sendOTP = require("../utils/sendOTP");
+const redis = require("../config/redis");
 
-const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
+//init redis;
+redis.init();
+
+//set jwt-secret
+const JWT_ACCESS_SECRET = process.env.JWT_ACCESS_SECRET || "no-secret";
+const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || "no-secret";
 
 const controllers = {};
 
 // Generate JWT Token
-const generateToken = (userId) => {
-  return jwt.sign({ userId }, JWT_SECRET, { expiresIn: "24h" });
+const generateAccessToken = (userId) => {
+  return jwt.sign({ userId }, JWT_ACCESS_SECRET, {
+    expiresIn: "30s",
+    algorithm: "HS256",
+  });
+};
+
+const generateRefresshToken = (userId) => {
+  return jwt.sign({ userId }, JWT_REFRESH_SECRET, {
+    algorithm: "HS256",
+  });
 };
 
 // genrateOTP
@@ -33,7 +48,7 @@ controllers.signUp = async (req, res) => {
     if (existingEmail) {
       return res.status(400).json({ message: "Email already exists" });
     }
-    
+
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = await User.create({
       username,
@@ -42,12 +57,8 @@ controllers.signUp = async (req, res) => {
       fullname,
     });
 
-    const token = generateToken(newUser.userid);
-
-    res.cookie("token", token);
     res.status(201).json({
       message: "User registered successfully",
-      token,
       user: { ...newUser, password: undefined },
     });
   } catch (error) {
@@ -72,13 +83,27 @@ controllers.signIn = async (req, res) => {
       return res.status(401).json({ message: "Invalid password" });
     }
 
-    const token = generateToken(user.userid);
+    const accessToken = generateAccessToken(user.userid);
+    const refreshToken = generateRefresshToken(user.userid);
 
-    res.cookie("token", token);
+    // Store the refresh token in Redis
+    console.log(user.userid);
+    console.log(`Access Token: ${accessToken}, Refresh Token: ${refreshToken}`);
 
+    await redis.storeKey(user.userid.toString(), refreshToken);
+
+    //set cookies
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "strict",
+      path: "/",
+    });
+
+    //send res
     res.status(200).json({
       message: "Login successful",
-      token,
+      aToken: accessToken,
       user: { ...user, password: undefined },
     });
   } catch (error) {
@@ -88,10 +113,65 @@ controllers.signIn = async (req, res) => {
   }
 };
 
-controllers.signOut = async (req, res) => {
+//reset AccessToken
+
+controllers.resetAccessToken = async (req, res, next) => {
+  console.log("reset token");
+  const refreshToken = req.cookies.refreshToken;
+
+  if (!refreshToken) {
+    return res.status(401).json({ message: "No refresh token provided" });
+  }
+
   try {
-    // Clear token cookie
-    res.clearCookie("token");
+    // Verify the refresh token
+    const decoded = jwt.verify(refreshToken, JWT_REFRESH_SECRET);
+    const userId = decoded.userId;
+
+    // Check if the refresh token exists in Redis
+    console.log(userId);
+    const token = await redis.getKey(userId.toString());
+    console.log(token);
+    if (!token || token !== refreshToken) {
+      return res.status(401).json({ message: "Invalid refresh token" });
+    }
+
+    // Delete the old refresh token from Redis
+    await redis.deleteKey(userId.toString());
+
+    // Generate a new refresh token
+    const newRefreshToken = generateRefresshToken(userId);
+
+    // Generate a new access token
+    const accessToken = generateAccessToken(userId);
+
+    // Store the new refresh token in Redis
+    await redis.storeKey(userId.toString(), newRefreshToken);
+
+    // Set the new refresh token as a cookie
+    res.cookie("refreshToken", newRefreshToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "strict",
+      path: "/",
+    });
+
+    res.status(200).json({ accessToken });
+  } catch (error) {
+    return res.status(401).json({ message: "Invalid refresh token" });
+  }
+};
+
+controllers.signOut = async (req, res) => {
+  console.log("sigout");
+  try {
+    // Clear token cookie and delete cookies
+    const refreshToken = req.cookies.refreshToken;
+    if (refreshToken) {
+      const decoded = jwt.verify(refreshToken, JWT_REFRESH_SECRET);
+      await redis.deleteKey(decoded.userId.toString());
+    }
+    res.clearCookie("refreshToken");
 
     res.status(200).json({
       message: "Logged out successfully",
@@ -123,20 +203,20 @@ controllers.resetPasswordRequest = async (req, res) => {
     }
 
     const otp = generateOTP();
-    const tokenOtp = jwt.sign(
-      { userId: user.userid, otp },
-      process.env.JWT_SECRET,
-      { expiresIn: "5m" }
-    );
+    await redis.storeKey(user.email, otp.toString());
 
     // Set OTP token cookie - uses global cookie options
-    res.cookie("tokenOtp", tokenOtp);
     console.log(`ressetpassword!!! ${otp}`);
     await sendOTP(user.email, otp);
 
+    const tokenOtp = jwt.sign({ email: user.email }, JWT_ACCESS_SECRET, {
+      expiresIn: "5m",
+      algorithm: "HS256",
+    });
     return res.status(200).json({
       message: "OTP has been sent to your email",
       email: user.email,
+      tokenOtp: tokenOtp,
     });
   } catch (error) {
     return res.status(500).json({
@@ -147,24 +227,25 @@ controllers.resetPasswordRequest = async (req, res) => {
 };
 
 controllers.validateOTPAndResetPassword = async (req, res) => {
+  console.log("validateOTPAndResetPassword");
   const { otp, newPassword } = req.body;
-  const tokenOtp = req.cookies.tokenOtp;
-
+  const tokenOtp = req.headers["authorization"]?.split(" ")[1];
   if (!tokenOtp) {
     return res.status(400).json({ message: "OTP token is missing" });
   }
 
   try {
-    const decoded = jwt.verify(tokenOtp, JWT_SECRET);
-    if (decoded.otp !== otp) {
+    const decoded = jwt.verify(tokenOtp, JWT_ACCESS_SECRET);
+    const storedOtp = await redis.getKey(decoded.email);
+    console.log(decoded.email);
+    console.log(storedOtp);
+    if (!storedOtp || storedOtp !== otp) {
       return res.status(400).json({ message: "Invalid OTP" });
     }
-
     const hashedPassword = await bcrypt.hash(newPassword, 10);
     await User.updatePassword(decoded.userId, hashedPassword);
-
-    res.clearCookie("tokenOtp");
-
+    await redis.deleteKey(decoded.email);
+    //client xóa token
     return res
       .status(200)
       .json({ message: "Password has been reset successfully" });

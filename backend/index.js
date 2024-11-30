@@ -37,10 +37,6 @@ app.use(express.urlencoded({ extended: true }));
 // Import routes
 const routes = require("./routes");
 app.use("/", routes);
-app.get("/testPublic", (req, res) => {
-  console.log("hello123");
-  res.sendFile(__dirname + "/public/index.html");
-});
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
