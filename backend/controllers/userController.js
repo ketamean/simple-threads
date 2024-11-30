@@ -2,7 +2,7 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const User = require("../models/usersModel");
-const sendOTP  = require("../middleware/sendOTP");
+const sendOTP = require("../utils/sendOTP");
 
 const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
 
@@ -25,10 +25,15 @@ controllers.signUp = async (req, res) => {
   try {
     // Check if user exists
     const existingUser = await User.findByUsername(username);
+    const existingEmail = await User.findByEmail(email);
     if (existingUser) {
       return res.status(400).json({ message: "Username already exists" });
     }
 
+    if (existingEmail) {
+      return res.status(400).json({ message: "Email already exists" });
+    }
+    
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = await User.create({
       username,
@@ -128,7 +133,6 @@ controllers.resetPasswordRequest = async (req, res) => {
     res.cookie("tokenOtp", tokenOtp);
     console.log(`ressetpassword!!! ${otp}`);
     await sendOTP(user.email, otp);
-  
 
     return res.status(200).json({
       message: "OTP has been sent to your email",
