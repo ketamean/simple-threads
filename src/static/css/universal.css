@@ -65,21 +65,21 @@ body {
 
 header,
 main,
-nav {
+footer {
     width: 100%;
 }
 
 header,
-nav {
+footer { /* 'relative' in <body> tag */
     height: var(--header-height, 52px);
-    padding: 8px;
     background-color: rgba(0,0,0, 0.5);
     backdrop-filter: blur(var(--header-backdrop-filter-blur, 32px));
     -webkit-backdrop-filter: blur(var(--header-backdrop-filter-blur, 32px));
+    position: relative;
+    text-align: center;
 }
 
 header {
-    position: fixed;
     top: 0;
     display: flex;
     justify-content: center;
@@ -99,9 +99,26 @@ header svg {
     height: 100%;
 }
 
-nav {
-    position: fixed;
+footer {
     bottom: 0;
+}
+
+.footer-svg {
+	width: 30px;
+	height: 30px;
+	color: rgba(243, 245, 247, 0.35);
+	cursor: pointer;
+}
+
+.footer-svg.active {
+	fill: #f3f5f7;
+}
+
+.footer-nav-item {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
 }
 
 main {
