@@ -1,85 +1,46 @@
-// models/user.js
+// models/usersModel.js
 const client = require("../config/database");
 
-const createTableQuery = `
-  CREATE TABLE IF NOT EXISTS users (
-    userid SERIAL PRIMARY KEY,
-    username VARCHAR(50) NOT NULL,
-    password VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL,
-    fullname VARCHAR(100) NOT NULL
-  )
-`;
-
-client
-  .query(createTableQuery)
-  .then(() => console.log("Users table created successfully"))
-  .catch((err) => console.error("Error creating users table", err.stack));
-
-// Định nghĩa các phương thức cho model User
-const User = {
-  create: async (userData) => {
-    const { username, password, email, fullname } = userData;
+const user = {
+  createUser: async ({ email, password, username }) => {
     const query = `
-      INSERT INTO users (username, password, email, fullname)
-      VALUES ($1, $2, $3, $4)
-      RETURNING *
-    `;
-    const values = [username, password, email, fullname];
-    try {
-      const res = await client.query(query, values);
-      return res.rows[0];
-    } catch (err) {
-      console.error("Error creating user", err.stack);
-      throw err;
-    }
+    INSERT INTO Users (email, password, username, fullname, bio, profile_picture, created_at, updated_at)
+    VALUES ($1, $2, $3, NULL, NULL, NULL, NOW(), NOW())
+    RETURNING *;`;
+    const values = [email, password, username];
+    console.log(values);
+    const res = await client.query(query, values);
+    return res.rows[0];
   },
-
-  findById: async (userid) => {
-    const query = "SELECT * FROM users WHERE userid = $1";
-    try {
-      const res = await client.query(query, [userid]);
-      return res.rows[0];
-    } catch (err) {
-      console.error("Error finding user by ID", err.stack);
-      throw err;
-    }
+  findById: async (id) => {
+    const query = `
+    SELECT * FROM Users WHERE id = $1;`;
+    const res = await client.query(query, [id]);
+    return res.rows[0];
   },
-
-  findByUsername: async (username) => {
-    const query = "SELECT * FROM users WHERE username = $1";
-    try {
-      const res = await client.query(query, [username]);
-      return res.rows[0];
-    } catch (err) {
-      console.error("Error finding user by username", err.stack);
-      throw err;
-    }
-  },
-
-  //find email
   findByEmail: async (email) => {
-    try {
-      const res = await client.query("SELECT * FROM users WHERE email = $1", [
-        email,
-      ]);
-      return res.rows[0];
-    } catch (err) {
-      throw err;
-    }
+    const query = `
+    SELECT * FROM Users WHERE email = $1;`;
+    const res = await client.query(query, [email]);
+    return res.rows[0];
   },
-  updatePassword: async (userid, newPassword) => {
-    const query =
-      "UPDATE users SET password = $1 WHERE userid = $2 RETURNING *";
-    const values = [newPassword, userid];
-    try {
-      const res = await client.query(query, values);
-      return res.rows[0];
-    } catch (err) {
-      console.error("Error updating password", err.stack);
-      throw err;
-    }
+  findByUsername: async (username) => {
+    const query = `
+    SELECT * FROM Users WHERE username = $1;`;
+    const res = await client.query(query, [username]);
+    return res.rows[0];
+  },
+
+  updatePassword: async (id, newPasswordHash) => {
+    const query = `
+    UPDATE Users
+    SET password= $1, updated_at = NOW()
+    WHERE id = $2
+    RETURNING *;`;
+    const values = [newPasswordHash, id];
+    const res = await client.query(query, values);
+    return res.rows[0];
   },
 };
 
-module.exports = User;
+module.exports = user;

@@ -35,7 +35,8 @@ const generateOTP = () => {
 
 // Sign Up Controller
 controllers.signUp = async (req, res) => {
-  const { fullname, email, password, username } = req.body;
+  console.log("signUp");
+  const { email, password, username } = req.body;
 
   try {
     // Check if user exists
@@ -50,11 +51,10 @@ controllers.signUp = async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = await User.create({
-      username,
-      password: hashedPassword,
+    const newUser = await User.createUser({
       email,
-      fullname,
+      password: hashedPassword,
+      username,
     });
 
     res.status(201).json({
@@ -83,14 +83,14 @@ controllers.signIn = async (req, res) => {
       return res.status(401).json({ message: "Invalid password" });
     }
 
-    const accessToken = generateAccessToken(user.userid);
-    const refreshToken = generateRefresshToken(user.userid);
+    const accessToken = generateAccessToken(user.id);
+    const refreshToken = generateRefresshToken(user.id);
 
     // Store the refresh token in Redis
-    console.log(user.userid);
+    console.log(user.id);
     console.log(`Access Token: ${accessToken}, Refresh Token: ${refreshToken}`);
 
-    await redis.storeKey(user.userid.toString(), refreshToken);
+    await redis.storeKey(user.id.toString(), refreshToken);
 
     //set cookies
     res.cookie("refreshToken", refreshToken, {
