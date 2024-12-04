@@ -207,102 +207,70 @@ controllers.updateProfile = async (req, res) => {
 			error: error.message,
 		});
 	}
-	// Get user's starter threads
-	controllers.getUserThreads = async (req, res) => {
-		const userID = req.cookies.userid;
-		try {
-			const threads = await User.getUserThreads(userID);
-			res.status(200).json({
-				message: "User threads retrieved successfully",
-				threads,
-			});
-		} catch (error) {
-			res.status(500).json({
-				message: "Error retrieving user threads",
-				error: error.message,
-			});
-		}
-	};
-  // get user's replies
-  controllers.getUserReplies = async (req, res) => {
-    const userID = req.cookies.userid;
-    try {
-      const replies = await User.getUserReplies(userID);
-      res.status(200).json({
-        message: "User replies retrieved successfully",
-        replies,
-      });
-    } catch (error) {
-      res.status(500).json({
-        message: "Error retrieving user replies",
-        error: error.message,
-      });
-    }
-  };
-  // get user's followers
-  controllers.getUserFollowers = async (req, res) => {
-    const userID = req.cookies.userid;
-    try {
-      const followers = await User.getUserFollowers(userID);
-      res.status(200).json({
-        message: "User followers retrieved successfully",
-        followers,
-      });
-    } catch (error) {
-      res.status(500).json({
-        message: "Error retrieving user followers",
-        error: error.message,
-      });
-    }
-  };
-  // get user's following
-  controllers.getUserFollowing = async (req, res) => {
-    const userID = req.cookies.userid;
-    try {
-      const following = await User.getUserFollowing(userID);
-      res.status(200).json({
-        message: "User following retrieved successfully",
-        following,
-      });
-    } catch (error) {
-      res.status(500).json({
-        message: "Error retrieving user following",
-        error: error.message,
-      });
-    }
-  };
-  // follow user
-  controllers.followUser = async (req, res) => {
-    const followerID = req.cookies.userid;
-    const followeeID = req.body.followeeID;
-    try {
-      await User.followUser(followerID, followeeID);
-      res.status(200).json({
-        message: "User followed successfully",
-      });
-    } catch (error) {
-      res.status(500).json({
-        message: "Error following user",
-        error: error.message,
-      });
-    }
-  };
-  // unfollow user
-  controllers.unfollowUser = async (req, res) => {
-    const followerID = req.cookies.userid;
-    const followeeID = req.body.followeeID;
-    try {
-      await User.unfollowUser(followerID, followeeID);
-      res.status(200).json({
-        message: "User unfollowed successfully",
-      });
-    } catch (error) {
-      res.status(500).json({
-        message: "Error unfollowing user",
-        error: error.message,
-      });
-    }
-  };
+};
+// get user's followers
+controllers.getUserFollowers = async (req, res) => {
+	const userID = req.cookies.userid;
+	try {
+		const followers = await User.getUserFollowers(userID);
+		res.status(200).json({
+			message: "User followers retrieved successfully",
+			followers,
+		});
+	} catch (error) {
+		res.status(500).json({
+			message: "Error retrieving user followers",
+			error: error.message,
+		});
+	}
+};
+// get user's following
+controllers.getUserFollowing = async (req, res) => {
+	const userID = req.cookies.userid;
+	try {
+		const following = await User.getUserFollowing(userID);
+		res.status(200).json({
+			message: "User following retrieved successfully",
+			following,
+		});
+	} catch (error) {
+		res.status(500).json({
+			message: "Error retrieving user following",
+			error: error.message,
+		});
+	}
+};
+// follow user
+controllers.followUser = async (req, res) => {
+	const followerID = req.cookies.userid;
+	const followeeID = req.body.followeeID;
+	try {
+		await User.followUser(followerID, followeeID);
+		res.status(200).json({
+			message: "User followed successfully",
+		});
+	} catch (error) {
+		res.status(500).json({
+			message: "Error following user",
+			error: error.message,
+		});
+	}
+};
+// unfollow user
+controllers.unfollowUser = async (req, res) => {
+	const followerID = req.cookies.userid;
+	const followeeID = req.body.followeeID;
+	try {
+		await User.unfollowUser(followerID, followeeID);
+		res.status(200).json({
+			message: "User unfollowed successfully",
+		});
+	} catch (error) {
+		res.status(500).json({
+			message: "Error unfollowing user",
+			error: error.message,
+		});
+	}
 };
 
 module.exports = controllers;
