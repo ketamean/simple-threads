@@ -84,7 +84,7 @@ const User = {
   //update user info
   updateUserInfo: async (userid, alias, bio, filePath) => {
     const query = `
-    UPDATE users SET Alias = '${alias}', Bio = '${bio}', Avatar = '${filePath}' WHERE userid = ${userid} RETURNING *
+    UPDATE users SET alias = '${alias}', bio = '${bio}', avatar = '${filePath}' WHERE userid = ${userid} RETURNING *
     `
     try {
       const res = await client
@@ -95,39 +95,10 @@ const User = {
       throw err;
     }
   },
-  //get user's threads
-  getUserThreads: async (userid) => {
-    const query = `
-    SELECT * FROM post WHERE userid = ${userid} and parentid is null and type = 'starter' ORDER BY createdate DESC LIMIT 5
-    ` //placeholder, currently with lazy loading, we only need to get the first 5 threads, might need to change this later
-    try {
-      const res = await client
-      .query(query)
-      return res.rows;
-    }
-    catch(err){
-      console.error("Error getting user threads", err.stack);
-      throw err;
-    }
-  },
-  //get user's replies
-  getUserReplies: async (userid) => {
-    const query = `
-    SELECT rep.*, parent.* FROM post rep, post parent WHERE rep.userid = ${userid} and rep.parentid = parent.postid ORDER BY rep.createdate DESC LIMIT 5
-    ` //placeholder, currently with lazy loading, we only need to get the first 5 replies, might need to change this later
-    try {
-      const res = await client
-      .query(query)
-      return res.rows;
-    }
-    catch(err){
-      console.error("Error getting user replies", err.stack);
-    }
-  },
   // get user's followers
   getUserFollowers: async (userid) => {
     const query = `
-    SELECT * FROM follow WHERE followeeID = ${userid}
+    SELECT * FROM followers WHERE following_id = ${userid}
     `
     try {
       const res = await client
@@ -139,9 +110,9 @@ const User = {
     }
   },
   // get user's followings
-  getUserFollowings: async (userid) => {
+  getUserFollowing: async (userid) => {
     const query = `
-    SELECT * FROM follow WHERE followerID = ${userid}
+    SELECT * FROM follow WHERE follower_id = ${userid}
     `
     try {
       const res = await client
@@ -156,7 +127,7 @@ const User = {
   followUser: async (userID, targetID) => {
     const currentTime = new Date().toString();
     const query = `
-    INSERT INTO follow (followerID, followeeID, date) VALUES (${userID}, ${targetID}, ${currentTime})
+    INSERT INTO followers (follower_id, following_id, created_at) VALUES (${userID}, ${targetID}, ${currentTime})
     `
     try {
       const res = await client
@@ -169,7 +140,7 @@ const User = {
   // unfollow user
   unfollowUser: async (userID, targetID) => { // followerID is the user who wants to unfollow, followeeID is the user who is being unfollowed
     const query = `
-    DELETE FROM follow WHERE followerID = ${userID} and followeeID = ${targetID}
+    DELETE FROM follow WHERE follower_id = ${userID} and following_id = ${targetID}
     `
     try {
       const res = await client
@@ -182,7 +153,7 @@ const User = {
   // get user's followers
   removeFollower: async (userID, targetID) => {
     const query = `
-    DELETE FROM follow WHERE followerID = ${targetID} and followeeID = ${userID}
+    DELETE FROM follow WHERE follower_id = ${targetID} and following_id = ${userID}
     `
     try {
       const res = await client
