@@ -98,7 +98,7 @@ const User = {
   // get user's followers
   getUserFollowers: async (userid) => {
     const query = `
-    SELECT * FROM followers WHERE following_id = ${userid}
+    SELECT * FROM followers WHERE followed_id = ${userid}
     `
     try {
       const res = await client
@@ -127,7 +127,7 @@ const User = {
   followUser: async (userID, targetID) => {
     const currentTime = new Date().toString();
     const query = `
-    INSERT INTO followers (follower_id, following_id, created_at) VALUES (${userID}, ${targetID}, ${currentTime})
+    INSERT INTO followers (follower_id, followed_id, created_at) VALUES (${userID}, ${targetID}, ${currentTime})
     `
     try {
       const res = await client
@@ -140,7 +140,7 @@ const User = {
   // unfollow user
   unfollowUser: async (userID, targetID) => { // followerID is the user who wants to unfollow, followeeID is the user who is being unfollowed
     const query = `
-    DELETE FROM follow WHERE follower_id = ${userID} and following_id = ${targetID}
+    DELETE FROM follow WHERE follower_id = ${userID} and followed_id = ${targetID}
     `
     try {
       const res = await client
@@ -153,7 +153,7 @@ const User = {
   // get user's followers
   removeFollower: async (userID, targetID) => {
     const query = `
-    DELETE FROM follow WHERE follower_id = ${targetID} and following_id = ${userID}
+    DELETE FROM follow WHERE follower_id = ${targetID} and followed_id = ${userID}
     `
     try {
       const res = await client
