@@ -68,6 +68,8 @@ const createTablesQuery = `
   CREATE TABLE IF NOT EXISTS Notifications (
     id SERIAL PRIMARY KEY,
     user_id INT NOT NULL REFERENCES Users(id),
+    image_url VARCHAR(255) NOT NULL,   
+    header VARCHAR(50) NOT NULL,   
     type VARCHAR(50) NOT NULL,
     related_id INT,
     message TEXT NOT NULL,

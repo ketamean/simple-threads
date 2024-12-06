@@ -7,6 +7,9 @@ const upload = require("../middleware/upload");
 // Define user routes
 
 //main auth
+router.get("/", (req, res) => {
+  res.render("index1");
+});
 router.post("/signUp", userController.signUp);
 router.post("/signIn", userController.signIn);
 router.get("/signOut", middleware.verifyToken, userController.signOut);
