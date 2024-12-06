@@ -9,8 +9,8 @@ const userRoutes = require("./user");
 router.use("/users", userRoutes);
 
 router.get("/", (req, res) => {
-  console.log("/123");
-  res.send("Welcome to the home page!");
+  res.locals.title = "hello world";
+  res.render("index");
 });
 
 router.get("/testToken", middleware.verifyToken, (req, res) => {
