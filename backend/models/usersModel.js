@@ -1,85 +1,46 @@
-// models/user.js
+// models/usersModel.js
 const client = require("../config/database");
 const { get } = require("../routes");
 
-const createTableQuery = `
-  CREATE TABLE IF NOT EXISTS users (
-    userid SERIAL PRIMARY KEY,
-    username VARCHAR(50) NOT NULL,
-    password VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL,
-    fullname VARCHAR(100) NOT NULL
-  )
-`;
-
-client
-  .query(createTableQuery)
-  .then(() => console.log("Users table created successfully"))
-  .catch((err) => console.error("Error creating users table", err.stack));
-
-// Định nghĩa các phương thức cho model User
-const User = {
-  create: async (userData) => {
-    const { username, password, email, fullname } = userData;
+const user = {
+  createUser: async ({ email, password, username }) => {
     const query = `
-      INSERT INTO users (username, password, email, fullname)
-      VALUES ($1, $2, $3, $4)
-      RETURNING *
-    `;
-    const values = [username, password, email, fullname];
-    try {
-      const res = await client.query(query, values);
-      return res.rows[0];
-    } catch (err) {
-      console.error("Error creating user", err.stack);
-      throw err;
-    }
+    INSERT INTO Users (email, password, username, fullname, bio, profile_picture, created_at, updated_at)
+    VALUES ($1, $2, $3, NULL, NULL, NULL, NOW(), NOW())
+    RETURNING *;`;
+    const values = [email, password, username];
+    console.log(values);
+    const res = await client.query(query, values);
+    return res.rows[0];
   },
-
-  findById: async (userid) => {
-    const query = "SELECT * FROM users WHERE userid = $1";
-    try {
-      const res = await client.query(query, [userid]);
-      return res.rows[0];
-    } catch (err) {
-      console.error("Error finding user by ID", err.stack);
-      throw err;
-    }
+  findById: async (id) => {
+    const query = `
+    SELECT * FROM Users WHERE id = $1;`;
+    const res = await client.query(query, [id]);
+    return res.rows[0];
   },
-
-  findByUsername: async (username) => {
-    const query = "SELECT * FROM users WHERE username = $1";
-    try {
-      const res = await client.query(query, [username]);
-      return res.rows[0];
-    } catch (err) {
-      console.error("Error finding user by username", err.stack);
-      throw err;
-    }
-  },
-
-  //find email
   findByEmail: async (email) => {
-    try {
-      const res = await client.query("SELECT * FROM users WHERE email = $1", [
-        email,
-      ]);
-      return res.rows[0];
-    } catch (err) {
-      throw err;
-    }
+    const query = `
+    SELECT * FROM Users WHERE email = $1;`;
+    const res = await client.query(query, [email]);
+    return res.rows[0];
   },
-  updatePassword: async (userid, newPassword) => {
-    const query =
-      "UPDATE users SET password = $1 WHERE userid = $2 RETURNING *";
-    const values = [newPassword, userid];
-    try {
-      const res = await client.query(query, values);
-      return res.rows[0];
-    } catch (err) {
-      console.error("Error updating password", err.stack);
-      throw err;
-    }
+  findByUsername: async (username) => {
+    const query = `
+    SELECT * FROM Users WHERE username = $1;`;
+    const res = await client.query(query, [username]);
+    return res.rows[0];
+  },
+
+  updatePassword: async (id, newPasswordHash) => {
+    const query = `
+    UPDATE Users
+    SET password= $1, updated_at = NOW()
+    WHERE id = $2
+    RETURNING *;`;
+    const values = [newPasswordHash, id];
+    const res = await client.query(query, values);
+    return res.rows[0];
   },
   //update user info
   updateUserInfo: async (userid, alias, bio, filePath) => {
@@ -98,7 +59,7 @@ const User = {
   // get user's followers
   getUserFollowers: async (userid) => {
     const query = `
-    SELECT * FROM followers WHERE following_id = ${userid}
+    SELECT * FROM followers WHERE followed_id = ${userid}
     `
     try {
       const res = await client
@@ -127,7 +88,7 @@ const User = {
   followUser: async (userID, targetID) => {
     const currentTime = new Date().toString();
     const query = `
-    INSERT INTO followers (follower_id, following_id, created_at) VALUES (${userID}, ${targetID}, ${currentTime})
+    INSERT INTO followers (follower_id, followed_id, created_at) VALUES (${userID}, ${targetID}, ${currentTime})
     `
     try {
       const res = await client
@@ -140,7 +101,7 @@ const User = {
   // unfollow user
   unfollowUser: async (userID, targetID) => { // followerID is the user who wants to unfollow, followeeID is the user who is being unfollowed
     const query = `
-    DELETE FROM follow WHERE follower_id = ${userID} and following_id = ${targetID}
+    DELETE FROM follow WHERE follower_id = ${userID} and followed_id = ${targetID}
     `
     try {
       const res = await client
@@ -153,7 +114,7 @@ const User = {
   // get user's followers
   removeFollower: async (userID, targetID) => {
     const query = `
-    DELETE FROM follow WHERE follower_id = ${targetID} and following_id = ${userID}
+    DELETE FROM follow WHERE follower_id = ${targetID} and followed_id = ${userID}
     `
     try {
       const res = await client
@@ -165,4 +126,4 @@ const User = {
   },
 };
 
-module.exports = User;
+module.exports = user;

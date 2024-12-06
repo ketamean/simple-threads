@@ -9,15 +9,21 @@ const userRoutes = require("./user");
 router.use("/users", userRoutes);
 
 router.get("/", (req, res) => {
+  console.log("/123");
   res.send("Welcome to the home page!");
 });
 
-router.get('/testToken', middleware.verifyToken, (req, res) => {
-  res.json({ 
-    message: 'You have accessed a protected route',
-    user: req.user 
+router.get("/testToken", middleware.verifyToken, (req, res) => {
+  res.json({
+    message: "You have accessed a protected route",
+    user: req.user,
   });
 });
 
+router.get("/testOTP", middleware.verifyOTP, (req, res) => {
+  res.json({
+    message: "test otp thanh cong",
+  });
+});
 
 module.exports = router;
