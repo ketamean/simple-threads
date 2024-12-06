@@ -8,23 +8,30 @@ const verifyToken = async (req, res, next) => {
     const token = req.headers["authorization"]?.split(" ")[1];
     console.log(token);
     if (!token) {
-      return res.status(401).json({ message: "No token provided" });
+      console.log("No token");
+      return res
+        .status(401)
+        .redirect("/users/signIn?message=No token provided");
     }
 
     jwt.verify(token, process.env.JWT_ACCESS_SECRET, async (err, decoded) => {
       if (err) {
         if (err.name === "JsonWebTokenError") {
-          return res.status(401).json({ message: "Invalid token" });
+          return res
+            .status(401)
+            .redirect("/users/signIn?message=Token expired");
         }
         if (err.name === "TokenExpiredError") {
-          return res.status(401).json({ message: "Token expired" });
+          return res
+            .status(401)
+            .redirect("/users/signIn?message=Token expired");
         }
         return next(err);
       }
 
       const user = await User.findById(decoded.userId);
       if (!user) {
-        return res.status(404).json({ message: "User not found" });
+        return res.status(401).redirect("/users/signIn?message=User not found");
       }
 
       req.user = user;
@@ -33,13 +40,13 @@ const verifyToken = async (req, res, next) => {
     });
   } catch (error) {
     if (error.name === "JsonWebTokenError") {
-      return res.status(401).json({ message: "Invalid token" });
+      return res.status(401).redirect("/users/signIn?message=Token expired");
     }
     if (error.name === "TokenExpiredError") {
       // handle  in front end to resset token
-      return res.status(401).json({ message: "Token expired" });
+      return res.status(401).redirect("/users/signIn?message=Token expired");
     }
-    next(error); // Pass the error to the next middleware
+    return res.status(401).redirect("/users/signIn?message=Token expired");
   }
 };
 

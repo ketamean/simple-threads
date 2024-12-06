@@ -1,6 +1,5 @@
 // models/usersModel.js
 const client = require("../config/database");
-const { get } = require("../routes");
 
 const user = {
   createUser: async ({ email, password, username }) => {
@@ -46,12 +45,10 @@ const user = {
   updateUserInfo: async (userid, alias, bio, filePath) => {
     const query = `
     UPDATE users SET alias = '${alias}', bio = '${bio}', avatar = '${filePath}' WHERE userid = ${userid} RETURNING *
-    `
+    `;
     try {
-      const res = await client
-      .query(query)
-    }
-    catch(err){
+      const res = await client.query(query);
+    } catch (err) {
       console.error("Error updating user info", err.stack);
       throw err;
     }
@@ -60,13 +57,11 @@ const user = {
   getUserFollowers: async (userid) => {
     const query = `
     SELECT * FROM followers WHERE followed_id = ${userid}
-    `
+    `;
     try {
-      const res = await client
-      .query(query)
+      const res = await client.query(query);
       return res.rows;
-    }
-    catch(err){
+    } catch (err) {
       console.error("Error getting user followers", err.stack);
     }
   },
@@ -74,13 +69,11 @@ const user = {
   getUserFollowing: async (userid) => {
     const query = `
     SELECT * FROM follow WHERE follower_id = ${userid}
-    `
+    `;
     try {
-      const res = await client
-      .query(query)
+      const res = await client.query(query);
       return res.rows;
-    }
-    catch(err){
+    } catch (err) {
       console.error("Error getting user followings", err.stack);
     }
   },
@@ -89,25 +82,22 @@ const user = {
     const currentTime = new Date().toString();
     const query = `
     INSERT INTO followers (follower_id, followed_id, created_at) VALUES (${userID}, ${targetID}, ${currentTime})
-    `
+    `;
     try {
-      const res = await client
-      .query(query)
-    }
-    catch(err){
+      const res = await client.query(query);
+    } catch (err) {
       console.error("Error following user", err.stack);
     }
   },
   // unfollow user
-  unfollowUser: async (userID, targetID) => { // followerID is the user who wants to unfollow, followeeID is the user who is being unfollowed
+  unfollowUser: async (userID, targetID) => {
+    // followerID is the user who wants to unfollow, followeeID is the user who is being unfollowed
     const query = `
     DELETE FROM follow WHERE follower_id = ${userID} and followed_id = ${targetID}
-    `
+    `;
     try {
-      const res = await client
-      .query(query)
-    }
-    catch(err){
+      const res = await client.query(query);
+    } catch (err) {
       console.error("Error unfollowing user", err.stack);
     }
   },
@@ -115,12 +105,10 @@ const user = {
   removeFollower: async (userID, targetID) => {
     const query = `
     DELETE FROM follow WHERE follower_id = ${targetID} and followed_id = ${userID}
-    `
+    `;
     try {
-      const res = await client
-      .query(query)
-    }
-    catch(err){
+      const res = await client.query(query);
+    } catch (err) {
       console.error("Error removing follower", err.stack);
     }
   },
