@@ -11,9 +11,13 @@ app.engine(
         partialsDir: __dirname + '/views/partials',
         extname: "hbs",
         defaultLayout: 'layoutSurfing',
-        defaultView: __dirname + '/views/pages'
+        defaultView: __dirname + '/views/pages',
+        runtimeOptions: {
+            allowProtoPropertiesByDefault: true,
+        }
     })
 )
+app.set('view engine', 'hbs')
 ///////////////////////////
 // Middlewares used for retrieving data from a POST request
 app.use(express.json())
@@ -23,60 +27,71 @@ app.use(express.urlencoded({extended: false}))
 app.set('view engine', 'hbs')
 app.use(express.static(__dirname +  '/static'))
 
-app.get('/', (req, res) => {
-    res.redirect('/login')
-})
+// router
+app.use('/', require('./routes/loginRouter'))
 
-app.get('/login', (req, res) => {
-    res.locals.css = md_login.css
-    res.render('login', {layout: 'layoutWelcome'})
-})
+// app.get('/', (req, res) => {
+//     res.redirect('/login')
+// })
 
-app.get('/signup', (req, res) => {
-    res.locals.css = md_signup.css
-    res.render('signup', {layout: 'layoutWelcome'})
-})
+// app.get('/login', (req, res) => {
+//     res.locals.css = md_login.css
+//     res.render('login', {layout: 'layoutWelcome'})
+// })
+
+// app.get('/signup', (req, res) => {
+//     res.locals.css = md_signup.css
+//     res.render('signup', {layout: 'layoutWelcome'})
+// })
 
 // app.get('/signup', (req, res) => {
 //     res.render('signup', {layout: 'layoutWelcome'})
 // })
 
-app.get('/reset-password', (req, res) => {
-    res.locals.css = md_resetPassword.css
-    res.render('reset-password-set', {layout: 'layoutWelcome'})
-})
+// app.get('/reset-password', (req, res) => {
+//     res.locals.css = md_resetPassword.css
+//     res.render('reset-password-set', {layout: 'layoutWelcome'})
+// })
+
+// app.get('/feeds', (req, res) => {
+//     res.locals.css = md_feeds.css
+//     res.locals.metadata = [
+//         {
+//             username: 'A',
+//             avatarImagePath: '',
+//             date: '1/1/2024',
+//             content: 'hello',
+//             nLikes: '30',
+//             nComments: '20'
+//         },
+//         {
+//             username: 'K',
+//             avatarImagePath: '',
+//             date: '1/1/2024',
+//             content: 'hello',
+//             postImagePaths: ['1.png', 'hehe.png'],
+//             nLikes: '30',
+//             nComments: '20'
+//         },
+//         {
+//             username: 'B',
+//             avatarImagePath: '',
+//             date: '1/1/2024',
+//             content: 'hello',
+//             postImagePaths: ['1.png', 'hehe.png'],
+//             nLikes: '30',
+//             nComments: '20'
+//         }
+//     ]
+//     res.render('feeds')
+// })
 
 app.get('/feeds', (req, res) => {
-    res.locals.css = md_feeds.css
-    res.locals.metadata = [
-        {
-            username: 'A',
-            avatarImagePath: '',
-            date: '1/1/2024',
-            content: 'hello',
-            nLikes: '30',
-            nComments: '20'
-        },
-        {
-            username: 'K',
-            avatarImagePath: '',
-            date: '1/1/2024',
-            content: 'hello',
-            postImagePaths: ['1.png', 'hehe.png'],
-            nLikes: '30',
-            nComments: '20'
-        },
-        {
-            username: 'B',
-            avatarImagePath: '',
-            date: '1/1/2024',
-            content: 'hello',
-            postImagePaths: ['1.png', 'hehe.png'],
-            nLikes: '30',
-            nComments: '20'
-        }
-    ]
     res.render('feeds')
+})
+
+app.get('/profile', (req, res) => {
+    res.render('profile')
 })
 
 app.listen(port, () => {
