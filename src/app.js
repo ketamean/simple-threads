@@ -1,34 +1,44 @@
-const express = require('express')
-const expHbs = require('express-handlebars')
-const app = express()
-const port =  3000
-const { md_login, md_signup, md_resetPassword, md_feeds } = require('./metadata.js')
+const express = require("express");
+const expHbs = require("express-handlebars");
+const Handlebars = require("handlebars");
+const app = express();
+const port = 3000;
+const {
+  md_login,
+  md_signup,
+  md_resetPassword,
+  md_feeds,
+} = require("./metadata.js");
+
+Handlebars.registerHelper("eq", function (a, b) {
+  return a === b;
+});
 
 app.engine(
-    "hbs",
-    expHbs.engine({
-        layoutsDir: __dirname + '/views/layouts',
-        partialsDir: __dirname + '/views/partials',
-        extname: "hbs",
-        defaultLayout: 'layoutSurfing',
-        defaultView: __dirname + '/views/pages',
-        runtimeOptions: {
-            allowProtoPropertiesByDefault: true,
-        }
-    })
-)
-app.set('view engine', 'hbs')
+  "hbs",
+  expHbs.engine({
+    layoutsDir: __dirname + "/views/layouts",
+    partialsDir: __dirname + "/views/partials",
+    extname: "hbs",
+    defaultLayout: "layoutSurfing",
+    defaultView: __dirname + "/views/pages",
+    runtimeOptions: {
+      allowProtoPropertiesByDefault: true,
+    },
+  })
+);
+app.set("view engine", "hbs");
 ///////////////////////////
 // Middlewares used for retrieving data from a POST request
-app.use(express.json())
-app.use(express.urlencoded({extended: false}))
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 ///////////////////////////
 
-app.set('view engine', 'hbs')
-app.use(express.static(__dirname +  '/static'))
+app.set("view engine", "hbs");
+app.use(express.static(__dirname + "/static"));
 
 // router
-app.use('/', require('./routes/loginRouter'))
+app.use("/", require("./routes/loginRouter"));
 
 // app.get('/', (req, res) => {
 //     res.redirect('/login')
@@ -86,14 +96,57 @@ app.use('/', require('./routes/loginRouter'))
 //     res.render('feeds')
 // })
 
-app.get('/feeds', (req, res) => {
-    res.render('feeds')
-})
+app.get("/feeds", (req, res) => {
+  res.render("feeds");
+});
 
-app.get('/profile', (req, res) => {
-    res.render('profile')
-})
+app.get("/profile", (req, res) => {
+  res.render("profile");
+});
+
+app.get("/activity", (req, res) => {
+  res.locals.metadata = [
+    {
+      img: "/1",
+      username: "Quoc Khoi",
+      date: "12/10/24",
+      describe: "Followed you",
+      content: "Follow",
+      type: "Follow",
+      is_read: false,
+    },
+    {
+      img: "/1",
+      username: "Quoc Khoi 2",
+      date: "12/10/23",
+      describe: "Followed you",
+      content: "Follow",
+      type: "Follow",
+      is_read: false,
+    },
+    {
+      img: "/1",
+      username: "Quoc Khoi 33333333333333333333333",
+      date: "12/10/23",
+      describe: "Followed you",
+      content: "Follow back",
+      type: "Follow",
+      is_read: true,
+    },
+    {
+      img: "/2",
+      username: "Quoc Khoi",
+      date: "12/10/24",
+      describe: "Post their first thread",
+      content:
+        "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsum assumenda laudantium similique quae, undeconsectetur aliquam modi illo, placeat optio numquam nulla quisquam velit sed sequi laborum vero et",
+      type: "Content",
+      is_read: true,
+    },
+  ];
+  res.render("activity", { layout: "layoutNotification" });
+});
 
 app.listen(port, () => {
-    console.log('Server is listening on port ', port)
-})
+  console.log("Server is listening on port ", port);
+});

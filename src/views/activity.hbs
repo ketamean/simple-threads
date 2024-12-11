@@ -1,0 +1,7 @@
+{{#each metadata}}
+    {{#if (eq this.type "Content")}}
+        {{>contentNotification context=this}}
+    {{else}}
+        {{>followNotification context=this}}
+    {{/if}}
+{{/each}}
