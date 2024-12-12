@@ -32,6 +32,11 @@ router.get(
   middleware.verifyResetToken,
   userController.getResetPassword
 );
+router.put(
+  "/auth/link/resetPass",
+  middleware.verifyResetToken,
+  userController.putResetPassword
+);
 
 //update infor
 router.post(

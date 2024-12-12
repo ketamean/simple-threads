@@ -3,7 +3,6 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/usersModel");
 const redis = require("../config/redis");
 
-
 const verifyToken = async (req, res, next) => {
   console.log("verify token");
   try {
@@ -53,7 +52,9 @@ const verifyToken = async (req, res, next) => {
 };
 
 const verifyResetToken = async (req, res, next) => {
+  console.log("Verify reset token");
   const ressetToken = req.query.resetToken;
+  console.log(ressetToken);
   if (!ressetToken) {
     return res.status(401).json({ message: "No token provided" });
   }
@@ -71,7 +72,7 @@ const verifyResetToken = async (req, res, next) => {
       }
       const storedToken = await redis.getKey(data.hashEmail);
       if (storedToken !== ressetToken) {
-        return res.status(401).json({ message: "Invalid Token" });
+        return res.status(401).json({ message: "Token not exists" });
       }
       next();
     });
