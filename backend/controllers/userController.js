@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const User = require("../models/usersModel");
 const sendOTP = require("../utils/sendOTP");
 const redis = require("../config/redis");
+const stringHash = require("string-hash");
 const { md_login, md_signup, md_resetPassword } = require("../metadata");
 
 //init redis;
@@ -27,11 +28,6 @@ const generateRefresshToken = (userId) => {
   return jwt.sign({ userId }, JWT_REFRESH_SECRET, {
     algorithm: "HS256",
   });
-};
-
-// genrateOTP
-const generateOTP = () => {
-  return Math.floor(100000 + Math.random() * 900000).toString();
 };
 
 // Sign Up Controller
@@ -182,9 +178,8 @@ controllers.signOut = async (req, res) => {
   }
 };
 
-// respassword
-
 controllers.resetPasswordRequest = async (req, res) => {
+  console.log("get link reset password");
   const { identifier } = req.body;
 
   try {
@@ -200,17 +195,19 @@ controllers.resetPasswordRequest = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const otp = generateOTP();
-    await redis.storeKey(user.email, otp.toString());
+    const hashEmail = stringHash(user.email);
 
-    // Set OTP token cookie - uses global cookie options
-    console.log(`ressetpassword!!! ${otp}`);
-    await sendOTP(user.email, otp);
-
-    const tokenOtp = jwt.sign({ email: user.email }, JWT_ACCESS_SECRET, {
-      expiresIn: "5m",
+    const tokenEmail = jwt.sign({ email: hashEmail }, JWT_ACCESS_SECRET, {
+      expiresIn: "10m",
       algorithm: "HS256",
     });
+
+    await redis.storeKey(hashEmail, tokenEmail);
+
+    // Set OTP token cookie - uses global cookie options
+    console.log(`ressetpassword!!! ${tokenEmail}`);
+    await sendOTP(user.email, tokenEmail);
+
     return res.status(200).json({
       message: "OTP has been sent to your email",
       email: user.email,

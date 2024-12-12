@@ -12,15 +12,15 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const sendOTP = (mail, OTP) => {
-  const htmlPath = path.join(__dirname, "../public/otpTemplate.html");
+const sendLink = (mail, token) => {
+  const htmlPath = path.join(__dirname, "../public/resetPasswordTemplate.html");
   const htmlContent = fs.readFileSync(htmlPath, "utf8");
 
   const mailOptions = {
     from: "musicandchill201@gmail.com",
     to: mail,
-    subject: "Your OTP Code",
-    html: htmlContent.replace("{{OTP}}", OTP),
+    subject: "Your link to RESET PASSWORD",
+    html: htmlContent.replace("{{token}}", token),
   };
 
   transporter.sendMail(mailOptions, (error, info) => {
