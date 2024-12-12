@@ -1,25 +1,31 @@
 <!--Content-->
 <div class="activity-follow-block">
   <div class="activity-follow-container">
-    <div class="activity-follow-img">
-      <div class="activity-follow-img-block">
+    <div class="p-[12px] col-start-1">
+      <div class="relative block">
         <a
           href="#"
-          class="activity-follow-img-link-container"
+          class="h-[36px] m-0 p-0 no-underline list-none border-none rounded-full flex"
           role="link"
           tabindex="0"
         >
-          <div class="activity-follow-img-div">
-            <img src="{{img}}" alt="img-avt" />
+          <div
+            class="h-[36px] m-0 p-0 no-underline list-none border-none rounded-full flex"
+          >
+            <img
+              class="rounded-full border-0 object-cover"
+              src="{{img}}"
+              alt="img-avt"
+            />
           </div>
         </a>
-        <div class="activity-follow-img-svg-container">
+        <div class="absolute top-[20px] right-[-6px]">
           <div class="activity-follow-img-svg star-color">
             <svg
               aria-label=""
               role="img"
               viewBox="0 0 18 18"
-              class="activity-svg-avt"
+              class="h-[18px] w-[18px] fill-white flex-shrink-0"
             >
               <title>svg-icon-star</title>
               <path
@@ -31,18 +37,25 @@
         </div>
       </div>
     </div>
-    <div class="activity-follow-infor-block">
-      <div class="activity-follow-infor-container">
-        <div class="activity-follow-infor-element">
-          <div class="activity-follow-infor-left">
-            <div class="activity-follow-infor-header">
+    <div
+      class="col-start-2 border-b-[0.5px] border-b-[rgba(243,245,247,0.15)] flex pr-[12px]"
+    >
+      <div
+        class="pt-[12px] pb-[12px] flex-grow min-w-0 max-w-full cursor-pointer"
+      >
+        <div class="flex items-center">
+          <div class="flex-grow min-w-0">
+            <div class="flex gap-[2px] max-w-full overflow-hidden">
               <div class="activity-follow-infor-header-name change-width">
                 <span>{{username}}</span>
               </div>
               <div class="activity-follow-infor-header-time"><span
+                  class="text-[15px] font-normal text-[#777777] overflow-ellipsis leading-[1.4] max-w-full"
                 >{{date}}</span></div>
             </div>
-            <div class="activity-follow-infor-footer"><span>{{describe}}</span>
+            <div
+              class="text-[15px] font-normal text-[#777777] overflow-ellipsis leading-[1.4] max-w-full"
+            ><span>{{describe}}</span>
             </div>
             <div class="activity-follow-infor-content"><span>{{content}}</span>
             </div>

@@ -290,46 +290,6 @@ div {
   grid-template-columns: 60px 1fr;
 }
 
-.activity-follow-img {
-  padding: 12px;
-  grid-column-start: 1;
-}
-
-.activity-follow-img-block {
-  position: relative;
-  display: block;
-}
-
-.activity-follow-img-link-container {
-  height: 36px;
-  margin: 0;
-  padding: 0;
-  text-decoration: none;
-  list-style: none;
-  border-style: none;
-  border-radius: 50%;
-  display: flex;
-}
-
-.activity-follow-img-div {
-  display: flex;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-}
-
-.activity-follow-img-div img {
-  border-radius: 50%;
-  border: 0;
-  object-fit: cover;
-}
-
-.activity-follow-img-svg-container {
-  position: absolute;
-  top: 20px;
-  right: -6px;
-}
-
 .activity-follow-img-svg {
   height: 18px;
   width: 18px;
@@ -348,46 +308,6 @@ div {
   background-color: #007aff;
 }
 
-.activity-svg-avt {
-  height: 18px;
-  width: 18px;
-  fill: #ffffff;
-  flex-shrink: 0;
-}
-
-.activity-follow-infor-block {
-  grid-column-start: 2;
-  border-bottom: 0.5px solid rgba(243, 245, 247, 0.15);
-  display: flex;
-  padding-right: 12px;
-}
-
-.activity-follow-infor-container {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  flex-grow: 1;
-  min-width: 0;
-  max-width: 100%;
-  cursor: pointer;
-}
-
-.activity-follow-infor-element {
-  display: flex;
-  align-items: center;
-}
-
-.activity-follow-infor-left {
-  flex-grow: 1;
-  min-width: 0;
-}
-
-.activity-follow-infor-header {
-  display: flex;
-  gap: 2px;
-  max-width: 100%;
-  overflow: hidden;
-}
-
 .activity-follow-infor-header-name {
   max-width: calc(100vw / 3.5);
   white-space: nowrap;
@@ -404,24 +324,6 @@ div {
   font-weight: 600;
   max-width: 100%;
   color: #f3f5f7;
-}
-
-.activity-follow-infor-header-time span {
-  font-size: 15px;
-  font-weight: 400;
-  color: #777777;
-  text-overflow: ellipsis;
-  line-height: calc(1.4 * 1em);
-  max-width: 100%;
-}
-
-.activity-follow-infor-footer {
-  font-size: 15px;
-  font-weight: 400;
-  color: #777777;
-  text-overflow: ellipsis;
-  line-height: calc(1.4 * 1em);
-  max-width: 100%;
 }
 
 .activity-follow-infor-content {
