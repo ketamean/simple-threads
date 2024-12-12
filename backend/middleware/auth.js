@@ -50,7 +50,7 @@ const verifyToken = async (req, res, next) => {
   }
 };
 
-const verifyOTP = async (req, res, next) => {
+const verifyResetToken = async (req, res, next) => {
   const otp = req.cookies["otp"];
   if (!otp) {
     return res.status(401).json({ message: "No OTP provided" });
@@ -81,4 +81,4 @@ const verifyOTP = async (req, res, next) => {
   }
 };
 
-module.exports = { verifyToken, verifyOTP };
+module.exports = { verifyToken, verifyResetToken };

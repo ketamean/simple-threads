@@ -2,7 +2,7 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const User = require("../models/usersModel");
-const sendOTP = require("../utils/sendOTP");
+const sendLink = require("../utils/sendLink");
 const redis = require("../config/redis");
 const stringHash = require("string-hash");
 const { md_login, md_signup, md_resetPassword } = require("../metadata");
@@ -196,22 +196,24 @@ controllers.resetPasswordRequest = async (req, res) => {
     }
 
     const hashEmail = stringHash(user.email);
+    console.log(`email atfer hash: ${hashEmail}`);
 
-    const tokenEmail = jwt.sign({ email: hashEmail }, JWT_ACCESS_SECRET, {
+    const resetToken = jwt.sign({ email: hashEmail }, JWT_ACCESS_SECRET, {
       expiresIn: "10m",
       algorithm: "HS256",
     });
 
-    await redis.storeKey(hashEmail, tokenEmail);
+    //store hashEmail for auth
+    await redis.storeKey(hashEmail.toString(), resetToken);
 
-    // Set OTP token cookie - uses global cookie options
-    console.log(`ressetpassword!!! ${tokenEmail}`);
-    await sendOTP(user.email, tokenEmail);
+    // Send link to email
+    console.log(`resset password!!! ${resetToken}`);
+    await sendLink(user.email, resetToken);
 
     return res.status(200).json({
-      message: "OTP has been sent to your email",
+      message: "Link has been sent to your email",
       email: user.email,
-      tokenOtp: tokenOtp,
+      resetToken: resetToken,
     });
   } catch (error) {
     return res.status(500).json({
@@ -221,7 +223,7 @@ controllers.resetPasswordRequest = async (req, res) => {
   }
 };
 
-controllers.validateOTPAndResetPassword = async (req, res) => {
+controllers.validateAndResetPassword = async (req, res) => {
   console.log("validateOTPAndResetPassword");
   const { otp, newPassword } = req.body;
   const tokenOtp = req.headers["authorization"]?.split(" ")[1];

@@ -21,10 +21,10 @@ router.get("/testToken", middleware.verifyToken, (req, res) => {
   });
 });
 
-router.get("/testOTP", middleware.verifyOTP, (req, res) => {
-  res.json({
-    message: "test otp thanh cong",
-  });
-});
+// router.get("/testOTP", middleware.verifyOTP, (req, res) => {
+//   res.json({
+//     message: "test otp thanh cong",
+//   });
+// });
 
 module.exports = router;

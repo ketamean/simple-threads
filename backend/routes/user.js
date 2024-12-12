@@ -27,7 +27,7 @@ router.post("/signOut", middleware.verifyToken, userController.signOut);
 
 //reset password
 router.post("/auth/resetPassword", userController.resetPasswordRequest);
-router.post("/auth/resetPass/link", userController.validateOTPAndResetPassword);
+router.post("/auth/link/resetPass", userController.validateAndResetPassword);
 
 //update infor
 router.post(

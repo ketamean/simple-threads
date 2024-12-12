@@ -32,4 +32,4 @@ const sendLink = (mail, token) => {
   });
 };
 
-module.exports = sendOTP;
+module.exports = sendLink;
