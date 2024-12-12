@@ -4,7 +4,6 @@ const bcrypt = require("bcrypt");
 const User = require("../models/usersModel");
 const sendLink = require("../utils/sendLink");
 const redis = require("../config/redis");
-const stringHash = require("string-hash");
 const { md_login, md_signup, md_resetPassword } = require("../metadata");
 
 //init redis;
@@ -196,16 +195,16 @@ controllers.resetPasswordRequest = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const hashEmail = stringHash(user.email).toString();
-    console.log(`email atfer hash: ${hashEmail}`);
+    const userID = user.id.toString() + "#";
+    console.log(`email atfer hash: ${userID}`);
 
-    const resetToken = jwt.sign({ hashEmail: hashEmail }, JWT_LINK_SECRET, {
+    const resetToken = jwt.sign({ userID: userID }, JWT_LINK_SECRET, {
       expiresIn: "10m",
       algorithm: "HS256",
     });
 
     //store hashEmail for auth
-    await redis.storeKey(hashEmail, resetToken);
+    await redis.storeKey(userID, resetToken);
 
     // Send link to email
     console.log(`resset password!!! ${resetToken}`);
@@ -225,31 +224,21 @@ controllers.resetPasswordRequest = async (req, res) => {
 };
 
 controllers.putResetPassword = async (req, res) => {
-  console.log("validateOTPAndResetPassword");
-  const { otp, newPassword } = req.body;
-  const tokenOtp = req.headers["authorization"]?.split(" ")[1];
-  if (!tokenOtp) {
-    return res.status(400).json({ message: "OTP token is missing" });
-  }
-
+  console.log("change password");
   try {
-    const decoded = jwt.verify(tokenOtp, JWT_ACCESS_SECRET);
-    const storedOtp = await redis.getKey(decoded.email);
-    console.log(decoded.email);
-    console.log(storedOtp);
-    if (!storedOtp || storedOtp !== otp) {
-      return res.status(400).json({ message: "Invalid OTP" });
-    }
+    const key = req.userID.toString() + "#";
+    let newPassword = typeof req.body.password === 'string' ? req.body.password : String(req.body.password);
     const hashedPassword = await bcrypt.hash(newPassword, 10);
-    await User.updatePassword(decoded.userId, hashedPassword);
-    await redis.deleteKey(decoded.email);
-    //client xóa token
+
+    //update password
+    await User.updatePassword(req.userID, hashedPassword);
+    await redis.deleteKey(key);
     return res
       .status(200)
       .json({ message: "Password has been reset successfully" });
   } catch (error) {
     return res.status(500).json({
-      message: "Error validating OTP or resetting password",
+      message: "Error validating token or resetting password",
       error: error.message,
     });
   }

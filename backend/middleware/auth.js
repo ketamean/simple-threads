@@ -70,10 +70,12 @@ const verifyResetToken = async (req, res, next) => {
         }
         return next(err);
       }
-      const storedToken = await redis.getKey(data.hashEmail);
+      const storedToken = await redis.getKey(data.userID);
       if (storedToken !== ressetToken) {
         return res.status(401).json({ message: "Token not exists" });
       }
+      //covert to userid
+      req.userID = parseInt(data.userID.replace("#", ""), 10);
       next();
     });
   } catch (error) {
