@@ -7,7 +7,7 @@ require("dotenv").config();
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "musicandchill201@gmail.com",
+    user: "simplethread2024@gmail.com",
     pass: process.env.MAIL_PASSWORD,
   },
 });
@@ -17,7 +17,7 @@ const sendLink = (mail, token) => {
   const htmlContent = fs.readFileSync(htmlPath, "utf8");
 
   const mailOptions = {
-    from: "musicandchill201@gmail.com",
+    from: "simplethread2024@gmail.com",
     to: mail,
     subject: "Your link to RESET PASSWORD",
     html: htmlContent.replace("{{token}}", token),

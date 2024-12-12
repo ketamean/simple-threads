@@ -11,8 +11,13 @@ require("dotenv").config();
 //   database: "threads_db",
 // });
 
+// const client = new Client({
+//   connectionString: `postgresql://postgres.auckcpjwdzammqaabubc:${process.env.POSTGRES_PASSWORD}@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres`,
+// });
+
+// how to connect: connect => type => choose node.js => copy URL
 const client = new Client({
-  connectionString: `postgresql://postgres.auckcpjwdzammqaabubc:${process.env.POSTGRES_PASSWORD}@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres`,
+  connectionString: `postgresql://postgres.yadvzifnfnmphedirnbd:${process.env.POSTGRES_PASSWORD}@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres`,
 });
 
 (async () => {
