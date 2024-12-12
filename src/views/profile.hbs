@@ -1,5 +1,7 @@
-<main class="profile-container w-full h-full">
-	<main class="profile-main w-full h-auto mb-16 max-w-xl text-white pt-16">
+<main class="profile-container w-full h-full lg:overflow-hidden">
+	<main
+		class="profile-main w-full h-auto mb-16 max-w-xl text-white pt-16 lg:absolute lg:left-1/2 lg:-translate-x-1/2"
+	>
 		<div
 			class="basic-info w-full h-36 flex flex-row justify-between pt-4 pl-2 pb-3 pr-2"
 		>
@@ -114,7 +116,7 @@
 						>
 							<i class="iconoir-heart"></i>
 							<div
-								class="stat like-number text-base text-333"
+								class="stat like-number text-base text-white"
 							>300</div>
 						</div>
 						<div
@@ -125,7 +127,7 @@
 								style="transform: rotate(90deg)"
 							></i>
 							<div
-								class="stat comment-number text-base text-333"
+								class="stat comment-number text-base text-white"
 							>300</div>
 						</div>
 						<div
@@ -133,7 +135,7 @@
 						>
 							<i class="iconoir-refresh-double"></i>
 							<div
-								class="stat repost-number text-base text-333"
+								class="stat repost-number text-base text-white"
 							>30</div>
 						</div>
 						<div
@@ -141,7 +143,7 @@
 						>
 							<i class="iconoir-link"></i>
 							<div
-								class="stat chat-number text-base text-333"
+								class="stat chat-number text-base text-white"
 							>23</div>
 						</div>
 					</div>
@@ -193,7 +195,7 @@
 						>
 							<i class="iconoir-heart"></i>
 							<div
-								class="stat like-number text-base text-333"
+								class="stat like-number text-base text-white"
 							>300</div>
 						</div>
 						<div
@@ -204,7 +206,7 @@
 								style="transform: rotate(90deg)"
 							></i>
 							<div
-								class="stat comment-number text-base text-333"
+								class="stat comment-number text-base text-white"
 							>300</div>
 						</div>
 						<div
@@ -212,7 +214,7 @@
 						>
 							<i class="iconoir-refresh-double"></i>
 							<div
-								class="stat repost-number text-base text-333"
+								class="stat repost-number text-base text-white"
 							>30</div>
 						</div>
 						<div
@@ -220,7 +222,7 @@
 						>
 							<i class="iconoir-link"></i>
 							<div
-								class="stat chat-number text-base text-333"
+								class="stat chat-number text-base text-white"
 							>23</div>
 						</div>
 					</div>
@@ -267,7 +269,7 @@
 						>
 							<i class="iconoir-heart"></i>
 							<div
-								class="stat like-number text-base text-333"
+								class="stat like-number text-base text-white"
 							>300</div>
 						</div>
 						<div
@@ -278,7 +280,7 @@
 								style="transform: rotate(90deg)"
 							></i>
 							<div
-								class="stat comment-number text-base text-333"
+								class="stat comment-number text-base text-white"
 							>300</div>
 						</div>
 						<div
@@ -286,7 +288,7 @@
 						>
 							<i class="iconoir-refresh-double"></i>
 							<div
-								class="stat repost-number text-base text-333"
+								class="stat repost-number text-base text-white"
 							>30</div>
 						</div>
 						<div
@@ -294,7 +296,7 @@
 						>
 							<i class="iconoir-link"></i>
 							<div
-								class="stat chat-number text-base text-333"
+								class="stat chat-number text-base text-white"
 							>23</div>
 						</div>
 					</div>
@@ -696,25 +698,41 @@
 
 		</div>
 	</main>
-	<div class="unfollow-modal absolute hidden w-full h-full bg-semi-black z-50 justify-center items-center top-0 left-0 overflow-hidden">
-		<div class="unfollow-card flex flex-col w-72 h-52 rounded-2xl bg-24 border border-solid border-neon-white-15 items-center justify-between">
-			<div class="prompt-user w-full p-3 h-32 flex flex-col justify-evenly items-center mt-3">
+	<div
+		class="unfollow-modal absolute hidden w-full h-full bg-semi-black z-50 justify-center items-center top-0 left-0 overflow-hidden"
+	>
+		<div
+			class="unfollow-card flex flex-col w-72 h-52 rounded-2xl bg-24 border border-solid border-neon-white-15 items-center justify-between"
+		>
+			<div
+				class="prompt-user w-full p-3 h-32 flex flex-col justify-evenly items-center mt-3"
+			>
 				<img
 					src="/img/user-placeholder.jpg"
 					alt=""
 					class="unfollowee-avatar w-16 h-16 rounded-full"
 				/>
-				<div class="question text-base font-semibold text-neon-white flex justify-center items-center">
+				<div
+					class="question text-base font-semibold text-neon-white flex justify-center items-center"
+				>
 					Unfollow&nbsp;
-					<div class="unfollowee-username whitespace-nowrap overflow-hidden text-ellipsis w-24">
+					<div
+						class="unfollowee-username whitespace-nowrap overflow-hidden text-ellipsis w-24"
+					>
 						Lorem_ipsum_dolor_lipsum_iteeca
 					</div>
 					?
 				</div>
 			</div>
-			<div class="choices grid grid-cols-2 w-full h-14 rounded-bl-2xl rounded-br-2xl">
-				<div class="cancel rounded-bl-2xl w-full h-14 flex justify-center items-center cursor-pointer border border-solid border-neon-white-15 text-base font-bold select-none text-white">Cancel</div>
-				<div class="unfollow rounded-br-2xl w-full h-14 flex justify-center items-center cursor-pointer border border-solid border-neon-white-15 text-base font-bold select-none text-red-500">Unfollow</div>
+			<div
+				class="choices grid grid-cols-2 w-full h-14 rounded-bl-2xl rounded-br-2xl"
+			>
+				<div
+					class="cancel rounded-bl-2xl w-full h-14 flex justify-center items-center cursor-pointer border border-solid border-neon-white-15 text-base font-bold select-none text-white"
+				>Cancel</div>
+				<div
+					class="unfollow rounded-br-2xl w-full h-14 flex justify-center items-center cursor-pointer border border-solid border-neon-white-15 text-base font-bold select-none text-red-500"
+				>Unfollow</div>
 			</div>
 		</div>
 	</div>
@@ -730,19 +748,27 @@
 			</div>
 		</div>
 	</div>
-	<div class="edit-profile-modal absolute w-full h-full bg-jet-black z-50 justify-center items-center top-0 left-0 flex">
-		<div class="edit-profile-header absolute top-0 w-full h-16 text-base p-3 flex items-center justify-between bg-chinese-black border border-solid border-neon-white-15">
-			<div class="edit-profile-header-item cancel">Cancel</div>
-			<div class="edit-profile-header-item title font-semibold text-xl">Edit Profile</div>
-			<div class="edit-profile-header-item save">Save</div>
+	<div
+		class="edit-profile-modal fixed overflow-y-hidden w-full h-full bg-jet-black z-50 justify-center items-center top-0 left-0 hidden overflow-hidden"
+	>
+		<div
+			class="edit-profile-header absolute top-0 w-full h-16 text-base p-3 flex items-center justify-between bg-chinese-black border border-solid border-neon-white-15"
+		>
+			<div class="edit-profile-header-item cancel text-white">Cancel</div>
+			<div
+				class="edit-profile-header-item title font-semibold text-white text-xl"
+			>Edit Profile</div>
+			<div class="edit-profile-header-item save text-white">Save</div>
 		</div>
-		<div class="edit-profile-card bg-chinese-black border border-solid border-neon-white-15 rounded-2xl w-96 h-13 flex flex-col justify-evenly p-3 text-base relative">
+		<div
+			class="edit-profile-card bg-chinese-black border border-solid border-neon-white-15 rounded-2xl w-96 h-13 flex flex-col justify-evenly p-3 text-base relative"
+		>
 			<form
 				action="#"
 				class="edit-profile-form"
 				enctype="multipart/form-data"
 			>
-				<label for="Avatar" class="avatar-label"></label>
+				<label for="Avatar" class="avatar-label w-16 h-16 flex justify-center items-center rounded-full absolute right-1 top-1 bg-userPlaceholder bg-cover bg-center bg-no-repeat cursor-pointer"></label>
 				<input
 					type="file"
 					name="Avatar"
@@ -750,22 +776,35 @@
 					class="avatar-input"
 					accept="image/png, image/jpeg, image/jpg, image/gif"
 				/>
-				<div class="form-item w-full h-20 flex flex-col justify-evenly p-2">
-					<label for="Name">Name</label>
-					<input type="text" name="Name" value="Placeholder" class="w-full h-10 bg-transparent text-neon-white border-2 p-0 focus:border-b-2 border-solid border-neon-white bg-transparent text-neon-white"/>
+				<div
+					class="form-item w-full h-20 flex flex-col justify-evenly p-2"
+				>
+					<label for="Name" class="text-white">Name</label>
+					<input
+						type="text"
+						name="Name"
+						value="Placeholder"
+						class="w-full h-10 text-neon-white border-b-2 p-0 focus:border-b-2 focus:border-solid focus:border-neon-white bg-transparent text-neon-white outline-none"
+					/>
 				</div>
-				<div class="form-item form-item w-full h-20 flex flex-col justify-evenly p-2">
-					<label for="Bio">Bio</label>
-					<input type="text" name="Bio" />
+				<div
+					class="form-item form-item w-full h-20 flex flex-col justify-evenly p-2"
+				>
+					<label for="Bio" class="text-white">Bio</label>
+					<input
+						type="text"
+						name="Bio"
+						class="w-full h-10 text-neon-white border-b-2 p-0 focus:border-b-2 focus:border-solid focus:border-neon-white bg-transparent text-neon-white outline-none"
+					/>
 				</div>
-				<!-- <div class="form-item">
-                            <label for="Link">Link</label>
-                            <input type="text" name="Link" />
-                        </div> -->
 			</form>
 		</div>
 	</div>
 </main>
 
-<link rel="stylesheet" href="/css/profile.css">
+<link
+	rel="stylesheet"
+	href="https://cdn.jsdelivr.net/gh/iconoir-icons/iconoir@main/css/iconoir.css"
+/>
+<link rel="stylesheet" href="/css/profile.css" />
 <script src="/js/profile.js"></script>
