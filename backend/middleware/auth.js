@@ -1,6 +1,8 @@
 // middleware/auth.js
 const jwt = require("jsonwebtoken");
 const User = require("../models/usersModel");
+const redis = require("../config/redis");
+
 
 const verifyToken = async (req, res, next) => {
   console.log("verify token");
@@ -51,23 +53,26 @@ const verifyToken = async (req, res, next) => {
 };
 
 const verifyResetToken = async (req, res, next) => {
-  const otp = req.cookies["otp"];
-  if (!otp) {
-    return res.status(401).json({ message: "No OTP provided" });
+  const ressetToken = req.query.resetToken;
+  if (!ressetToken) {
+    return res.status(401).json({ message: "No token provided" });
   }
 
   try {
-    jwt.verify(otp, process.env.JWT_OTP_SECRET, async (err, otp) => {
+    jwt.verify(ressetToken, process.env.JWT_LINK_SECRET, async (err, data) => {
       if (err) {
         if (err.name === "JsonWebTokenError") {
-          return res.status(401).json({ message: "Invalid OTP" });
+          return res.status(401).json({ message: "Invalid Token" });
         }
         if (err.name === "TokenExpiredError") {
-          return res.status(401).json({ message: "OTP expired" });
+          return res.status(401).json({ message: "Token expired" });
         }
         return next(err);
       }
-      req.otp = otp;
+      const storedToken = await redis.getKey(data.hashEmail);
+      if (storedToken !== ressetToken) {
+        return res.status(401).json({ message: "Invalid Token" });
+      }
       next();
     });
   } catch (error) {
