@@ -41,8 +41,7 @@ for (let i = 0; i < love.length; i++) {
 	});
 }
 
-followersPreview.addEventListener("click", () => {
-	
+followersPreview.addEventListener("click", async() => {
 	followBoard.classList.toggle("active");
 	if (followBoard.classList.contains("active")) {
 		document.body.style.overflow = "hidden";
@@ -149,8 +148,20 @@ profileTabItem.forEach((item) => {
 });
 
 followStatus.forEach((status, index) => {
-	status.addEventListener("click", () => {
+	status.addEventListener("click", async() => {
 		if (status.textContent === "Follow") {
+			const followed_id = status.getAttribute("data-id");
+			const user_id = status.getAttribute("data-user");
+			await fetch(`/follow/:{id}`, {
+				method: "PUT",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					user_id: user_id,
+					target_id: followed_id,
+				}),
+			});
 			status.textContent = "Following";
 			status.style.backgroundColor = "transparent";
 			status.style.border = "0.8px solid rgba(243, 245, 247, 0.15)";
@@ -160,6 +171,18 @@ followStatus.forEach((status, index) => {
 });
 
 unfollow.addEventListener("click", () => {
+	const followed_id = followStatus[currentFollowStatus].getAttribute("data-id");
+	const user_id = followStatus[currentFollowStatus].getAttribute("data-user");
+	fetch(`/unfollow/:{id}`, {
+		method: "PUT",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({
+			user_id: user_id,
+			target_id: followed_id,
+		}),
+	});
 	followStatus[currentFollowStatus].textContent = "Follow";
 	followStatus[currentFollowStatus].style.backgroundColor = "#fe0034";
 	followStatus[currentFollowStatus].style.color = "#FFFFFF";

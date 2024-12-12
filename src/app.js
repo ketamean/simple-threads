@@ -1,99 +1,66 @@
-const express = require('express')
-const expHbs = require('express-handlebars')
-const app = express()
-const port =  3000
-const { md_login, md_signup, md_resetPassword, md_feeds } = require('./metadata.js')
+const express = require("express");
+const expHbs = require("express-handlebars");
+const cors = require("cors");
+const dotenv = require("dotenv");
+const path = require("path");
+const cookieParser = require("cookie-parser");
+const app = express();
+const port = 3000;
+const {
+	md_login,
+	md_signup,
+	md_resetPassword,
+	md_feeds,
+} = require("./metadata.js");
 
 app.engine(
-    "hbs",
-    expHbs.engine({
-        layoutsDir: __dirname + '/views/layouts',
-        partialsDir: __dirname + '/views/partials',
-        extname: "hbs",
-        defaultLayout: 'layoutSurfing',
-        defaultView: __dirname + '/views/pages',
-        runtimeOptions: {
-            allowProtoPropertiesByDefault: true,
-        }
-    })
-)
-app.set('view engine', 'hbs')
+	"hbs",
+	expHbs.engine({
+		layoutsDir: __dirname + "/views/layouts",
+		partialsDir: __dirname + "/views/partials",
+		extname: "hbs",
+		defaultLayout: "layoutSurfing",
+		defaultView: __dirname + "/views/pages",
+		runtimeOptions: {
+			allowProtoPropertiesByDefault: true,
+		},
+	})
+);
+app.set("view engine", "hbs");
 ///////////////////////////
 // Middlewares used for retrieving data from a POST request
-app.use(express.json())
-app.use(express.urlencoded({extended: false}))
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cors());
+
+// Cookie middleware configuration
+app.use(cookieParser());
+app.use(
+	cors({
+		origin: process.env.CLIENT_URL || "http://localhost:3000",
+		credentials: true, // Enable cookies with CORS
+	})
+);
+
+// Cookie default options
+app.use((req, res, next) => {
+	res.cookie("options", {
+		httpOnly: true,
+		secure: process.env.NODE_ENV === "production",
+		maxAge: 24 * 60 * 60 * 1000, // 24 hours
+		sameSite: "strict",
+	});
+	next();
+});
 ///////////////////////////
 
-app.set('view engine', 'hbs')
-app.use(express.static(__dirname +  '/static'))
+app.set("view engine", "hbs");
+app.use(express.static(__dirname + "/static"));
 
 // router
-app.use('/', require('./routes/loginRouter'))
-
-// app.get('/', (req, res) => {
-//     res.redirect('/login')
-// })
-
-// app.get('/login', (req, res) => {
-//     res.locals.css = md_login.css
-//     res.render('login', {layout: 'layoutWelcome'})
-// })
-
-// app.get('/signup', (req, res) => {
-//     res.locals.css = md_signup.css
-//     res.render('signup', {layout: 'layoutWelcome'})
-// })
-
-// app.get('/signup', (req, res) => {
-//     res.render('signup', {layout: 'layoutWelcome'})
-// })
-
-// app.get('/reset-password', (req, res) => {
-//     res.locals.css = md_resetPassword.css
-//     res.render('reset-password-set', {layout: 'layoutWelcome'})
-// })
-
-// app.get('/feeds', (req, res) => {
-//     res.locals.css = md_feeds.css
-//     res.locals.metadata = [
-//         {
-//             username: 'A',
-//             avatarImagePath: '',
-//             date: '1/1/2024',
-//             content: 'hello',
-//             nLikes: '30',
-//             nComments: '20'
-//         },
-//         {
-//             username: 'K',
-//             avatarImagePath: '',
-//             date: '1/1/2024',
-//             content: 'hello',
-//             postImagePaths: ['1.png', 'hehe.png'],
-//             nLikes: '30',
-//             nComments: '20'
-//         },
-//         {
-//             username: 'B',
-//             avatarImagePath: '',
-//             date: '1/1/2024',
-//             content: 'hello',
-//             postImagePaths: ['1.png', 'hehe.png'],
-//             nLikes: '30',
-//             nComments: '20'
-//         }
-//     ]
-//     res.render('feeds')
-// })
-
-app.get('/feeds', (req, res) => {
-    res.render('feeds')
-})
-
-app.get('/profile', (req, res) => {
-    res.render('profile')
-})
+app.use("/", require("./routes/loginRouter"));
+app.use("/profile", require("./routes/profileRouter"));
 
 app.listen(port, () => {
-    console.log('Server is listening on port ', port)
-})
+	console.log("Server is listening on port ", port);
+});

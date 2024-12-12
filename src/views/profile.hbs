@@ -7,8 +7,13 @@
 		>
 			<div class="bio flex flex-col h-full justify-between">
 				<div class="user-info h-16 flex flex-col justify-evenly">
-					<div class="alias text-3xl font-bold">Đỗ Hải</div>
-					<div class="username text-lg font-normal">sea_pea_04</div>
+					{{#with user}}
+						<div class="alias text-3xl font-bold">{{{alias}}}</div>
+						<div
+							class="username text-lg font-normal"
+						>{{{username}}}</div>
+						<div class="bio text-lg font-medium">{{{bio}}}</div>
+					{{/with}}
 				</div>
 				<div class="followers-preview h-9 cursor-pointer select-none">
 					<div class="image-preview relative">
@@ -34,7 +39,7 @@
 				</div>
 			</div>
 			<img
-				src="/img/user-placeholder.jpg"
+				src="{{{user.profile_picture}}}"
 				alt=""
 				class="user-avatar w-16 h-16 rounded-full"
 			/>
@@ -330,372 +335,86 @@
 			</div>
 		</div>
 		<div class="tab tab-follower w-full h-tab overflow-y-scroll block">
-			<div
-				class="user w-full h-20 flex items-center justify-evenly px-3 border-b border-solid border-neon-white-15"
-			>
-				<img
-					class="user-avatar w-16 h-16 rounded-full"
-					alt=""
-					src="/img/user-placeholder.jpg"
-				/>
+			{{#each followers}}
 				<div
-					style="
+					class="user w-full h-20 flex items-center justify-evenly px-3 border-b border-solid border-neon-white-15"
+				>
+					<img
+						class="user-avatar w-16 h-16 rounded-full"
+						alt=""
+						src="{{{avatar}}}"
+					/>
+					<div
+						style="
 							display: flex;
 							align-items: center;
 							justify-content: space-between;
 							width: 80%;
 							height: 80%;
 						"
-				>
-					<div class="user-names flex flex-col justify-evenly h-5/6">
-						<div
-							class="user-alias text-white text-base font-semibold"
-						>Lorem Ipsum</div>
-						<div
-							class="user-username text-white text-base opacity-35"
-						>dolor_ipsum</div>
-					</div>
-					<button
-						type="button"
-						class="follow-status px-4 w-28 h-8 border border-solid border-neon-white-15 rounded-xl cursor-pointer text-next text-base font-semibold bg-transparent"
 					>
-						Following
-					</button>
-				</div>
-			</div>
-			<div
-				class="user w-full h-20 flex items-center justify-evenly px-3 border-b border-solid border-neon-white-15"
-			>
-				<img
-					class="user-avatar w-16 h-16 rounded-full"
-					alt=""
-					src="/img/user-placeholder.jpg"
-				/>
-				<div
-					style="
-							display: flex;
-							align-items: center;
-							justify-content: space-between;
-							width: 80%;
-							height: 80%;
-						"
-				>
-					<div class="user-names flex flex-col justify-evenly h-5/6">
 						<div
-							class="user-alias text-white text-base font-semibold"
-						>Lorem Ipsum</div>
-						<div
-							class="user-username text-white text-base opacity-35"
-						>dolor_ipsum</div>
+							class="user-names flex flex-col justify-evenly h-5/6"
+						>
+							<div
+								class="user-alias text-white text-base font-semibold"
+							>{{{alias}}}</div>
+							<div
+								class="user-username text-white text-base opacity-35"
+							>{{{username}}}</div>
+						</div>
+						<button
+							type="button"
+							class="follow-status px-4 w-28 h-8 border border-solid border-neon-white-15 rounded-xl cursor-pointer text-next text-base font-semibold bg-transparent"
+							data-id="{{id}}"
+							data-user = "{{user.id}}"
+						>
+							Following
+						</button>
 					</div>
-					<button
-						type="button"
-						class="follow-status px-4 w-28 h-8 border border-solid border-neon-white-15 rounded-xl cursor-pointer text-next text-base font-semibold bg-transparent"
-					>
-						Following
-					</button>
 				</div>
-			</div>
-			<div
-				class="user w-full h-20 flex items-center justify-evenly px-3 border-b border-solid border-neon-white-15"
-			>
-				<img
-					class="user-avatar w-16 h-16 rounded-full"
-					alt=""
-					src="/img/user-placeholder.jpg"
-				/>
-				<div
-					style="
-							display: flex;
-							align-items: center;
-							justify-content: space-between;
-							width: 80%;
-							height: 80%;
-						"
-				>
-					<div class="user-names flex flex-col justify-evenly h-5/6">
-						<div
-							class="user-alias text-white text-base font-semibold"
-						>Lorem Ipsum</div>
-						<div
-							class="user-username text-white text-base opacity-35"
-						>dolor_ipsum</div>
-					</div>
-					<button
-						type="button"
-						class="follow-status px-4 w-28 h-8 border border-solid border-neon-white-15 rounded-xl cursor-pointer text-next text-base font-semibold bg-transparent"
-					>
-						Following
-					</button>
-				</div>
-			</div>
-			<div
-				class="user w-full h-20 flex items-center justify-evenly px-3 border-b border-solid border-neon-white-15"
-			>
-				<img
-					class="user-avatar w-16 h-16 rounded-full"
-					alt=""
-					src="/img/user-placeholder.jpg"
-				/>
-				<div
-					style="
-							display: flex;
-							align-items: center;
-							justify-content: space-between;
-							width: 80%;
-							height: 80%;
-						"
-				>
-					<div class="user-names flex flex-col justify-evenly h-5/6">
-						<div
-							class="user-alias text-white text-base font-semibold"
-						>Lorem Ipsum</div>
-						<div
-							class="user-username text-white text-base opacity-35"
-						>dolor_ipsum</div>
-					</div>
-					<button
-						type="button"
-						class="follow-status px-4 w-28 h-8 border border-solid border-neon-white-15 rounded-xl cursor-pointer text-next text-base font-semibold bg-transparent"
-					>
-						Following
-					</button>
-				</div>
-			</div>
-			<div
-				class="user w-full h-20 flex items-center justify-evenly px-3 border-b border-solid border-neon-white-15"
-			>
-				<img
-					class="user-avatar w-16 h-16 rounded-full"
-					alt=""
-					src="/img/user-placeholder.jpg"
-				/>
-				<div
-					style="
-							display: flex;
-							align-items: center;
-							justify-content: space-between;
-							width: 80%;
-							height: 80%;
-						"
-				>
-					<div class="user-names flex flex-col justify-evenly h-5/6">
-						<div
-							class="user-alias text-white text-base font-semibold"
-						>Lorem Ipsum</div>
-						<div
-							class="user-username text-white text-base opacity-35"
-						>dolor_ipsum</div>
-					</div>
-					<button
-						type="button"
-						class="follow-status px-4 w-28 h-8 border border-solid border-neon-white-15 rounded-xl cursor-pointer text-next text-base font-semibold bg-transparent"
-					>
-						Following
-					</button>
-				</div>
-			</div>
-			<div
-				class="user w-full h-20 flex items-center justify-evenly px-3 border-b border-solid border-neon-white-15"
-			>
-				<img
-					class="user-avatar w-16 h-16 rounded-full"
-					alt=""
-					src="/img/user-placeholder.jpg"
-				/>
-				<div
-					style="
-							display: flex;
-							align-items: center;
-							justify-content: space-between;
-							width: 80%;
-							height: 80%;
-						"
-				>
-					<div class="user-names flex flex-col justify-evenly h-5/6">
-						<div
-							class="user-alias text-white text-base font-semibold"
-						>Lorem Ipsum</div>
-						<div
-							class="user-username text-white text-base opacity-35"
-						>dolor_ipsum</div>
-					</div>
-					<button
-						type="button"
-						class="follow-status px-4 w-28 h-8 border border-solid border-neon-white-15 rounded-xl cursor-pointer text-next text-base font-semibold bg-transparent"
-					>
-						Following
-					</button>
-				</div>
-			</div>
-			<div
-				class="user w-full h-20 flex items-center justify-evenly px-3 border-b border-solid border-neon-white-15"
-			>
-				<img
-					class="user-avatar w-16 h-16 rounded-full"
-					alt=""
-					src="/img/user-placeholder.jpg"
-				/>
-				<div
-					style="
-							display: flex;
-							align-items: center;
-							justify-content: space-between;
-							width: 80%;
-							height: 80%;
-						"
-				>
-					<div class="user-names flex flex-col justify-evenly h-5/6">
-						<div
-							class="user-alias text-white text-base font-semibold"
-						>Lorem Ipsum</div>
-						<div
-							class="user-username text-white text-base opacity-35"
-						>dolor_ipsum</div>
-					</div>
-					<button
-						type="button"
-						class="follow-status px-4 w-28 h-8 border border-solid border-neon-white-15 rounded-xl cursor-pointer text-next text-base font-semibold bg-transparent"
-					>
-						Following
-					</button>
-				</div>
-			</div>
-			<div
-				class="user w-full h-20 flex items-center justify-evenly px-3 border-b border-solid border-neon-white-15"
-			>
-				<img
-					class="user-avatar w-16 h-16 rounded-full"
-					alt=""
-					src="/img/user-placeholder.jpg"
-				/>
-				<div
-					style="
-							display: flex;
-							align-items: center;
-							justify-content: space-between;
-							width: 80%;
-							height: 80%;
-						"
-				>
-					<div class="user-names flex flex-col justify-evenly h-5/6">
-						<div
-							class="user-alias text-white text-base font-semibold"
-						>Lorem Ipsum</div>
-						<div
-							class="user-username text-white text-base opacity-35"
-						>dolor_ipsum</div>
-					</div>
-					<button
-						type="button"
-						class="follow-status px-4 w-28 h-8 border border-solid border-neon-white-15 rounded-xl cursor-pointer text-next text-base font-semibold bg-transparent"
-					>
-						Following
-					</button>
-				</div>
-			</div>
-			<div
-				class="user w-full h-20 flex items-center justify-evenly px-3 border-b border-solid border-neon-white-15"
-			>
-				<img
-					class="user-avatar w-16 h-16 rounded-full"
-					alt=""
-					src="/img/user-placeholder.jpg"
-				/>
-				<div
-					style="
-							display: flex;
-							align-items: center;
-							justify-content: space-between;
-							width: 80%;
-							height: 80%;
-						"
-				>
-					<div class="user-names flex flex-col justify-evenly h-5/6">
-						<div
-							class="user-alias text-white text-base font-semibold"
-						>Lorem Ipsum</div>
-						<div
-							class="user-username text-white text-base opacity-35"
-						>dolor_ipsum</div>
-					</div>
-					<button
-						type="button"
-						class="follow-status px-4 w-28 h-8 border border-solid border-neon-white-15 rounded-xl cursor-pointer text-next text-base font-semibold bg-transparent"
-					>
-						Following
-					</button>
-				</div>
-			</div>
-			<div
-				class="user w-full h-20 flex items-center justify-evenly px-3 border-b border-solid border-neon-white-15"
-			>
-				<img
-					class="user-avatar w-16 h-16 rounded-full"
-					alt=""
-					src="/img/user-placeholder.jpg"
-				/>
-				<div
-					style="
-							display: flex;
-							align-items: center;
-							justify-content: space-between;
-							width: 80%;
-							height: 80%;
-						"
-				>
-					<div class="user-names flex flex-col justify-evenly h-5/6">
-						<div
-							class="user-alias text-white text-base font-semibold"
-						>Lorem Ipsum</div>
-						<div
-							class="user-username text-white text-base opacity-35"
-						>dolor_ipsum</div>
-					</div>
-					<button
-						type="button"
-						class="follow-status px-4 w-28 h-8 border border-solid border-neon-white-15 rounded-xl cursor-pointer text-next text-base font-semibold bg-transparent"
-					>
-						Following
-					</button>
-				</div>
-			</div>
-			<div
-				class="user w-full h-20 flex items-center justify-evenly px-3 border-b border-solid border-neon-white-15"
-			>
-				<img
-					class="user-avatar w-16 h-16 rounded-full"
-					alt=""
-					src="/img/user-placeholder.jpg"
-				/>
-				<div
-					style="
-							display: flex;
-							align-items: center;
-							justify-content: space-between;
-							width: 80%;
-							height: 80%;
-						"
-				>
-					<div class="user-names flex flex-col justify-evenly h-5/6">
-						<div
-							class="user-alias text-white text-base font-semibold"
-						>Lorem Ipsum</div>
-						<div
-							class="user-username text-white text-base opacity-35"
-						>dolor_ipsum</div>
-					</div>
-					<button
-						type="button"
-						class="follow-status px-4 w-28 h-8 border border-solid border-neon-white-15 rounded-xl cursor-pointer text-next text-base font-semibold bg-transparent"
-					>
-						Following
-					</button>
-				</div>
-			</div>
+			{{/each}}
 		</div>
 		<div class="tab tab-following w-full h-tab overflow-y-scroll hidden">
-
+			{{#each following}}
+				<div
+					class="user w-full h-20 flex items-center justify-evenly px-3 border-b border-solid border-neon-white-15"
+				>
+					<img
+						class="user-avatar w-16 h-16 rounded-full"
+						alt=""
+						src="{{{avatar}}}"
+					/>
+					<div
+						style="
+							display: flex;
+							align-items: center;
+							justify-content: space-between;
+							width: 80%;
+							height: 80%;
+						"
+					>
+						<div
+							class="user-names flex flex-col justify-evenly h-5/6"
+						>
+							<div
+								class="user-alias text-white text-base font-semibold"
+							>{{{alias}}}</div>
+							<div
+								class="user-username text-white text-base opacity-35"
+							>{{{username}}}</div>
+						</div>
+						<button
+							type="button"
+							class="follow-status px-4 w-28 h-8 border border-solid border-neon-white-15 rounded-xl cursor-pointer text-next text-base font-semibold bg-transparent"
+							data-id="{{id}}"
+							data-user = "{{user.id}}"
+						>
+							Following
+						</button>
+					</div>
+				</div>
+			{{/each}}
 		</div>
 	</main>
 	<div
@@ -764,14 +483,18 @@
 			class="edit-profile-card bg-chinese-black border border-solid border-neon-white-15 rounded-2xl w-96 h-13 flex flex-col justify-evenly p-3 text-base relative"
 		>
 			<form
-				action="#"
+				action="/profile/{{{user.id}}}"
 				class="edit-profile-form"
 				enctype="multipart/form-data"
+				method="POST"
 			>
-				<label for="Avatar" class="avatar-label w-16 h-16 flex justify-center items-center rounded-full absolute right-1 top-1 bg-userPlaceholder bg-cover bg-center bg-no-repeat cursor-pointer"></label>
+				<label
+					for="avatar"
+					class="avatar-label w-16 h-16 flex justify-center items-center rounded-full absolute right-1 top-1 bg-userPlaceholder bg-cover bg-center bg-no-repeat cursor-pointer"
+				></label>
 				<input
 					type="file"
-					name="Avatar"
+					name="avatar"
 					style="display: none"
 					class="avatar-input"
 					accept="image/png, image/jpeg, image/jpg, image/gif"
@@ -779,21 +502,21 @@
 				<div
 					class="form-item w-full h-20 flex flex-col justify-evenly p-2"
 				>
-					<label for="Name" class="text-white">Name</label>
+					<label for="alias" class="text-white">Name</label>
 					<input
 						type="text"
-						name="Name"
-						value="Placeholder"
+						name="alias"
+						placeholder="{{{user.username}}}"
 						class="w-full h-10 text-neon-white border-b-2 p-0 focus:border-b-2 focus:border-solid focus:border-neon-white bg-transparent text-neon-white outline-none"
 					/>
 				</div>
 				<div
 					class="form-item form-item w-full h-20 flex flex-col justify-evenly p-2"
 				>
-					<label for="Bio" class="text-white">Bio</label>
+					<label for="bio" class="text-white">Bio</label>
 					<input
 						type="text"
-						name="Bio"
+						name="bio"
 						class="w-full h-10 text-neon-white border-b-2 p-0 focus:border-b-2 focus:border-solid focus:border-neon-white bg-transparent text-neon-white outline-none"
 					/>
 				</div>
@@ -801,7 +524,6 @@
 		</div>
 	</div>
 </main>
-
 <link
 	rel="stylesheet"
 	href="https://cdn.jsdelivr.net/gh/iconoir-icons/iconoir@main/css/iconoir.css"
