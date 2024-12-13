@@ -41,6 +41,18 @@ for (let i = 0; i < love.length; i++) {
 	});
 }
 
+function getCookies() {
+	const cookies = document.cookie.split(";").map((cookie) => {
+		return cookie.split("=");
+	}); // get an array of key-value pairs(cookie) in string then split them by "="
+	const cookieObj = Object.fromEntries(cookies); // convert the array of key-value pairs to an object
+	const trimmedCookieObj = {};
+	for (const key in cookieObj) {
+		trimmedCookieObj[key.trim()] = cookieObj[key].trim();
+	}
+	return trimmedCookieObj;
+}
+
 followersPreview.addEventListener("click", async() => {
 	followBoard.classList.toggle("active");
 	if (followBoard.classList.contains("active")) {

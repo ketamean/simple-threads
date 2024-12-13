@@ -6,7 +6,7 @@ const storage = multer.diskStorage({
         cb(null, "static/uploads/");
     },
     filename: (req, file, cb) => {
-        cb(null, file.fieldname + "-" + Date.now());
+        cb(null, file.fieldname + "-" + file.originalname + "-" + Date.now());
     },
     fileFilter: (req, file, cb) => {
         if(file.mimetype === "image/png" || file.mimetype === "image/jpg" || file.mimetype === "image/jpeg") {
