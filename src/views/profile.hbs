@@ -59,7 +59,7 @@
 			</button>
 		</div>
 		<div
-			class="tabs grid grid-cols-3 w-full h-12 mt-5 text-base text-center leading-12 text-next border border-solid border-neon-white-15 font-semibold"
+			class="tabs grid grid-cols-3 w-full h-12 mt-5 text-base text-center leading-12 text-next border-b border-solid border-neon-white-15 font-semibold"
 		>
 			<div
 				class="profile-tab-item threads active cursor-pointer"
@@ -321,7 +321,7 @@
 				>Follower</div>
 				<div
 					class="num-follower text-xs text-lucky w-full h-1/2"
-				>18</div>
+				>{{{followers.length}}}</div>
 			</div>
 			<div
 				class="follow-board-item flex flex-col items-start justify-around h-10 text-center leading-5 following"
@@ -331,7 +331,7 @@
 				>Following</div>
 				<div
 					class="num-following text-xs text-lucky w-full h-1/2"
-				>20</div>
+				>{{followings.length}}</div>
 			</div>
 		</div>
 		<div class="tab tab-follower w-full h-tab overflow-y-scroll block">

@@ -56,7 +56,7 @@ const user = {
   // get user's followers
   getUserFollowers: async (userid) => {
     const query = `
-    SELECT * FROM followers WHERE followed_id = ${userid}
+    SELECT * FROM followers
     `;
     try {
       const res = await client.query(query);

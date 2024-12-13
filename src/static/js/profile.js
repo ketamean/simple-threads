@@ -116,6 +116,11 @@ editProfile.addEventListener("click", () => {
 editProfileCancel.addEventListener("click", () => {
 	editProfileModal.classList.remove("active");
 	document.body.style.overflow = "auto";
+	editProfileAvatarInput.value = null;
+	editProfileAvatarLabel.style.backgroundImage = "url(/img/user-placeholder.jpg)";
+	editProfileAvatarLabel.style.backgroundSize = "cover";
+	editProfileAvatarLabel.style.backgroundPosition = "center";
+	editProfileForm.reset();
 });
 
 editProfileSave.addEventListener("click", () => {
@@ -148,8 +153,9 @@ profileTabItem.forEach((item) => {
 });
 
 followStatus.forEach((status, index) => {
-	status.addEventListener("click", async() => {
+	status.addEventListener("click", async(event) => {
 		if (status.textContent === "Follow") {
+			event.preventDefault();
 			const followed_id = status.getAttribute("data-id");
 			const user_id = status.getAttribute("data-user");
 			await fetch(`/follow/:{id}`, {
@@ -170,10 +176,11 @@ followStatus.forEach((status, index) => {
 	});
 });
 
-unfollow.addEventListener("click", () => {
+unfollow.addEventListener("click", async(event) => {
 	const followed_id = followStatus[currentFollowStatus].getAttribute("data-id");
 	const user_id = followStatus[currentFollowStatus].getAttribute("data-user");
-	fetch(`/unfollow/:{id}`, {
+	event.preventDefault();
+	await fetch(`/unfollow/:{id}`, {
 		method: "PUT",
 		headers: {
 			"Content-Type": "application/json",

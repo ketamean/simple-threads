@@ -6,9 +6,9 @@ const controller = {}
 controller.getProfile = async (req, res) => {
     try {
         const user = await usersModel.findById(req.params.id);
-        // const followers = await usersModel.getUserFollowers(req.params.id);
+        const followers = await usersModel.getUserFollowers(req.params.id);
         // const followings = await usersModel.getUserFollowings(req.params.id);
-        const followers = [];
+        // const followers = [];
         const followings = [];
         if(user.profile_picture === null || user.profile_picture === "") {
             user.profile_picture = "/img/user-placeholder.jpg";
@@ -19,7 +19,6 @@ controller.getProfile = async (req, res) => {
         else if(user.profile_picture.includes("static")) {
             user.profile_picture = user.profile_picture.replace("static", "");
         }
-        console.log(user);
         res.render("profile", { title: "Profile", user: user, followers: followers, followings: followings });
     } catch (err) {
         console.error("Error getting user profile", err.stack);
@@ -33,9 +32,12 @@ controller.updateProfile = async (req, res) => {
         let avatar = req.file ? req.file.path : "";
         const userID = req.params.id;
         const currentUser = await usersModel.findById(userID);
-        if(alias === "") alias = currentUser.alias;
-        if(bio === "") bio = currentUser.bio;
-        if(avatar === "") avatar = currentUser.avatar;
+        if(alias === "" || alias === undefined || alias === "undefined") alias = currentUser.alias;
+        if(bio === "" || bio === undefined || bio === "undefined") bio = currentUser.bio;
+        if(avatar === "" || avatar === undefined || avatar === "undefined") avatar = currentUser.profile_picture;
+        console.log("Alias", alias);
+        console.log("Bio", bio);
+        console.log("Avatar", avatar);
         const user = await usersModel.updateUserInfo(userID, alias, bio, avatar);
         // const followers = await usersModel.getUserFollowers(userID);
         // const followings = await usersModel.getUserFollowings(userID);
