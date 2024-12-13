@@ -6,14 +6,37 @@ const axiosInstance = axios.create({
   },
 });
 
+// get reset token
+const resetTokenData = async () => {
+  try {
+    const response = await axiosInstance.get("/users/resetToken");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching reset token data:", error);
+    throw error;
+  }
+};
+
 // before req
 axiosInstance.interceptors.request.use(
-  (config) => {
+  async (config) => {
     console.log("before request");
     // add token to header for auth
-    const token = localStorage.getItem("accessToken");
-    console.log(token);
-    if (token) {
+    const { token, timeExpired } = axiosInstance.getToken();
+    console.log(token, timeExpired);
+    const currentTime = Date.now();
+    if (
+      timeExpired < currentTime &&
+      !config.url.includes("/users/resetToken")
+    ) {
+      console.log("Token expired, fetching new token...");
+      const newTokenData = await resetTokenData();
+      axiosInstance.setToken(
+        newTokenData.accessToken,
+        newTokenData.timeExpired
+      );
+      config.headers["Authorization"] = `Bearer ${newTokenData.token}`;
+    } else if (token) {
       config.headers["Authorization"] = `Bearer ${token}`;
     }
     return config;
@@ -31,7 +54,7 @@ axiosInstance.interceptors.response.use(
   },
   (error) => {
     // handle err
-    console.log("after response: > 200 errror");
+    console.log("after response: > 200 error");
     console.log(
       `status: ${error.response.status}, message: ${error.response.data}`
     );
@@ -41,11 +64,27 @@ axiosInstance.interceptors.response.use(
       error.config.url != "/users/signIn"
     ) {
       // if token invalid
-      console.log("invaild token");
+      console.log("invalid token");
       window.location.href = "/users/signIn";
     }
     return Promise.reject(error);
   }
 );
+
+axiosInstance.setToken = (token, timeExpired) => {
+  const tokenData = {
+    token: token,
+    timeExpired: timeExpired,
+  };
+  localStorage.setItem("accessToken", JSON.stringify(tokenData));
+};
+
+axiosInstance.getToken = () => {
+  const tokenData = localStorage.getItem("accessToken");
+  if (tokenData) {
+    return JSON.parse(tokenData);
+  }
+  return null;
+};
 
 export default axiosInstance;

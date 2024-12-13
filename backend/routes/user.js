@@ -16,9 +16,6 @@ router.get("/signIn", userController.getSignIn);
 //get - Sign Up
 router.get("/signUp", userController.getSignUp);
 
-//get - Rest Password
-router.get("/resetPassword", userController.getResetPassword);
-
 //post - signUp - signIn
 router.post("/signUp", userController.signUp);
 router.post("/signIn", userController.signIn);
@@ -27,16 +24,17 @@ router.post("/signIn", userController.signIn);
 router.post("/signOut", middleware.verifyToken, userController.signOut);
 
 //reset password
-router.post("/auth/resetPassword", userController.resetPasswordRequest);
+router.get("/auth/resetPassword", userController.getresetPasswordAsk);
+router.post("/auth/resetPassword", userController.resetPasswordAsk);
 router.get(
   "/auth/link/resetPass",
   middleware.verifyResetToken,
-  userController.getResetPassword
+  userController.getResetPasswordSet
 );
 router.put(
   "/auth/link/resetPass",
   middleware.verifyResetToken,
-  userController.putResetPassword
+  userController.putResetPasswordSet
 );
 
 //update infor

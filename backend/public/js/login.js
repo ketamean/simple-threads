@@ -11,7 +11,10 @@ document.querySelector("form").addEventListener("submit", async (e) => {
     })
     .then((response) => {
       // save token
-      localStorage.setItem("accessToken", response.data.aToken);
+      axiosInstance.setToken(
+        response.data.accessToken,
+        response.data.timeExpired
+      );
 
       // move to homepage/feed
       window.location.href = "/";

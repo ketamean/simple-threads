@@ -101,7 +101,8 @@ controllers.signIn = async (req, res) => {
     //send res
     res.status(200).json({
       message: "Login successful",
-      aToken: accessToken,
+      accessToken: accessToken,
+      timeExpired: Date.now() + 0.5 * 60 * 1000,
       user: { ...user, password: undefined },
     });
   } catch (error) {
@@ -154,7 +155,10 @@ controllers.resetAccessToken = async (req, res, next) => {
       path: "/",
     });
 
-    res.status(200).json({ accessToken });
+    res.status(200).json({
+      accessToken,
+      timeExpired: Date.now() + 0.5 * 60 * 1000,
+    });
   } catch (error) {
     return res.status(401).json({ message: "Invalid refresh token" });
   }
@@ -177,12 +181,13 @@ controllers.signOut = async (req, res) => {
   }
 };
 
-controllers.resetPasswordRequest = async (req, res) => {
+controllers.resetPasswordAsk = async (req, res) => {
   console.log("get link reset password");
   const { identifier } = req.body;
 
   try {
     let user;
+    console.log(identifier);
     // Use existing model functions to find user
     if (identifier.includes("@")) {
       user = await User.findByEmail(identifier);
@@ -194,10 +199,10 @@ controllers.resetPasswordRequest = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const userId = user.id.toString() + "#";
-    console.log(`email atfer hash: ${userId}`);
+    const userID = user.id.toString() + "#";
+    console.log(`email atfer hash: ${userID}`);
 
-    const resetToken = jwt.sign({ userId: userId }, JWT_LINK_SECRET, {
+    const resetToken = jwt.sign({ userID: userID }, JWT_LINK_SECRET, {
       expiresIn: "10m",
       algorithm: "HS256",
     });
@@ -222,7 +227,7 @@ controllers.resetPasswordRequest = async (req, res) => {
   }
 };
 
-controllers.putResetPassword = async (req, res) => {
+controllers.putResetPasswordSet = async (req, res) => {
   console.log("change password");
   try {
     const key = req.userID.toString() + "#";
@@ -358,7 +363,13 @@ controllers.getSignUp = (req, res) => {
   res.render("signup", { layout: "layoutWelcome" });
 };
 
-controllers.getResetPassword = (req, res) => {
+controllers.getresetPasswordAsk = (req, res) => {
+  console.log("get reset passsword");
+  res.locals.css = md_resetPassword.css;
+  res.render("reset-password-ask", { layout: "layoutWelcome" });
+};
+
+controllers.getResetPasswordSet = (req, res) => {
   console.log("get reset passsword");
   res.locals.css = md_resetPassword.css;
   res.render("reset-password-set", { layout: "layoutWelcome" });
