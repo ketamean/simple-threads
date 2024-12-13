@@ -6,6 +6,6 @@ const router = express.Router();
 // Define user routes
 
 //homepage (feed)
-router.get("/", middleware.verifyToken, feedController.getFeed);
+router.get("/", middleware.verifyRefreshToken, feedController.getFeed);
 
 module.exports = router;

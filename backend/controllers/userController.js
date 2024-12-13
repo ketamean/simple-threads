@@ -17,15 +17,15 @@ const JWT_LINK_SECRET = process.env.JWT_LINK_SECRET;
 const controllers = {};
 
 // Generate JWT Token
-const generateAccessToken = (userId) => {
-  return jwt.sign({ userId }, JWT_ACCESS_SECRET, {
+const generateAccessToken = (userID) => {
+  return jwt.sign({ userID }, JWT_ACCESS_SECRET, {
     expiresIn: "30s",
     algorithm: "HS256",
   });
 };
 
-const generateRefresshToken = (userId) => {
-  return jwt.sign({ userId }, JWT_REFRESH_SECRET, {
+const generateRefresshToken = (userID) => {
+  return jwt.sign({ userID }, JWT_REFRESH_SECRET, {
     algorithm: "HS256",
   });
 };
@@ -106,8 +106,7 @@ controllers.signIn = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({
-      message: "Error during login",
-      error: error.message,
+      message: `Error during login: ${error.message}`,
     });
   }
 };
@@ -125,27 +124,27 @@ controllers.resetAccessToken = async (req, res, next) => {
   try {
     // Verify the refresh token
     const decoded = jwt.verify(refreshToken, JWT_REFRESH_SECRET);
-    const userId = decoded.userId;
+    const userID = decoded.userID;
 
     // Check if the refresh token exists in Redis
-    console.log(userId);
-    const token = await redis.getKey(userId.toString());
+    console.log(userID);
+    const token = await redis.getKey(userID.toString());
     console.log(token);
     if (!token || token !== refreshToken) {
       return res.status(401).json({ message: "Invalid refresh token" });
     }
 
     // Delete the old refresh token from Redis
-    await redis.deleteKey(userId.toString());
+    await redis.deleteKey(userID.toString());
 
     // Generate a new refresh token
-    const newRefreshToken = generateRefresshToken(userId);
+    const newRefreshToken = generateRefresshToken(userID);
 
     // Generate a new access token
-    const accessToken = generateAccessToken(userId);
+    const accessToken = generateAccessToken(userID);
 
     // Store the new refresh token in Redis
-    await redis.storeKey(userId.toString(), newRefreshToken);
+    await redis.storeKey(userID.toString(), newRefreshToken);
 
     // Set the new refresh token as a cookie
     res.cookie("refreshToken", newRefreshToken, {
@@ -195,10 +194,10 @@ controllers.resetPasswordRequest = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const userID = user.id.toString() + "#";
-    console.log(`email atfer hash: ${userID}`);
+    const userId = user.id.toString() + "#";
+    console.log(`email atfer hash: ${userId}`);
 
-    const resetToken = jwt.sign({ userID: userID }, JWT_LINK_SECRET, {
+    const resetToken = jwt.sign({ userId: userId }, JWT_LINK_SECRET, {
       expiresIn: "10m",
       algorithm: "HS256",
     });
@@ -227,7 +226,10 @@ controllers.putResetPassword = async (req, res) => {
   console.log("change password");
   try {
     const key = req.userID.toString() + "#";
-    let newPassword = typeof req.body.password === 'string' ? req.body.password : String(req.body.password);
+    let newPassword =
+      typeof req.body.password === "string"
+        ? req.body.password
+        : String(req.body.password);
     const hashedPassword = await bcrypt.hash(newPassword, 10);
 
     //update password

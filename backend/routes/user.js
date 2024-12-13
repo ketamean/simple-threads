@@ -10,6 +10,7 @@ const upload = require("../middleware/upload");
 router.get("/", (req, res) => {
   res.redirect("users/signIn");
 });
+
 router.get("/signIn", userController.getSignIn);
 
 //get - Sign Up

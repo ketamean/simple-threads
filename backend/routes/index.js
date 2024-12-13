@@ -2,14 +2,14 @@ const express = require("express");
 const router = express.Router();
 const middleware = require("../middleware/auth");
 
-// Import other routes
+// Import routes
 const userRoutes = require("./user");
 const feeds = require("./feeds");
 
 // Use other routes
 router.use("/users", userRoutes);
 
-//homepage router
+//homepage (feed) router
 router.use("/", feeds);
 
 

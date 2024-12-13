@@ -10,6 +10,7 @@ controllers.getFeed = (req, res) => {
       avatarImagePath: "",
       date: "1/1/2024",
       content: "hello",
+      postImagePaths: ["1.png", "hehe.png"],
       nLikes: "30",
       nComments: "20",
     },

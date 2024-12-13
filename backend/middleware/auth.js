@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/usersModel");
 const redis = require("../config/redis");
 
+// for get data from server
 const verifyToken = async (req, res, next) => {
   console.log("verify token");
   try {
@@ -30,7 +31,7 @@ const verifyToken = async (req, res, next) => {
         return next(err);
       }
 
-      const user = await User.findById(decoded.userId);
+      const user = await User.findById(decoded.userID);
       if (!user) {
         return res.status(401).redirect("/users/signIn?message=User not found");
       }
@@ -51,6 +52,57 @@ const verifyToken = async (req, res, next) => {
   }
 };
 
+// for auth to access page
+const verifyRefreshToken = async (req, res, next) => {
+  console.log("Verify refresh token");
+  const refreshToken = req.cookies.refreshToken;
+  console.log(refreshToken);
+  if (!refreshToken) {
+    return res
+      .status(401)
+      .redirect("/users/signIn?message=No refresh token provided");
+  }
+
+  try {
+    jwt.verify(
+      refreshToken,
+      process.env.JWT_REFRESH_SECRET,
+      async (err, decoded) => {
+        if (err) {
+          if (err.name === "JsonWebTokenError") {
+            return res
+              .status(401)
+              .redirect("/users/signIn?message=Invalid Token");
+          }
+          if (err.name === "TokenExpiredError") {
+            return res
+              .status(401)
+              .redirect("/users/signIn?message=Token expired");
+          }
+          return next(err);
+        }
+
+        const token = await redis.getKey(decoded.userID.toString());
+        if (!token || token != refreshToken) {
+          return res
+            .status(401)
+            .redirect("/users/signIn?message=User not found");
+        }
+        req.userID = decoded.userID;
+        next();
+      }
+    );
+  } catch (error) {
+    if (error.name === "JsonWebTokenError") {
+      return res.status(401).redirect("/users/signIn?message=Invalid Token");
+    }
+    if (error.name === "TokenExpiredError") {
+      return res.status(401).redirect("/users/signIn?message=Token expired");
+    }
+    next(error);
+  }
+};
+
 const verifyResetToken = async (req, res, next) => {
   console.log("Verify reset token");
   const ressetToken = req.query.resetToken;
@@ -60,24 +112,28 @@ const verifyResetToken = async (req, res, next) => {
   }
 
   try {
-    jwt.verify(ressetToken, process.env.JWT_LINK_SECRET, async (err, data) => {
-      if (err) {
-        if (err.name === "JsonWebTokenError") {
-          return res.status(401).json({ message: "Invalid Token" });
+    jwt.verify(
+      ressetToken,
+      process.env.JWT_LINK_SECRET,
+      async (err, decoded) => {
+        if (err) {
+          if (err.name === "JsonWebTokenError") {
+            return res.status(401).json({ message: "Invalid Token" });
+          }
+          if (err.name === "TokenExpiredError") {
+            return res.status(401).json({ message: "Token expired" });
+          }
+          return next(err);
         }
-        if (err.name === "TokenExpiredError") {
-          return res.status(401).json({ message: "Token expired" });
+        const storedToken = await redis.getKey(decoded.userID);
+        if (storedToken !== ressetToken) {
+          return res.status(401).json({ message: "Token not exists" });
         }
-        return next(err);
+        //covert to userid
+        req.userID = parseInt(decoded.userID.replace("#", ""), 10);
+        next();
       }
-      const storedToken = await redis.getKey(data.userID);
-      if (storedToken !== ressetToken) {
-        return res.status(401).json({ message: "Token not exists" });
-      }
-      //covert to userid
-      req.userID = parseInt(data.userID.replace("#", ""), 10);
-      next();
-    });
+    );
   } catch (error) {
     if (error.name === "JsonWebTokenError") {
       return res.status(401).json({ message: "Invalid OTP" });
@@ -89,4 +145,4 @@ const verifyResetToken = async (req, res, next) => {
   }
 };
 
-module.exports = { verifyToken, verifyResetToken };
+module.exports = { verifyToken, verifyResetToken, verifyRefreshToken };
