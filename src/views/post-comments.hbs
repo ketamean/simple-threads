@@ -1,0 +1,46 @@
+<main>
+  
+  {{> post}}
+
+  <div id="comments-container">
+    {{#each comments}}
+    <div class="comment-block">
+        <!-- user mini avatar -->
+        <div class="comment-creator-img">
+            <div class="comment-creator-img-block">
+                <a href="/profile/{{userId}}" class="comment-creator-img-link-container" role="link" tabindex="0">
+                    <div class="comment-creator-img-div">
+                        <img src="{{avatarImagePath}}" alt="img-avt">
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="comment-info-block">
+            <div class="comment-info-container">
+                <div class="comment-info-element">
+                    <div class="comment-info-left">
+                        <!-- username & date -->
+                        <div class="comment-info-header">
+                            <div class="comment-info-header-name change-width">
+                                <a class="w-full" href="/profile/{{userId}}">
+                                    <span>{{username}}</span>
+                                </a>
+                            </div>
+                            <div class="comment-info-header-time">
+                                <span>{{date}}</span>
+                            </div>
+                        </div>
+
+                        <!-- content -->
+                        <div class="comment-info-content">
+                            <span>{{content}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+  </div>
+</main>
