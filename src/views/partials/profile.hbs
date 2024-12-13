@@ -1,0 +1,153 @@
+<main class="profile-main">
+  <div class="basic-info">
+    <div class="bio">
+      <div class="user-info">
+        <div class="alias">Đỗ Hải</div>
+        <div class="username">sea_pea_04</div>
+      </div>
+      <div class="followers-preview">
+        <div class="number-of-follower">100 followers</div>
+      </div>
+    </div>
+    <img
+      src="{{avatarImagePath}}"
+      alt="{{username}}"
+      class="user-avatar"
+    />
+  </div>
+  <div class="flex flex-row items-center">
+    {{!-- class="share-n-edit" --}}
+    {{#if personal}}
+    <button type="button" class="edit-profile">Edit profile</button>
+    {{/if}}
+    <button type="button" class="share-profile">
+      Share profile
+    </button>
+  </div>
+  <div class="tabs col-3">
+    <div class="profile-tab-item threads active">Threads</div>
+    <div class="profile-tab-item replies">Replies</div>
+    <div class="profile-tab-item reposts">Reposts</div>
+  </div>
+  <div class="post-tab">
+    {{#each posts}}
+      {{> post this}}
+    {{/each}}
+  </div>
+</main>
+<main class="profile-follow-board">
+  <div class="tabs col-2">
+    <div class="follow-board-item followers active">
+      <div class="text-follower">Follower</div>
+      <div class="num-follower"></div>
+    </div>
+    <div class="follow-board-item following">
+      <div class="text-following">Following</div>
+      <div class="num-following"></div>
+    </div>
+  </div>
+  <div class="tab tab-follower active">
+    {{!-- contain all the followers --}}
+    <div class="user">
+      <img
+        class="user-avatar"
+        alt=""
+        src="#"
+      />
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          width: 80%;
+          height: 80%;
+        "
+      >
+        <div class="user-names">
+          <div class="user-alias">hehe</div>
+          <div class="user-username">hihi</div>
+        </div>
+        <button type="button" class="follow-status">
+          Following
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="tab tab-following">
+    <div class="user">
+      <img
+        class="user-avatar"
+        alt=""
+        src="#"
+      />
+      <div
+        class="flex justify-between items-center w-4/5 h-4/5"
+      >
+        <div class="user-names">
+          <div class="user-alias"></div>
+          <div class="user-username"></div>
+        </div>
+        <button type="button" class="follow-status">
+          Following /  Follow
+        </button>
+      </div>
+    </div>
+  </div>
+</main>
+<div class="unfollow-modal">
+  <div class="unfollow-card">
+    <div class="prompt-user">
+      <img
+        src="{{!-- user-avatar --}}"
+        alt=""
+        class="unfollowee-avatar"
+      />
+      <div class="question">
+        Unfollow&nbsp;
+        <div class="unfollowee-username">
+          {{!-- username --}}
+        </div>
+        ?
+      </div>
+    </div>
+    <div class="choices col-2">
+      <div class="cancel">Cancel</div>
+      <div class="unfollow">Unfollow</div>
+    </div>
+  </div>
+</div>
+<div class="edit-profile-modal">
+  <div class="edit-profile-header">
+    <div class="edit-profile-header-item cancel">Cancel</div>
+    <div class="edit-profile-header-item title">Edit Profile</div>
+    <div class="edit-profile-header-item save">Save</div>
+  </div>
+  <div class="edit-profile-card">
+    <form
+      action="#"
+      class="edit-profile-form"
+      enctype="multipart/form-data"
+    >
+      <label for="avatar" class="avatar-label"></label>
+      <input
+        type="file"
+        name="avatar"
+        style="display: none"
+        class="avatar-input"
+        accept="image/png, image/jpeg, image/jpg, image/gif"
+      />
+      <div class="form-item">
+        <label for="username">Username</label>
+        <input type="text" name="username" value="" placeholder="{{username}}"/>
+      </div>
+      <div class="form-item">
+        <label for="bio">Bio</label>
+        <input type="text" name="bio" />
+      </div>
+      <!-- <div class="form-item">
+                        <label for="Link">Link</label>
+                        <input type="text" name="Link" />
+                    </div> -->
+    </form>
+  </div>
+</div>
