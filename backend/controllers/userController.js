@@ -75,7 +75,7 @@ controllers.signIn = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-
+    console.log(password);
     const isValidPassword = await bcrypt.compare(password, user.password);
     if (!isValidPassword) {
       return res.status(401).json({ message: "Invalid password" });
@@ -235,6 +235,9 @@ controllers.putResetPasswordSet = async (req, res) => {
       typeof req.body.password === "string"
         ? req.body.password
         : String(req.body.password);
+
+    console.log(newPassword);
+    console.log(req.userID);
     const hashedPassword = await bcrypt.hash(newPassword, 10);
 
     //update password
@@ -364,13 +367,13 @@ controllers.getSignUp = (req, res) => {
 };
 
 controllers.getresetPasswordAsk = (req, res) => {
-  console.log("get reset passsword");
+  console.log("get reset passsword ask");
   res.locals.css = md_resetPassword.css;
   res.render("reset-password-ask", { layout: "layoutWelcome" });
 };
 
 controllers.getResetPasswordSet = (req, res) => {
-  console.log("get reset passsword");
+  console.log("get reset passsword set");
   res.locals.css = md_resetPassword.css;
   res.render("reset-password-set", { layout: "layoutWelcome" });
 };

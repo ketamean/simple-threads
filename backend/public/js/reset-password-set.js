@@ -5,31 +5,37 @@ document.addEventListener("DOMContentLoaded", function () {
     event.preventDefault();
 
     const formData = new FormData(form);
-    const queryParams = new URLSearchParams(window.location.search);
-    const resetToken = queryParams.get("resetToken");
+    const password = formData.get("password");
+    const urlParams = new URLSearchParams(window.location.search);
+    const resetToken = urlParams.get("resetToken");
+
     try {
+      console.log(password);
+      console.log(resetToken);
+
       const response = await fetch(
         `/users/auth/link/resetPass?resetToken=${resetToken}`,
         {
-          method: "POST",
-          body: JSON.stringify({
-            password: formData.get("password"),
-          }),
+          method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
+          body: JSON.stringify({ password: password }),
         }
       );
-      const result = await response.json();
+
       if (response.ok) {
-        console.log("Password reset successful");
+        // Handle successful response
+        alert("Password reset successfully!");
+        window.location.href = "/login"; // Redirect to login page
       } else {
-        console.log("Password reset failed");
+        // Handle error response
+        const errorData = await response.json();
+        alert(`Error: ${errorData.message}`);
       }
-      alter(result.message);
     } catch (error) {
-      console.log(error);
-      alert(error);
+      console.error("Error:", error);
+      alert("An error occurred while resetting the password.");
     }
   });
 });

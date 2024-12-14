@@ -44,7 +44,7 @@ app.set("view engine", "hbs");
 // app.set("view engine", "hbs");
 
 //public folder
-app.use(express.static(path.join(__dirname, "public"), { index: false }));
+app.use(express.static(path.join(__dirname, "public"), { index: "home.html" }));
 app.set("views", path.join(__dirname, "views"));
 
 dotenv.config();

@@ -6,6 +6,22 @@ const axiosInstance = axios.create({
   },
 });
 
+axiosInstance.setToken = (token, timeExpired) => {
+  const tokenData = {
+    token: token,
+    timeExpired: timeExpired,
+  };
+  localStorage.setItem("accessToken", JSON.stringify(tokenData));
+};
+
+axiosInstance.getToken = () => {
+  const tokenData = localStorage.getItem("accessToken");
+  if (tokenData) {
+    return JSON.parse(tokenData);
+  }
+  return { token: null, timeExpired: null };
+};
+
 // get reset token
 const resetTokenData = async () => {
   try {
@@ -27,7 +43,8 @@ axiosInstance.interceptors.request.use(
     const currentTime = Date.now();
     if (
       timeExpired < currentTime &&
-      !config.url.includes("/users/resetToken")
+      !config.url.includes("/users/resetToken") &&
+      !config.url.includes("/users/signIn")
     ) {
       console.log("Token expired, fetching new token...");
       const newTokenData = await resetTokenData();
@@ -48,43 +65,29 @@ axiosInstance.interceptors.request.use(
 
 // after res
 axiosInstance.interceptors.response.use(
-  (response) => {
+  async (response) => {
     console.log("after response: 200 ok");
     return response;
   },
   (error) => {
     // handle err
     console.log("after response: > 200 error");
-    console.log(
-      `status: ${error.response.status}, message: ${error.response.data}`
-    );
-    if (
-      error.response &&
-      error.response.status === 401 &&
-      error.config.url != "/users/signIn"
-    ) {
-      // if token invalid
-      console.log("invalid token");
-      window.location.href = "/users/signIn";
+    if (error.response) {
+      console.log(
+        `status: ${error.response.status}, message: ${error.response.data}`
+      );
+      if (
+        error.response.status === 401 &&
+        error.config.url != "/users/signIn"
+      ) {
+        // if token invalid
+        console.log("invalid token");
+        window.location.href = "/users/signIn";
+      }
+    } else {
+      console.log("Error without response:", error);
     }
     return Promise.reject(error);
   }
 );
-
-axiosInstance.setToken = (token, timeExpired) => {
-  const tokenData = {
-    token: token,
-    timeExpired: timeExpired,
-  };
-  localStorage.setItem("accessToken", JSON.stringify(tokenData));
-};
-
-axiosInstance.getToken = () => {
-  const tokenData = localStorage.getItem("accessToken");
-  if (tokenData) {
-    return JSON.parse(tokenData);
-  }
-  return null;
-};
-
 export default axiosInstance;

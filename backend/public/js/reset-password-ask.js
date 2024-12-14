@@ -2,10 +2,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const form = document.querySelector("form");
   form.addEventListener("submit", async function (event) {
     event.preventDefault();
+    const formData = new FormData(form);
+    const emailOrUsername = formData.get("usrname-email");
 
-    const emailOrUsername = document.querySelector(
-      "[name='usrname-email']"
-    ).value;
     try {
       const response = await fetch("/users/auth/resetPassword", {
         method: "POST",
