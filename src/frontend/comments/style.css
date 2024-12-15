@@ -254,6 +254,10 @@ div {
   flex-shrink: 0;
 }
 
+.change-width {
+  max-width: calc(100vw / 1.7);
+}
+
 .activity-follow-infor-block {
   grid-column-start: 2;
   display: flex;
@@ -298,9 +302,6 @@ div {
   align-items: center;
 }
 
-.change-width {
-  max-width: calc(100vw / 1.7);
-}
 .activity-follow-infor-header-name span {
   font-size: 15px;
   font-weight: 600;
@@ -365,9 +366,7 @@ div {
   color: #777777;
 }
 
-.active-content {
-  color: #f3f5f7;
-}
+
 
 .activity-follow-infor-react-container {
   display: flex;
@@ -395,6 +394,10 @@ div {
 .activity-follow-infor-react.span {
   font-size: 13px;
   color: #cccccc;
+}
+
+.active-content {
+  color: #f3f5f7;
 }
 
 .react-svg {

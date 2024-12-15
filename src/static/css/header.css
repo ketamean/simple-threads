@@ -9,7 +9,7 @@
 	transform: translateX(-50%);
 	background-color: #0a0a0a;
 	z-index: 9999;
-	position: fixed;
+	position: relative;
 }
 
 .header a{

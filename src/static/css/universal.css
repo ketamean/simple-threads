@@ -75,8 +75,9 @@ footer { /* 'relative' in <body> tag */
     background-color: rgba(0,0,0, 0.5);
     backdrop-filter: blur(var(--header-backdrop-filter-blur, 32px));
     -webkit-backdrop-filter: blur(var(--header-backdrop-filter-blur, 32px));
-    position: relative;
+    position: fixed;
     text-align: center;
+    z-index: 999;
 }
 
 header {
@@ -101,6 +102,8 @@ header svg {
 
 footer {
     bottom: 0;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
 }
 
 .footer-svg {
@@ -125,7 +128,7 @@ main {
     margin: 0 auto;
     max-width: 500px;
     height: 100%;
-    padding: var(--header-height, 48px) var(--main-padding-lr, 16px);
+    padding: var(--header-height, 52px) var(--main-padding-lr, 16px);
 }
 
 form {
