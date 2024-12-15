@@ -8,11 +8,16 @@ app.get('login', (req, res) => {
 })
 ```
 - All `.css` file must be put in `/static/css`
-- When invoking *layoutSurfing*, we must give the page name so that it can active the icon on the footer: *feeds*, *search*, *createPost*, *activity*, *profile*.
+- When invoking *layoutSurfing*, we must give the page name so that it can active the icon on the footer: *tab_feed*, *tab_createPost*, *tab_notifications*, *tab_profile*.
 ```js
-app.get('/feeds', (req, res) => {
-  res.locals.feeds = true
-  res.render('feeds')
+app.get('/feed', (req, res) => {
+  res.locals.tab_feed = true
+  res.render('feed')
+})
+
+app.get('/notifications', (req, res) => {
+  res.locals.tab_notifications = true
+  res.render('notifications')
 })
 ```
 # Post

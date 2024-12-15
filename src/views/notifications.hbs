@@ -1,6 +1,6 @@
-<main class="h-full, w-full">
+{{#if notifications}}
   {{#each notifications}}
-  <div class="activity-follow-block relative {{#if read}}bg-gray-400{{#else}}bg-transparent{{/if}}" data-link="{{link}}">
+  <div class="activity-follow-block relative {{#if read}}bg-gray-400{{else}}bg-transparent{{/if}}" data-link="{{link}}">
     {{!-- img --}}
     <div class="activity-follow-img">
       <div class="activity-follow-img-block">
@@ -76,4 +76,18 @@
     {{!-- noti interaction menu overlay --}}
   </div>
   {{/each}}
-</main>
+{{/if}}
+<div class="flex flex-col">
+  <div class="py-24">
+
+  </div>
+  <div class="py-24">
+
+  </div>
+  <div class="py-24">
+
+  </div>
+  <div class="py-24">
+
+  </div>
+</div>

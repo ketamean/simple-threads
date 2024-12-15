@@ -2,7 +2,7 @@ const express = require('express')
 const expHbs = require('express-handlebars')
 const app = express()
 const port =  3000
-const { md_login, md_signup, md_resetPassword, md_feeds } = require('./metadata.js')
+const { md_login, md_signup, md_resetPassword, md_feed } = require('./metadata.js')
 
 app.engine(
     "hbs",
@@ -46,8 +46,8 @@ app.get('/reset-password', (req, res) => {
     res.render('reset-password-set', {layout: 'layoutWelcome'})
 })
 
-app.get('/feeds', (req, res) => {
-    res.locals.css = md_feeds.css
+app.get('/feed', (req, res) => {
+    res.locals.css = md_feed.css
     res.locals.metadata = [
         {
             username: 'A',
@@ -76,7 +76,16 @@ app.get('/feeds', (req, res) => {
             nComments: '20'
         }
     ]
-    res.render('feeds')
+    res.locals.tab_feed = true
+    res.render('feed')
+})
+
+app.get('/notifications', (req, res) => {
+    res.locals.notifications = []
+
+    res.locals.tab_notifications = true
+
+    res.render('notifications')
 })
 
 app.listen(port, () => {
