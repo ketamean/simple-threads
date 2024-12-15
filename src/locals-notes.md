@@ -114,3 +114,36 @@ app.get('/comments', (req, res) => {
   ]
 })
 ```
+# Notifications
+## One notification
+- username: the user (other than this user) who relates to this comment 
+- userId: userId of the above username
+- avatarImagePath
+- one of the followings:
+  - comment: `true` if this notification is "${username} commented on your post"; otherwise, it will not be given
+  - like: `true` if this notification is "${username} liked your post"; otherwise, it will not be given
+  - follow: `true` if this notification is "${username} started to follow you"; otherwise, it will not be given
+- link:
+  - if the notification relates to a post, this attribute will contain the link to the post-comment page. In case the notification relates to commenting, the comment will be bublled to the top of the list of comments
+  - if the noti relates to a user, this attribute will contain the link to the user profile
+- date
+- read: `true` or `false`
+## List of notifications
+- params to passed to `views/notifications.hbs`.
+```js
+notifications = [
+  {
+    username, userId, avatarImagePath, follow: true, link: '/profile/4', date, read: false
+  },
+  {
+    username, userId, avatarImagePath, like: true, link: '/post/13395', date, read: false
+  },
+  {
+    username, userId, avatarImagePath, comment: true, link: '/post/2930', date, read: false
+  },
+]
+```
+# Create post
+```js
+res.locals.username = 'ketamean'
+```
