@@ -1,0 +1,79 @@
+<main class="h-full, w-full">
+  {{#each notifications}}
+  <div class="activity-follow-block relative {{#if read}}bg-gray-400{{#else}}bg-transparent{{/if}}" data-link="{{link}}">
+    {{!-- img --}}
+    <div class="activity-follow-img">
+      <div class="activity-follow-img-block">
+        <a href="#" class="activity-follow-img-link-container" role="link" tabindex="0">
+          <div class="activity-follow-img-div">
+            <img src="{{avatarImagePath}}" alt="img-avt">
+          </div>
+        </a>
+        <div class="activity-follow-img-svg-container">
+          <div class="activity-follow-img-svg avt-color">
+            <svg aria-label="" role="img" viewBox="0 0 18 18" class="activity-svg-avt">
+              <title>svg-icon-avt</title>
+              <path
+                d="M5.81283 13C5.55932 13 5.35968 12.9466 5.2139 12.8398C5.0713 12.736 5 12.5921 5 12.4082C5 12.1235 5.0919 11.8224 5.2757 11.505C5.4595 11.1876 5.72569 10.891 6.07427 10.6151C6.42286 10.3363 6.84274 10.1109 7.33393 9.93882C7.82828 9.76381 8.38285 9.67631 8.99762 9.67631C9.61557 9.67631 10.1701 9.76381 10.6613 9.93882C11.1557 10.1109 11.5756 10.3363 11.921 10.6151C12.2696 10.891 12.5357 11.1876 12.7195 11.505C12.9065 11.8224 13 12.1235 13 12.4082C13 12.5921 12.9271 12.736 12.7813 12.8398C12.6387 12.9466 12.4407 13 12.1872 13H5.81283ZM9.00238 8.87987C8.6633 8.87987 8.34957 8.79384 8.0612 8.6218C7.77283 8.44679 7.53991 8.21246 7.36245 7.9188C7.18816 7.62217 7.10101 7.28995 7.10101 6.92214C7.10101 6.56025 7.18816 6.23396 7.36245 5.94327C7.53991 5.65258 7.77283 5.42269 8.0612 5.25362C8.34957 5.08454 8.6633 5 9.00238 5C9.34145 5 9.65518 5.08306 9.94355 5.24917C10.2319 5.41528 10.4633 5.64368 10.6376 5.93437C10.815 6.2221 10.9037 6.54839 10.9037 6.91324C10.9037 7.28402 10.815 7.61772 10.6376 7.91435C10.4633 8.21098 10.2319 8.44679 9.94355 8.6218C9.65518 8.79384 9.34145 8.87987 9.00238 8.87987Z">
+              </path>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{!-- img --}}
+
+    {{!-- noti content and noti menu --}}
+    <div class="activity-follow-infor-block">
+      {{!-- noti content --}}
+      <div class="activity-follow-infor-left">
+        <div class="activity-follow-infor-header">
+          <div class="activity-follow-infor-header-name">
+            <span>{{username}}</span>
+          </div>
+          <div class="activity-follow-infor-header-time"><span>{{date}}</span></div>
+        </div>
+        <div class="activity-follow-infor-footer">
+          <span>
+            {{#if comment}}
+              Commented on your post
+            {{/if}}
+            {{#if like}}
+              Liked your post
+            {{/if}}
+            {{#if follow}}
+              Followed you
+            {{/if}}
+          </span>
+        </div>
+      </div>
+      {{!-- noti content --}}
+
+      {{!-- noti menu --}}
+      <div class="noti-right">
+        <!-- vertical 3-dot 'more' icon -->
+        <div class="flex items-center">&#x205D</div>
+        <!-- vertical 3-dot 'more' icon -->
+      </div>
+      {{!-- noti menu --}}
+    </div>
+    {{!-- noti content and noti menu --}}
+
+    {{!-- noti interaction menu overlay --}}
+    <div class="z-10 invisibility w-full h-full fixed top-0 bg-black bg-opacity-30">
+      {{!-- container --}}
+      <div class="z-20 flex flex-col rounded-2xl absolute bottom-0">
+        <div class="w-full h-6 text-center">Notification</div>
+        <form class="w-full h-6" action="" {{!-- method="put" --}}>
+          <input class="w-full" type="submit" value="Mark as read">
+        </form>
+        <form class="w-full h-6" action="" {{!-- method="delete" --}}>
+          <input class="w-full" type="submit" value="Delete">
+        </form>
+      </div>
+      {{!-- container --}}
+    </div>
+    {{!-- noti interaction menu overlay --}}
+  </div>
+  {{/each}}
+</main>
