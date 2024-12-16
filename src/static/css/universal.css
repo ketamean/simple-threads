@@ -9,6 +9,14 @@
     padding: 0;
 }
 
+*:focus {
+    box-shadow:none;
+}
+
+*:active {
+    box-shadow:none;
+}
+
 html {
     height: 100vh;
     font-size: calc(12px + 0.15vw); /* define 1rem */
@@ -22,10 +30,6 @@ body {
     font-size: 1rem;
 }
 
-/* main {
-    height: 100%
-} */
-
 header,
 footer {
     backdrop-filter: blur(32px);
@@ -38,13 +42,4 @@ footer {
 
 .footer-svg > .active {
 	fill: #f3f5f7;
-}
-
-input[type=checkbox] {
-    height: auto;
-    width: 12px;
-}
-
-.debug{
-    border: 2px red dashed;
 }
