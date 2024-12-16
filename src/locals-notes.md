@@ -152,3 +152,10 @@ notifications = [
 ```js
 res.locals.username = 'ketamean'
 ```
+# Reset password
+## Ask email
+## Set password
+- Give the link the system sent to the user via email
+```js
+res.locals.link = '/rspw/19ro9cb1o9dlwl'
+```

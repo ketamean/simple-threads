@@ -1,15 +1,19 @@
 const metadata = {}
 
 metadata.md_login = {
-    'css': ['login.css'],
+    'css': ['account-input.css'],
 }
 
 metadata.md_signup = {
-    'css': ['signup.css', 'password-input.css']
+    'css': ['signup.css', 'account-input.css']
 }
 
-metadata.md_resetPassword = {
-    'css': ['reset-password.css', 'password-input.css']
+metadata.md_resetPasswordAsk = {
+    'css': ['account-input.css']
+}
+
+metadata.md_resetPasswordSet = {
+    'css': ['reset-password-set.css', 'account-input.css']
 }
 
 metadata.md_feed = {

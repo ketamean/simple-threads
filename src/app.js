@@ -3,6 +3,7 @@ const expHbs = require('express-handlebars')
 const app = express()
 const port =  3000
 const { md_login, md_signup, md_resetPassword, md_feed } = require('./metadata.js')
+const metadata = require('./metadata.js')
 
 app.engine(
     "hbs",
@@ -42,7 +43,12 @@ app.get('/signup', (req, res) => {
 // })
 
 app.get('/reset-password', (req, res) => {
-    res.locals.css = md_resetPassword.css
+    res.locals.css =  metadata.md_resetPasswordAsk.css
+    res.render('reset-password-ask', {layout: 'layoutWelcome'})
+})
+
+app.get('/reset-password/:id', (req, res) => {
+    res.locals.css =  metadata.md_resetPasswordSet.css
     res.render('reset-password-set', {layout: 'layoutWelcome'})
 })
 
