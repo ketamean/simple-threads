@@ -1,31 +1,85 @@
-<main>
-    <h1>Join <span class="product-name">Simple-Threads</span></h1>
-    <form class="grid-container col-1" action="#" method="">
-        <input type="text" id="username" name="username" placeholder="Username" value="" title="Username" required>
-        <input type="email" id="email" name="email" placeholder="Email" value="" title="Email address" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required>
-        <div class="grid-container password-input-container">
-            <div class="init-password-container">
-                <input type="password" id="password" name="password" placeholder="Password" value="" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)” + “(?=.*[-+_!@#$%^&*., ?]).+$" minlength="8" title="At least 8 characters, with numbers, speacial characters, uppercase letters, and lowercase letters" required>
-                <div class="password-strength-bar"></div>
+<div class="w-full h-full flex justify-center items-center py-14 px-3">
+    <div class="w-full h-auto max-w-xl px-8 py-14 rounded-3xl flex flex-col items-center border border-solid border-gray-600">
+        <h1 class="text-center font-bold text-2xl text-white py-3">
+            Join <span class="text-cyan-100">Simple-Threads</span>
+        </h1>
+        <form
+            class="w-full h-auto grid grid-rows-[auto_auto_auto_auto_auto_auto_auto] grid-cols-2 gap-2"
+            action="/signup" method="post"
+        >
+            {{!-- username input --}}
+            <input
+                class="w-full h-12 rounded-2xl border-none py-2 px-3 row-start-1 row-end-1 col-start-1 col-end-3"
+                type="text" id="username" name="username" placeholder="Username" value="" title="Username" required
+            >
+
+            {{!-- email input --}}
+            <input
+                class="w-full h-12 rounded-2xl border-none py-2 px-3 row-start-2 row-end-2 col-start-1 col-end-3"
+                type="email" id="email" name="email" placeholder="Email" value="" title="Email address" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required
+            >
+
+            {{!-- password input --}}
+            <div class="w-full h-13 row-start-3 row-end-3 col-start-1 col-end-2 flex flex-col items-start gap-1">
+                <input
+                    class="w-full h-12 rounded-2xl border-none py-2 px-3" minlength="8"
+                    type="password" id="password" name="password" placeholder="Password" value=""
+                    pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)” + “(?=.*[-+_!@#$%^&*., ?]).+$"
+                    title="At least 8 characters, with numbers, speacial characters, uppercase letters, and lowercase letters"
+                    autocomplete="new-password"
+                    required
+                >
+                <div class="h-0.5 rounded-lg" id="password-strength-bar">
+                    {{!-- password strength --}}
+                </div>
             </div>
-            <div class="cf-password-container">
-                <input type="password" id="cf-password" name="cf-password" placeholder="Confirm password" value="" title="Re-enter your password" required>
+
+            {{!-- confirm password input --}}
+            <div class="w-full h-12 row-start-3 row-end-3 col-start-2 col-end-3 relative">
+                <input
+                    class="absolute left-0 top-0 w-full h-12 rounded-2xl border-none py-2 pl-3 pr-5"
+                    type="password" id="cf-password" name="cf-password" placeholder="Confirm password" value=""
+                    title="Re-enter your password" autocomplete="new-password" required
+                >
+                <svg
+                    class="absolute h-full self-center right-2 z-50 invisible"
+                    id="password-match-symbol"
+                    width="28px" height="28px" viewBox="0 0 24.00 24.00" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"
+                >
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                    <g id="SVGRepo_iconCarrier">
+                        <path d="M4 12.6111L8.92308 17.5L20 6.5" stroke="#35f35b" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </g>
+                </svg>
             </div>
-            <div>
-                <input type="checkbox" id="show-password">
+            
+            {{!-- show password checkbox --}}
+            <div class="h-4 row-start-4 row-end-4 col-start-1 col-end-3 flex flex-row items-center gap-x-1 cursor-pointer">
+                <input
+                    class="h-auto w-3"
+                    type="checkbox" id="show-password"
+                >
                 <label for="show-password">Show password</label>
             </div>
-            <div class="password-match-container">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#84ff8d" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
-                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
-                </svg>
-                Password matched
-            </div>
-        </div>
-        <input type="submit" value="Sign up">
-    </form>
-    <a href="#">Already have an account?</a>
-</main>
+
+            {{!-- submit button --}}
+            <input
+                class="row-start-5 row-end-5 col-start-1 col-end-3 w-full h-12 rounded-2xl border-none py-2 px-3 text-black bg-slate-200 font-bold cursor-pointer"
+                type="submit" value="Sign up">
+
+            {{!-- link to login page --}}
+            <p class="h-4 row-start-6 row-end-6 col-start-1 col-end-3 w-full text-white text-center">
+                <a
+                    class="w-full visited:text-white visited:no-underline link:text-white link:no-underline active"
+                    href="/login"
+                >
+                    Already have an account?
+                </a>
+            </p>
+        </form>
+    </div>
+</div>
 
 {{!-- <script src="/js/password.js" type="module"></script> --}}
 <script src="/js/signup.js" type="module"></script>

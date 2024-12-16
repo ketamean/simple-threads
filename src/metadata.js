@@ -5,7 +5,7 @@ metadata.md_login = {
 }
 
 metadata.md_signup = {
-    'css': ['signup.css', 'account-input.css']
+    'css': ['password-strength.css', 'account-input.css']
 }
 
 metadata.md_resetPasswordAsk = {
@@ -13,7 +13,7 @@ metadata.md_resetPasswordAsk = {
 }
 
 metadata.md_resetPasswordSet = {
-    'css': ['reset-password-set.css', 'account-input.css']
+    'css': ['password-strength.css', 'account-input.css']
 }
 
 metadata.md_feed = {

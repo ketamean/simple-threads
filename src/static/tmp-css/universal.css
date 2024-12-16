@@ -1,0 +1,45 @@
+:root {
+    --head-foot-height: 3.5rem;
+}
+
+* {
+    font-family: -apple-system, system-ui, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+*:focus {
+    box-shadow:none;
+}
+
+*:active {
+    box-shadow:none;
+}
+
+html {
+    height: 100vh;
+    font-size: calc(12px + 0.15vw); /* define 1rem */
+}
+
+body {
+    height: 100%;
+    width: 100%;
+    background-color: black;
+    color: white;
+    font-size: 1rem;
+}
+
+header,
+footer {
+    backdrop-filter: blur(32px);
+    -webkit-backdrop-filter: blur(32px);
+}
+
+.footer-svg {
+	color: rgba(243, 245, 247, 0.35);
+}
+
+.footer-svg > .active {
+	fill: #f3f5f7;
+}
