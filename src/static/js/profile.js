@@ -139,7 +139,8 @@ editProfileCancel.addEventListener("click", () => {
 	editProfileForm.reset();
 });
 
-editProfileSave.addEventListener("click", () => {
+editProfileSave.addEventListener("click", (event) => {
+	event.preventDefault();
 	editProfileForm.submit();
 	setTimeout(() => {
 		editProfileModal.classList.remove("active");

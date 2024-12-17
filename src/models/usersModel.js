@@ -44,7 +44,7 @@ const user = {
   //update user info
   updateUserInfo: async (userid, alias, bio, filePath) => {
     const query = `
-    UPDATE users SET bio = '${bio}', profile_picture = '${filePath}' WHERE id = ${userid} RETURNING *
+    UPDATE users SET alias = '${alias}', bio = '${bio}', profile_picture = '${filePath}' WHERE id = ${userid} RETURNING *
     `;
     try {
       const res = await client.query(query);
