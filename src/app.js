@@ -1,7 +1,7 @@
 const express = require("express");
 const expHbs = require("express-handlebars");
 const cors = require("cors");
-const dotenv = require("dotenv");
+const dotenv = require("dotenv").config();
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const app = express();
@@ -12,7 +12,6 @@ const {
 	md_resetPassword,
 	md_feeds,
 } = require("./metadata.js");
-
 app.engine(
 	"hbs",
 	expHbs.engine({

@@ -310,11 +310,11 @@
 		</div>
 	</main>
 	<main
-		class="profile-follow-board absolute bg-eerie-black h-0 w-full bottom-0 z-50 rounded-tl-2xl rounded-tr-2xl left-1/2 -translate-x-1/2 overflow-y-hidden transition-all duration-500 ease-in-out bg-jet-black"
-	>
+		data-id={{user.id}}
+		class="profile-follow-board absolute bg-eerie-black h-0 w-full bottom-0 z-50 rounded-tl-2xl rounded-tr-2xl left-1/2 -translate-x-1/2 overflow-y-hidden transition-all duration-500 ease-in-out bg-jet-black">
 		<div class="tabs grid grid-cols-2">
 			<div
-				class="follow-board-item followers flex flex-col items-start justify-around h-10 text-center leading-5"
+				class="follow-board-item followers flex flex-col items-start justify-around h-10 text-center leading-5 active"
 			>
 				<div
 					class="text-follower text-base font-bold text-lucky w-full h-1/2"
@@ -342,7 +342,7 @@
 					<img
 						class="user-avatar w-16 h-16 rounded-full"
 						alt=""
-						src="{{{avatar}}}"
+						src="{{{profile_picture}}}"
 					/>
 					<div
 						style="
@@ -351,6 +351,7 @@
 							justify-content: space-between;
 							width: 80%;
 							height: 80%;
+							padding-left: 0.5rem;
 						"
 					>
 						<div
@@ -369,7 +370,7 @@
 							data-id="{{id}}"
 							data-user = "{{user.id}}"
 						>
-							Following
+							Remove?
 						</button>
 					</div>
 				</div>
@@ -392,6 +393,7 @@
 							justify-content: space-between;
 							width: 80%;
 							height: 80%;
+							padding-left: 0.5rem;
 						"
 					>
 						<div
@@ -529,4 +531,8 @@
 	href="https://cdn.jsdelivr.net/gh/iconoir-icons/iconoir@main/css/iconoir.css"
 />
 <link rel="stylesheet" href="/css/profile.css" />
+<script>
+	const userID = {{user.id}};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="/js/profile.js"></script>

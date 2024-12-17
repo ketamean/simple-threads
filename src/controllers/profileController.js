@@ -1,5 +1,3 @@
-const { Json } = require("sequelize/lib/utils");
-const user = require("../models/usersModel");
 const usersModel = require("../models/usersModel");
 const controller = {}
 
@@ -7,9 +5,7 @@ controller.getProfile = async (req, res) => {
     try {
         const user = await usersModel.findById(req.params.id);
         const followers = await usersModel.getUserFollowers(req.params.id);
-        // const followings = await usersModel.getUserFollowings(req.params.id);
-        // const followers = [];
-        const followings = [];
+        const followings = await usersModel.getUserFollowing(req.params.id);
         if(user.profile_picture === null || user.profile_picture === "") {
             user.profile_picture = "/img/user-placeholder.jpg";
         }
@@ -19,9 +15,74 @@ controller.getProfile = async (req, res) => {
         else if(user.profile_picture.includes("static")) {
             user.profile_picture = user.profile_picture.replace("static", "");
         }
+        for (let i = 0; i < followers.length; i++) {
+            if(followers[i].profile_picture === null || followers[i].profile_picture === "") {
+                followers[i].profile_picture = "/img/user-placeholder.jpg";
+            }
+            else if(followers[i].profile_picture.includes("http")) {
+                followers[i].profile_picture = followers[i].profile_picture;
+            }
+            else if(followers[i].profile_picture.includes("static")) {
+                followers[i].profile_picture = followers[i].profile_picture.replace("static", "");
+            }
+        }
+        for(let i = 0; i < followings.length; i++) {
+            if(followings[i].profile_picture === null || followings[i].profile_picture === "") {
+                followings[i].profile_picture = "/img/user-placeholder.jpg";
+            }
+            else if(followings[i].profile_picture.includes("http")) {
+                followings[i].profile_picture = followings[i].profile_picture;
+            }
+            else if(followings[i].profile_picture.includes("static")) {
+                followings[i].profile_picture = followings[i].profile_picture.replace("static", "");
+            }
+        }
         res.render("profile", { title: "Profile", user: user, followers: followers, followings: followings });
     } catch (err) {
         console.error("Error getting user profile", err.stack);
+        res.status(500).send("Internal server error");
+    }
+}
+
+controller.getFollowers = async (req, res) => {
+    try {
+        const followers = await usersModel.getUserFollowers(req.body.user_id);
+        for(let i = 0; i < followers.length; i++) {
+            if(followers[i].profile_picture === null || followers[i].profile_picture === "") {
+                followers[i].profile_picture = "/img/user-placeholder.jpg";
+            }
+            else if(followers[user].profile_picture.includes("http")) {
+                followers[user].profile_picture = followers[user].profile_picture;
+            }
+            else if(followers[user].profile_picture.includes("static")) {
+                followers[user].profile_picture = followers[user].profile_picture.replace("static", "");
+            }
+        }
+        console.log(followers);
+        res.status(200).json(followers);
+    } catch (err) {
+        console.error("Error getting user followers", err.stack);
+        res.status(500).send("Internal server error");
+    }
+}
+
+controller.getFollowings = async (req, res) => {
+    try {
+        const followings = await usersModel.getUserFollowing(req.body.user_id);
+        for(let i = 0; i < followings.length; i++) {
+            if(followings[i].profile_picture === null || followings[i].profile_picture === "") {
+                followings[i].profile_picture = "/img/user-placeholder.jpg";
+            }
+            else if(followings[i].profile_picture.includes("http")) {
+                followings[i].profile_picture = followings[i].profile_picture;
+            }
+            else if(followings[i].profile_picture.includes("static")) {
+                followings[i].profile_picture = followings[i].profile_picture.replace("static", "");
+            }
+        }
+        res.send(followings);
+    } catch (err) {
+        console.error("Error getting user followings", err.stack);
         res.status(500).send("Internal server error");
     }
 }

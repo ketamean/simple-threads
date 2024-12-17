@@ -1,11 +1,15 @@
 const love = document.querySelectorAll(".love");
 const loveIcon = document.querySelectorAll(".iconoir-heart");
 const likeNum = document.querySelectorAll(".like-number");
-const followStatus = document.querySelectorAll(".follow-status");
+let followStatus = document.querySelectorAll(".follow-status");
 const unfollowModal = document.querySelector(".unfollow-modal");
 const unfollowCard = document.querySelector(".unfollow-card");
 const followersPreview = document.querySelector(".followers-preview");
 const followBoard = document.querySelector(".profile-follow-board");
+const followersBoard = document.querySelector(".follow-board-item.followers");
+const followingBoard = document.querySelector(".follow-board-item.following");
+const followersTab = document.querySelector(".tab-follower");
+const followingTab = document.querySelector(".tab-following");
 const cancelUnfollow = document.querySelector(".cancel");
 const actionRepost = document.querySelectorAll(".action.repost");
 const shareModal = document.querySelector(".share-modal");
@@ -93,7 +97,7 @@ followBoardItem.forEach((item) => {
 
 followStatus.forEach((status, index) => {
 	status.addEventListener("click", () => {
-		if(status.textContent.trim() === "Following") {
+		if(status.textContent.trim() === "Remove?" || status.textContent.trim() === "Following") {
 			currentFollowStatus = index;
 			unfollowModal.classList.add("active");
 			document.body.style.overflow = "hidden";
@@ -164,6 +168,27 @@ profileTabItem.forEach((item) => {
 	});
 });
 
+unfollow.addEventListener("click", async(event) => {
+	const followed_id = followStatus[currentFollowStatus].getAttribute("data-id");
+	const user_id = followStatus[currentFollowStatus].getAttribute("data-user");
+	event.preventDefault();
+	await fetch(`/unfollow/:{id}`, {
+		method: "PUT",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({
+			user_id: user_id,
+			target_id: followed_id,
+		}),
+	});
+	followStatus[currentFollowStatus].textContent = "Follow";
+	followStatus[currentFollowStatus].style.backgroundColor = "#fe0034";
+	followStatus[currentFollowStatus].style.color = "#FFFFFF";
+	unfollowModal.classList.remove("active");
+	document.body.style.overflow = "auto";
+});
+
 followStatus.forEach((status, index) => {
 	status.addEventListener("click", async(event) => {
 		if (status.textContent === "Follow") {
@@ -188,23 +213,174 @@ followStatus.forEach((status, index) => {
 	});
 });
 
-unfollow.addEventListener("click", async(event) => {
-	const followed_id = followStatus[currentFollowStatus].getAttribute("data-id");
-	const user_id = followStatus[currentFollowStatus].getAttribute("data-user");
-	event.preventDefault();
-	await fetch(`/unfollow/:{id}`, {
-		method: "PUT",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify({
-			user_id: user_id,
-			target_id: followed_id,
-		}),
+followersBoard.addEventListener("click", async(event) => {
+	followersTab.classList.remove("hidden");
+	followersTab.classList.add("block");
+	followingTab.classList.add("hidden");
+	followingTab.classList.remove("block");
+	let followers = await axios.post(`/profile/:{id}/followers`, {
+		user_id: userID,
 	});
-	followStatus[currentFollowStatus].textContent = "Follow";
-	followStatus[currentFollowStatus].style.backgroundColor = "#fe0034";
-	followStatus[currentFollowStatus].style.color = "#FFFFFF";
-	unfollowModal.classList.remove("active");
-	document.body.style.overflow = "auto";
+	followers = followers.data;
+	followersTab.innerHTML = "";
+	for(let user of followers) {
+		const follower = `<div
+					class="user w-full h-20 flex items-center justify-evenly px-3 border-b border-solid border-neon-white-15"
+				>
+					<img
+						class="user-avatar w-16 h-16 rounded-full"
+						alt=""
+						src=${user.profile_picture}
+					/>
+					<div
+						style="
+							display: flex;
+							align-items: center;
+							justify-content: space-between;
+							width: 80%;
+							height: 80%;
+							padding-left: 0.5rem;
+						"
+					>
+						<div
+							class="user-names flex flex-col justify-evenly h-5/6"
+						>
+							<div
+								class="user-alias text-white text-base font-semibold"
+							>${user.alias}</div>
+							<div
+								class="user-username text-white text-base opacity-35"
+							>${user.username}</div>
+						</div>
+						<button
+							type="button"
+							class="follow-status px-4 w-28 h-8 border border-solid border-neon-white-15 rounded-xl cursor-pointer text-next text-base font-semibold bg-transparent"
+							data-id="${user.id}"
+							data-user = "${userID}"
+						>
+							Remove?
+						</button>
+					</div>
+				</div>`
+		followersTab.innerHTML += follower;
+	}
+	followStatus = document.querySelectorAll(".follow-status");
+	followStatus.forEach((status, index) => {
+		status.addEventListener("click", () => {
+			if(status.textContent.trim() === "Remove?" || status.textContent.trim() === "Following") {
+				currentFollowStatus = index;
+				unfollowModal.classList.add("active");
+				document.body.style.overflow = "hidden";
+			}
+		});
+	});
+	followStatus.forEach((status, index) => {
+		status.addEventListener("click", async(event) => {
+			if (status.textContent === "Follow") {
+				event.preventDefault();
+				const followed_id = status.getAttribute("data-id");
+				const user_id = status.getAttribute("data-user");
+				await fetch(`/follow/:{id}`, {
+					method: "PUT",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						user_id: user_id,
+						target_id: followed_id,
+					}),
+				});
+				status.textContent = "Following";
+				status.style.backgroundColor = "transparent";
+				status.style.border = "0.8px solid rgba(243, 245, 247, 0.15)";
+				status.style.color = "rgb(119, 119, 119)";
+			}
+		});
+	});
+});
+
+followingBoard.addEventListener("click", async(event) => {
+	followersTab.classList.add("hidden");
+	followersTab.classList.remove("block");
+	followingTab.classList.remove("hidden");
+	followingTab.classList.add("block");
+	let followings = await axios.post(`/profile/:{id}/followings`, {
+		user_id: userID,
+	});
+	followings = followings.data
+	followingTab.innerHTML = "";
+	for(let user of followings) {
+		const following = `<div
+					class="user w-full h-20 flex items-center justify-evenly px-3 border-b border-solid border-neon-white-15"
+				>
+					<img
+						class="user-avatar w-16 h-16 rounded-full"
+						alt=""
+						src=${user.profile_picture}
+					/>
+					<div
+						style="
+							display: flex;
+							align-items: center;
+							justify-content: space-between;
+							width: 80%;
+							height: 80%;
+							padding-left: 0.5rem;
+						"
+					>
+						<div
+							class="user-names flex flex-col justify-evenly h-5/6"
+						>
+							<div
+								class="user-alias text-white text-base font-semibold"
+							>${user.alias}</div>
+							<div
+								class="user-username text-white text-base opacity-35"
+							>${user.username}</div>
+						</div>
+						<button
+							type="button"
+							class="follow-status px-4 w-28 h-8 border border-solid border-neon-white-15 rounded-xl cursor-pointer text-next text-base font-semibold bg-transparent"
+							data-id="${user.id}"
+							data-user = "${userID}"
+						>
+							Following
+						</button>
+					</div>
+				</div>`
+		followingTab.innerHTML += following;
+	}
+	followStatus = document.querySelectorAll(".follow-status");
+	followStatus.forEach((status, index) => {
+		status.addEventListener("click", () => {
+			if(status.textContent.trim() === "Following") {
+				currentFollowStatus = index;
+				unfollowModal.classList.add("active");
+				document.body.style.overflow = "hidden";
+			}
+		});
+	});
+	followStatus.forEach((status, index) => {
+		status.addEventListener("click", async(event) => {
+			if (status.textContent === "Follow") {
+				event.preventDefault();
+				const followed_id = status.getAttribute("data-id");
+				const user_id = status.getAttribute("data-user");
+				await fetch(`/follow/:{id}`, {
+					method: "PUT",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						user_id: user_id,
+						target_id: followed_id,
+					}),
+				});
+				status.textContent = "Following";
+				status.style.backgroundColor = "transparent";
+				status.style.border = "0.8px solid rgba(243, 245, 247, 0.15)";
+				status.style.color = "rgb(119, 119, 119)";
+			}
+		});
+	});
 });
