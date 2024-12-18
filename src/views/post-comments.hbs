@@ -1,43 +1,43 @@
-{{> post}}
-
-<div id="comments-container">
-    {{#each comments}}
-    <div class="comment-block">
-        <!-- user mini avatar -->
-        <div class="comment-creator-img">
-            <div class="comment-creator-img-block">
-                <a href="/profile/{{userId}}" class="comment-creator-img-link-container" role="link" tabindex="0">
-                    <div class="comment-creator-img-div">
-                        <img src="{{avatarImagePath}}" alt="img-avt">
-                    </div>
+<div class="w-full h-full">
+  {{> post post}}
+  <div class="h-full w-full flex flex-col gap-y-3">
+      {{#each comments}}
+      <div class="w-full my-4 grid grid-cols[3rem_1fr] gap-x-4">
+        <!-- left: user avatar -->
+        <div class="w-full h-full col-start-1 col-end-1">
+          <a href="/profile/{{userId}}" class="m-0 p-0" role="link" tabindex="0">
+            <img
+              class="border-none object-cover rounded-full"
+              height="36" width="36" src="{{avatarImagePath}}" alt="{{username}}'s profile picture"
+            >
+          </a>
+        </div>
+        
+        <!-- right: username-date & content -->
+        <div class="grid grid-rows-[1.5rem_1fr] col-start-2 col-end-2 h-full w-full">
+          <!-- username-date -->
+          <div class="flex gap-x-2 w-full max-w-full overflow-hidden self-center items-center justify-start row-start-1 row-end-1">
+            <!-- username -->
+            <div class="max-w-40 overflow-hidden text-ellipsis whitespace-nowrap">
+                <a
+                  class="w-full visited:text-white visited:no-underline link:text-white link:no-underline hover:underline hover:font-bold hover:text-white"
+                  href="/profile/{{userId}}"
+                >
+                    <span>{{username}}</span>
                 </a>
             </div>
-        </div>
-
-        <div class="comment-info-block">
-            <div class="comment-info-container">
-                <div class="comment-info-element">
-                    <div class="comment-info-left">
-                        <!-- username & date -->
-                        <div class="comment-info-header">
-                            <div class="comment-info-header-name change-width">
-                                <a class="w-full" href="/profile/{{userId}}">
-                                    <span>{{username}}</span>
-                                </a>
-                            </div>
-                            <div class="comment-info-header-time">
-                                <span>{{date}}</span>
-                            </div>
-                        </div>
-
-                        <!-- content -->
-                        <div class="comment-info-content">
-                            <span>{{content}}</span>
-                        </div>
-                    </div>
-                </div>
+            <!-- date -->
+            <div class="max-w-40 overflow-hidden text-ellipsis font-normal text-slate-500 leading-5">
+                <span>{{date}}</span>
             </div>
+          </div>
+
+          <!-- content -->
+          <div class="row-start-2 row-end-2 font-normal break-words text-slate-100">
+            <span>{{content}}</span>
+          </div>
         </div>
-    </div>
-    {{/each}}
+      </div>
+      {{/each}}
+  </div>
 </div>
