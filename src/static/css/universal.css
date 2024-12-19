@@ -36,10 +36,24 @@ footer {
     -webkit-backdrop-filter: blur(32px);
 }
 
+header a#logo {
+    transition: 0.15s ease-in transform;
+}
+
+header a#logo:hover {
+    transform: scale(1.1);
+}
+
 .footer-svg {
 	color: rgba(243, 245, 247, 0.35);
 }
 
 .footer-svg > .active {
 	fill: #f3f5f7;
+}
+
+@media (min-width: 640px) {
+    footer {
+        height: calc(100vh - 3.5rem) !important;
+    }
 }
