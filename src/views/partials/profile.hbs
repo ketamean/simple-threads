@@ -1,153 +1,291 @@
-<main class="profile-main">
-  <div class="basic-info">
-    <div class="bio">
-      <div class="user-info">
-        <div class="alias">Đỗ Hải</div>
-        <div class="username">sea_pea_04</div>
-      </div>
-      <div class="followers-preview">
-        <div class="number-of-follower">100 followers</div>
-      </div>
-    </div>
-    <img
-      src="{{avatarImagePath}}"
-      alt="{{username}}"
-      class="user-avatar"
-    />
-  </div>
-  <div class="flex flex-row items-center">
-    {{!-- class="share-n-edit" --}}
-    {{#if personal}}
-    <button type="button" class="edit-profile">Edit profile</button>
-    {{/if}}
-    <button type="button" class="share-profile">
-      Share profile
-    </button>
-  </div>
-  <div class="tabs col-3">
-    <div class="profile-tab-item threads active">Threads</div>
-    <div class="profile-tab-item replies">Replies</div>
-    <div class="profile-tab-item reposts">Reposts</div>
-  </div>
-  <div class="post-tab">
-    {{#each posts}}
-      {{> post this}}
-    {{/each}}
-  </div>
-</main>
-<main class="profile-follow-board">
-  <div class="tabs col-2">
-    <div class="follow-board-item followers active">
-      <div class="text-follower">Follower</div>
-      <div class="num-follower"></div>
-    </div>
-    <div class="follow-board-item following">
-      <div class="text-following">Following</div>
-      <div class="num-following"></div>
-    </div>
-  </div>
-  <div class="tab tab-follower active">
-    {{!-- contain all the followers --}}
-    <div class="user">
-      <img
-        class="user-avatar"
-        alt=""
-        src="#"
-      />
-      <div
-        style="
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          width: 80%;
-          height: 80%;
-        "
-      >
-        <div class="user-names">
-          <div class="user-alias">hehe</div>
-          <div class="user-username">hihi</div>
-        </div>
-        <button type="button" class="follow-status">
-          Following
-        </button>
-      </div>
-    </div>
-  </div>
-  <div class="tab tab-following">
-    <div class="user">
-      <img
-        class="user-avatar"
-        alt=""
-        src="#"
-      />
-      <div
-        class="flex justify-between items-center w-4/5 h-4/5"
-      >
-        <div class="user-names">
-          <div class="user-alias"></div>
-          <div class="user-username"></div>
-        </div>
-        <button type="button" class="follow-status">
-          Following /  Follow
-        </button>
-      </div>
-    </div>
-  </div>
-</main>
-<div class="unfollow-modal">
-  <div class="unfollow-card">
-    <div class="prompt-user">
-      <img
-        src="{{!-- user-avatar --}}"
-        alt=""
-        class="unfollowee-avatar"
-      />
-      <div class="question">
-        Unfollow&nbsp;
-        <div class="unfollowee-username">
-          {{!-- username --}}
-        </div>
-        ?
-      </div>
-    </div>
-    <div class="choices col-2">
-      <div class="cancel">Cancel</div>
-      <div class="unfollow">Unfollow</div>
-    </div>
-  </div>
-</div>
-<div class="edit-profile-modal">
-  <div class="edit-profile-header">
-    <div class="edit-profile-header-item cancel">Cancel</div>
-    <div class="edit-profile-header-item title">Edit Profile</div>
-    <div class="edit-profile-header-item save">Save</div>
-  </div>
-  <div class="edit-profile-card">
-    <form
-      action="#"
-      class="edit-profile-form"
-      enctype="multipart/form-data"
-    >
-      <label for="avatar" class="avatar-label"></label>
-      <input
-        type="file"
-        name="avatar"
-        style="display: none"
-        class="avatar-input"
-        accept="image/png, image/jpeg, image/jpg, image/gif"
-      />
-      <div class="form-item">
-        <label for="username">Username</label>
-        <input type="text" name="username" value="" placeholder="{{username}}"/>
-      </div>
-      <div class="form-item">
-        <label for="bio">Bio</label>
-        <input type="text" name="bio" />
-      </div>
-      <!-- <div class="form-item">
-                        <label for="Link">Link</label>
-                        <input type="text" name="Link" />
-                    </div> -->
-    </form>
-  </div>
-</div>
+	<div
+		class="profile-main w-full h-auto mb-16 max-w-xl text-white pt-16 lg:absolute lg:left-1/2 lg:-translate-x-1/2 md:mb-0 md:absolute md:left-1/2 md:-translate-x-1/2"
+	>
+		<div
+			class="basic-info w-full h-36 flex flex-row justify-between pt-4 pl-2 pb-3 pr-2"
+		>
+			<div class="bio flex flex-col h-full justify-between">
+				<div class="user-info h-24 flex flex-col justify-evenly">
+					{{#with user}}
+						<div class="alias text-3xl font-bold">{{{alias}}}</div>
+						<div
+							class="username text-lg font-normal"
+						>{{{username}}}</div>
+						<div class="bio text-lg font-medium text-ellipsis">{{{bio}}}</div>
+					{{/with}}
+				</div>
+				<div class="followers-preview h-9 cursor-pointer select-none">
+					<div class="image-preview relative">
+						<img
+							src="/img/user-placeholder.jpg"
+							alt=""
+							class="preview-followers w-4 h-4 rounded-full absolute "
+						/>
+						<img
+							src="/img/user-placeholder.jpg"
+							alt=""
+							class="preview-followers w-4 h-4 rounded-full absolute ml-3 "
+						/>
+						<img
+							src="/img/user-placeholder.jpg"
+							alt=""
+							class="preview-followers w-4 h-4 rounded-full absolute ml-6 "
+						/>
+					</div>
+					<div
+						class="number-of-follower w-full h-4 ml-8 text-nowrap text-center leading-4 text-base text-lucky hover:underline"
+					>{{{followers.length}}} {{#if (compare followers.length '>' 1)}}followers{{else}}follower{{/if}}</div>
+				</div>
+			</div>
+			<img
+				src="{{{user.profile_picture}}}"
+				alt=""
+				class="user-avatar w-16 h-16 rounded-full"
+			/>
+		</div>
+		<div
+			class="share-n-edit w-full h-9 flex justify-evenly text-sm leading-6 mt-6"
+		>
+		{{#if personal}}
+			<button
+				type="button"
+				class="edit-profile w-5/12 h-full flex justify-center items-center rounded-xl cursor-pointer border border-solid border-neon-white-15 bg-jet-black text-neon-white font-semibold text-base"
+			>Edit profile</button>
+		{{/if}}
+			<button
+				type="button"
+				class="share-profile w-5/12 h-full flex justify-center items-center rounded-xl cursor-pointer border border-solid border-neon-white-15 bg-jet-black text-neon-white font-semibold text-base"
+			>
+				Share profile
+			</button>
+		</div>
+		<div
+			class="tabs grid grid-cols-3 w-full h-16 mt-5 text-base text-center leading-12 text-next border-b border-solid border-neon-white-15 font-semibold"
+		>
+			<div
+				class="profile-tab-item threads active cursor-pointer"
+			>Threads</div>
+			<div class="profile-tab-item replies cursor-pointer">Replies</div>
+			<div class="profile-tab-item reposts cursor-pointer">Reposts</div>
+		</div>
+		<div
+			class="post-tab w-full h-auto flex min-h-post justify-evenly items-center flex-col mb-8"
+		>
+		{{#each posts}}
+			{{> post this}}
+		{{/each}}
+		</div>
+	</div>
+	<div
+		data-id={{user.id}}
+		class="profile-follow-board absolute bg-eerie-black h-0 w-full bottom-0 z-50 rounded-tl-2xl rounded-tr-2xl left-1/2 -translate-x-1/2 overflow-y-hidden transition-all duration-500 ease-in-out bg-jet-black md:-translate-x-1/2 lg:-translate-x-1/2 md:mb-0 lg:mb-0 md:transition-none lg:transition-none">
+		<div class="tabs grid grid-cols-2">
+			<div
+				class="follow-board-item followers flex flex-col items-start justify-around h-12 text-center leading-5 active"
+			>
+				<div
+					class="text-follower text-base font-bold text-lucky w-full h-1/2"
+				>Follower</div>
+				<div
+					class="num-follower text-xs text-lucky w-full h-1/2"
+				>{{{followers.length}}}</div>
+			</div>
+			<div
+				class="follow-board-item flex flex-col items-start justify-around h-12 text-center leading-5 following"
+			>
+				<div
+					class="text-following text-base font-bold text-lucky w-full h-1/2"
+				>Following</div>
+				<div
+					class="num-following text-xs text-lucky w-full h-1/2"
+				>{{followings.length}}</div>
+			</div>
+		</div>
+		<div class="tab tab-follower w-full h-tab overflow-y-scroll block">
+			{{#each followers}}
+				<div
+					class="user w-full h-20 flex items-center justify-evenly px-3 border-b border-solid border-neon-white-15"
+					data-id="{{id}}"
+					data-alias="{{alias}}"
+				>
+					<img
+						class="user-avatar w-16 h-16 rounded-full"
+						alt=""
+						src="{{{profile_picture}}}"
+					/>
+					<div
+						style="
+							display: flex;
+							align-items: center;
+							justify-content: space-between;
+							width: 80%;
+							height: 80%;
+							padding-left: 0.5rem;
+						"
+					>
+						<div
+							class="user-names flex flex-col justify-evenly h-5/6"
+						>
+							<div
+								class="user-alias text-white text-base font-semibold"
+							>{{{alias}}}</div>
+							<div
+								class="user-username text-white text-base opacity-35"
+							>{{{username}}}</div>
+						</div>
+						<button
+							type="button"
+							class="follow-status px-4 w-28 h-8 border border-solid border-neon-white-15 rounded-xl cursor-pointer text-next text-base font-semibold bg-transparent"
+							data-id="{{id}}"
+							data-user = "{{user.id}}"
+						>
+							Remove?
+						</button>
+					</div>
+				</div>
+			{{/each}}
+		</div>
+		<div class="tab tab-following w-full h-tab overflow-y-scroll hidden">
+			{{#each following}}
+				<div
+					class="user w-full h-20 flex items-center justify-evenly px-3 border-b border-solid border-neon-white-15"
+					data-id="{{id}}"
+					data-alias="{{alias}}"
+				>
+					<img
+						class="user-avatar w-16 h-16 rounded-full"
+						alt=""
+						src="{{{avatar}}}"
+					/>
+					<div
+						style="
+							display: flex;
+							align-items: center;
+							justify-content: space-between;
+							width: 80%;
+							height: 80%;
+							padding-left: 0.5rem;
+						"
+					>
+						<div
+							class="user-names flex flex-col justify-evenly h-5/6"
+						>
+							<div
+								class="user-alias text-white text-base font-semibold"
+							>{{{alias}}}</div>
+							<div
+								class="user-username text-white text-base opacity-35"
+							>{{{username}}}</div>
+						</div>
+						<button
+							type="button"
+							class="follow-status px-4 w-28 h-8 border border-solid border-neon-white-15 rounded-xl cursor-pointer text-next text-base font-semibold bg-transparent"
+							data-id="{{id}}"
+							data-user = "{{user.id}}"
+						>
+							Following
+						</button>
+					</div>
+				</div>
+			{{/each}}
+		</div>
+	</div>
+	<div
+		class="unfollow-modal absolute hidden w-full h-full bg-semi-black z-50 justify-center items-center top-0 left-0 overflow-hidden"
+	>
+		<div
+			class="unfollow-card flex flex-col w-72 h-52 rounded-2xl bg-24 border border-solid border-neon-white-15 items-center justify-between"
+		>
+			<div
+				class="prompt-user w-full p-3 h-32 flex flex-col justify-evenly items-center mt-3"
+			>
+				<img
+					src="/img/user-placeholder.jpg"
+					alt=""
+					class="unfollowee-avatar w-16 h-16 rounded-full"
+				/>
+				<div
+					class="question text-base font-semibold text-neon-white flex justify-center items-center"
+				>
+					Unfollow&nbsp;
+				</div>
+			</div>
+			<div
+				class="choices grid grid-cols-2 w-full h-14 rounded-bl-2xl rounded-br-2xl"
+			>
+				<div
+					class="cancel rounded-bl-2xl w-full h-14 flex justify-center items-center cursor-pointer border border-solid border-neon-white-15 text-base font-bold select-none text-white"
+				>Cancel</div>
+				<div
+					class="unfollow rounded-br-2xl w-full h-14 flex justify-center items-center cursor-pointer border border-solid border-neon-white-15 text-base font-bold select-none text-red-500"
+				>Unfollow</div>
+			</div>
+		</div>
+	</div>
+	<div
+		class="edit-profile-modal fixed overflow-y-hidden w-full h-full bg-jet-black z-50 justify-center items-center top-0 left-0 hidden overflow-hidden"
+	>
+		<div
+			class="edit-profile-header absolute top-0 w-full h-16 text-base p-3 flex items-center justify-between bg-chinese-black border border-solid border-neon-white-15"
+		>
+			<div class="edit-profile-header-item cancel text-white">Cancel</div>
+			<div
+				class="edit-profile-header-item title font-semibold text-white text-xl"
+			>Edit Profile</div>
+			<div class="edit-profile-header-item save text-white">Save</div>
+		</div>
+		<div
+			class="edit-profile-card bg-chinese-black border border-solid border-neon-white-15 rounded-2xl w-96 h-13 flex flex-col justify-evenly p-3 text-base relative"
+		>
+			<form
+				action="/profile/{{{user.id}}}"
+				class="edit-profile-form"
+				enctype="multipart/form-data"
+				method="POST"
+			>
+				<label
+					for="avatar"
+					class="avatar-label w-16 h-16 flex justify-center items-center rounded-full absolute right-1 top-1 bg-userPlaceholder bg-cover bg-center bg-no-repeat cursor-pointer"
+				></label>
+				<input
+					type="file"
+					name="avatar"
+					style="display: none"
+					class="avatar-input"
+					accept="image/png, image/jpeg, image/jpg, image/gif"
+				/>
+				<div
+					class="form-item w-full h-20 flex flex-col justify-evenly p-2"
+				>
+					<label for="alias" class="text-white">Name</label>
+					<input
+						type="text"
+						name="alias"
+						placeholder="{{{user.alias}}}"
+						class="w-full h-10 text-neon-white border-b-2 p-0 focus:border-b-2 focus:border-solid focus:border-neon-white bg-transparent text-neon-white outline-none"
+					/>
+				</div>
+				<div
+					class="form-item form-item w-full h-20 flex flex-col justify-evenly p-2"
+				>
+					<label for="bio" class="text-white">Bio</label>
+					<input
+						type="text"
+						name="bio"
+						class="w-full h-10 text-neon-white border-b-2 p-0 focus:border-b-2 focus:border-solid focus:border-neon-white bg-transparent text-neon-white outline-none"
+					/>
+				</div>
+			</form>
+		</div>
+	</div>
+	{{!-- {{log > personal}} --}}
+<link
+	rel="stylesheet"
+	href="https://cdn.jsdelivr.net/gh/iconoir-icons/iconoir@main/css/iconoir.css"
+/>
+<link rel="stylesheet" href="/css/profile.css" />
+<script>
+	const userID = {{user.id}};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="/js/profile.js"></script>
