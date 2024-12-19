@@ -15,6 +15,49 @@
         {{/each}}
     {{/if}}
     <link rel="icon" type="image/x-icon" href="/img/favicon.png">
+    <script>
+        tailwind.config = {
+            theme: {
+                    extend: {
+                        colors: {
+                            "jet-black": '#0a0a0a',
+                            'semi-black': 'rgba(0, 0, 0, 0.5)',
+                            'chinese-black': '#101010',
+                            "neon-white": {
+                                "DEFAULT": '#f3f5f7',
+                                "15": "rgba(243, 245, 247, 0.15)",
+                                "35": "rgba(243, 245, 247, 0.35)",
+                            },
+                            "eerie-black": '#181818',
+                            "see-more": "rgb(173, 163, 150)",
+                            "next": "rgb(119, 119, 119)",
+                            "pop-up": "#787878",
+                            "lucky": "#777777",
+                            "333": "#333333",
+                            "24": "rgb(24,24,24)"
+                        },
+                        lineHeight:{
+                            "12": '48px',
+                            "16": '4rem',
+                            'settingBtn': 'calc(1.4 * 1em)',
+                        },
+                        spacing:{
+                            "settingBox": "340.656px",
+                            "0.5": "0.125rem",
+                            "post": "32rem",
+                            "followBoard": "calc(100% - 120px)",
+                            "tab": "calc(100% - 48px)"
+                        },
+                        gridTemplateColumns:{
+                            "post": "12% 88%;"
+                        },
+                        backgroundImage:{
+                            userPlaceholder: "url('/img/user-placeholder.jpg')",
+                        }
+                    }
+                },
+            }
+    </script>
 </head>
 <body>
     <div class="w-full h-full sm:grid sm:grid-cols-[3.5rem_1fr]">

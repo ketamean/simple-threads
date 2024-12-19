@@ -320,9 +320,9 @@ div {
 }
 
 .activity-follow-block {
-  display: block;
-  position: relative;
-  height: auto;
+  /* display: block; */
+  /* position: relative; */
+  /* height: auto; */
   margin-top: 12px;
   margin-bottom: 12px;
   overflow-x: hidden;
