@@ -133,6 +133,7 @@
 								class="user-username text-white text-base opacity-35"
 							>{{{username}}}</div>
 						</div>
+						{{#if personal}}
 						<button
 							type="button"
 							class="follow-status px-4 w-28 h-8 border border-solid border-neon-white-15 rounded-xl cursor-pointer text-next text-base font-semibold bg-transparent"
@@ -141,6 +142,7 @@
 						>
 							Remove?
 						</button>
+						{{/if}}
 					</div>
 				</div>
 			{{/each}}
@@ -177,6 +179,7 @@
 								class="user-username text-white text-base opacity-35"
 							>{{{username}}}</div>
 						</div>
+						{{#if personal}}
 						<button
 							type="button"
 							class="follow-status px-4 w-28 h-8 border border-solid border-neon-white-15 rounded-xl cursor-pointer text-next text-base font-semibold bg-transparent"
@@ -185,6 +188,7 @@
 						>
 							Following
 						</button>
+						{{/if}}
 					</div>
 				</div>
 			{{/each}}
@@ -278,7 +282,6 @@
 			</form>
 		</div>
 	</div>
-	{{!-- {{log > personal}} --}}
 <link
 	rel="stylesheet"
 	href="https://cdn.jsdelivr.net/gh/iconoir-icons/iconoir@main/css/iconoir.css"
@@ -286,6 +289,7 @@
 <link rel="stylesheet" href="/css/profile.css" />
 <script>
 	const userID = {{user.id}};
+	const personal = {{personal}};
 </script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="/js/profile.js"></script>
