@@ -20,4 +20,16 @@ metadata.md_feed = {
     // 'css': ['post.css', 'feeds.css']
 }
 
+metadata.md_createPost = {
+    // 'css': ['post.css', 'feeds.css']
+}
+
+metadata.md_profile = {
+    
+}
+
+metadata.md_comments= {
+    css: ['hide-hover.css']
+}
+
 module.exports = metadata

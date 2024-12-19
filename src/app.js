@@ -86,11 +86,35 @@ app.get('/feed', (req, res) => {
     res.render('feed')
 })
 
+app.get('/create-post',(req, res) => {
+    res.locals.username = 'vinhpham'
+    res.locals.css = metadata.md_createPost.css || []
+    res.locals.tab_createPost = true
+    res.render('create-post')
+})
+
+app.get('/profile', (req, res) => {
+    res.locals.css = metadata.md_profile.css || []
+    res.locals.tab_profile = true
+    res.render('personal-profile')
+})
+
 app.get('/notifications', (req, res) => {
-    res.locals.notifications = []
-
+    res.locals.notifications = [
+        {
+            username: 'ketamean', userId: '1', avatarImagePath: '/', content: 'liked your post', link: '/', date: '19/12/2024', read: true
+        },
+        {
+            username: 'ketamean', userId: '1', avatarImagePath: '/', content: 'liked your post', link: '/', date: '19/12/2024', read: false
+        },
+        {
+            username: 'ketamean', userId: '1', avatarImagePath: '/', content: 'commented on your post', link: '/', date: '19/12/2024', read: false
+        },
+        {
+            username: 'hahahahahhdksfiowedkdlkjkdjlakdj', userId: '1', avatarImagePath: '/', content: 'followed you', link: '/', date: '19/12/2024', read: true
+        },
+    ]
     res.locals.tab_notifications = true
-
     res.render('notifications')
 })
 
