@@ -61,7 +61,9 @@ function getCookies() {
 followersPreview.addEventListener("click", async () => {
 	followBoard.classList.toggle("active");
 	if (followBoard.classList.contains("active")) {
-		document.body.style.overflow = "hidden";
+		if (window.matchMedia("(min-width: 640px)").matches && window.matchMedia("(max-width: 768px)").matches) {
+			document.body.style.overflow = "hidden";
+		}
 	}
 });
 
