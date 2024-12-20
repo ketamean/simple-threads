@@ -8,7 +8,7 @@ const upload = require("../middleware/upload");
 
 //get - login/Sign In
 router.get("/", (req, res) => {
-  res.redirect("users/signIn");
+  res.redirect("users/signin");
 });
 
 router.get("/signin", userController.getSignIn);
@@ -21,7 +21,7 @@ router.post("/signup", userController.signUp);
 router.post("/signin", userController.signIn);
 
 //post - handle sign out
-router.post("/signout", middleware.verifyToken, userController.signOut);
+router.post("/signout", userController.signOut);
 
 //reset password
 router.get("/resetpassword", userController.getresetPasswordAsk);
