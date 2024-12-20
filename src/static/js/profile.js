@@ -61,7 +61,12 @@ function getCookies() {
 followersPreview.addEventListener("click", async () => {
 	followBoard.classList.toggle("active");
 	if (followBoard.classList.contains("active")) {
-		document.body.style.overflow = "hidden";
+		if (
+			window.matchMedia("(min-width: 640px)").matches &&
+			window.matchMedia("(max-width: 768px)").matches
+		) {
+			document.body.style.overflow = "hidden";
+		}
 	}
 });
 
@@ -78,12 +83,17 @@ document.addEventListener("click", (e) => {
 	}
 });
 
-unfollowModal.addEventListener("click", (e) => {
-	if (unfollowModal.contains(e.target) && !unfollowCard.contains(e.target)) {
-		unfollowModal.classList.remove("active");
-		document.body.style.overflow = "auto";
-	}
-});
+if (personal) {
+	unfollowModal.addEventListener("click", (e) => {
+		if (
+			unfollowModal.contains(e.target) &&
+			!unfollowCard.contains(e.target)
+		) {
+			unfollowModal.classList.remove("active");
+			document.body.style.overflow = "auto";
+		}
+	});
+}
 
 followBoardItem.forEach((item) => {
 	item.addEventListener("click", () => {
@@ -100,12 +110,12 @@ followStatus.forEach((status, index) => {
 			status.textContent.trim() === "Remove?" ||
 			status.textContent.trim() === "Following"
 		) {
-			const grandparent=status.parentElement.parentElement;
+			const grandparent = status.parentElement.parentElement;
 			const target_alias = grandparent.getAttribute("data-alias");
 			currentFollowStatus = index;
 			unfollowModal.classList.add("active");
 			document.body.style.overflow = "hidden";
-			unfollowQuestion.innerHTML = 'Unfollow &nbsp';
+			unfollowQuestion.innerHTML = "Unfollow &nbsp";
 			unfollowQuestion.innerHTML += `					<div
 						class="unfollowee-username whitespace-nowrap overflow-hidden text-ellipsis w-fit-content max-w-24"
 					>
@@ -120,10 +130,12 @@ cancelUnfollow.addEventListener("click", () => {
 	document.body.style.overflow = "auto";
 });
 
-editProfile.addEventListener("click", () => {
-	editProfileModal.classList.add("active");
-	document.body.style.overflow = "hidden";
-});
+if (personal) {
+	editProfile.addEventListener("click", () => {
+		editProfileModal.classList.add("active");
+		document.body.style.overflow = "hidden";
+	});
+}
 
 editProfileCancel.addEventListener("click", () => {
 	editProfileModal.classList.remove("active");
@@ -166,26 +178,29 @@ profileTabItem.forEach((item) => {
 	});
 });
 
-unfollow.addEventListener("click", async (event) => {
-	const targetID = followStatus[currentFollowStatus].getAttribute("data-id");
-	event.preventDefault();
-	await fetch(`${userID}/unfollow`, {
-		method: "PUT",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify({
-			user_id: userID,
-			target_id: targetID,
-		}),
+if (personal) {
+	unfollow.addEventListener("click", async (event) => {
+		const targetID =
+			followStatus[currentFollowStatus].getAttribute("data-id");
+		event.preventDefault();
+		await fetch(`${userID}/unfollow`, {
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				user_id: userID,
+				target_id: targetID,
+			}),
+		});
+		numFollowings.textContent = parseInt(numFollowings.textContent) - 1;
+		followStatus[currentFollowStatus].textContent = "Follow";
+		followStatus[currentFollowStatus].style.backgroundColor = "#fe0034";
+		followStatus[currentFollowStatus].style.color = "#FFFFFF";
+		unfollowModal.classList.remove("active");
+		document.body.style.overflow = "auto";
 	});
-	numFollowings.textContent = parseInt(numFollowings.textContent) - 1;
-	followStatus[currentFollowStatus].textContent = "Follow";
-	followStatus[currentFollowStatus].style.backgroundColor = "#fe0034";
-	followStatus[currentFollowStatus].style.color = "#FFFFFF";
-	unfollowModal.classList.remove("active");
-	document.body.style.overflow = "auto";
-});
+}
 
 followStatus.forEach((status, index) => {
 	status.addEventListener("click", async (event) => {
@@ -223,7 +238,7 @@ followersBoard.addEventListener("click", async (event) => {
 	followers = followers.data;
 	followersTab.innerHTML = "";
 	for (let user of followers) {
-		const follower = `<div
+		let follower = `<div
 					class="user w-full h-20 flex items-center justify-evenly px-3 border-b border-solid border-neon-white-15"
 					data-id="${user.id}"
 					data-alias="${user.alias}"
@@ -252,7 +267,9 @@ followersBoard.addEventListener("click", async (event) => {
 							<div
 								class="user-username text-white text-base opacity-35"
 							>${user.username}</div>
-						</div>
+						</div>`;
+		if (personal) {
+			follower += `						
 						<button
 							type="button"
 							class="follow-status px-4 w-28 h-8 border border-solid border-neon-white-15 rounded-xl cursor-pointer text-next text-base font-semibold bg-transparent"
@@ -263,6 +280,10 @@ followersBoard.addEventListener("click", async (event) => {
 						</button>
 					</div>
 				</div>`;
+		} else {
+			follower += `</div>
+				</div>`;
+		}
 		followersTab.innerHTML += follower;
 	}
 	followStatus = document.querySelectorAll(".follow-status");
@@ -272,12 +293,12 @@ followersBoard.addEventListener("click", async (event) => {
 				status.textContent.trim() === "Remove?" ||
 				status.textContent.trim() === "Following"
 			) {
-				const grandparent=status.parentElement.parentElement;
+				const grandparent = status.parentElement.parentElement;
 				const target_alias = grandparent.getAttribute("data-alias");
 				currentFollowStatus = index;
 				unfollowModal.classList.add("active");
 				document.body.style.overflow = "hidden";
-				unfollowQuestion.innerHTML = 'Unfollow &nbsp';
+				unfollowQuestion.innerHTML = "Unfollow &nbsp";
 				unfollowQuestion.innerHTML += `					<div
 						class="unfollowee-username whitespace-nowrap overflow-hidden text-ellipsis w-fit-content max-w-24"
 					>
@@ -301,7 +322,8 @@ followersBoard.addEventListener("click", async (event) => {
 				// 		target_id: targetID,
 				// 	}),
 				// });
-				numFollowings.textContent = parseInt(numFollowings.textContent) + 1;
+				numFollowings.textContent =
+					parseInt(numFollowings.textContent) + 1;
 				status.textContent = "Following";
 				status.style.backgroundColor = "transparent";
 				status.style.border = "0.8px solid rgba(243, 245, 247, 0.15)";
@@ -322,7 +344,7 @@ followingBoard.addEventListener("click", async (event) => {
 	followings = followings.data;
 	followingTab.innerHTML = "";
 	for (let user of followings) {
-		const following = `<div
+		let following = `<div
 					class="user w-full h-20 flex items-center justify-evenly px-3 border-b border-solid border-neon-white-15"
 					data-id="${user.id}"
 					data-alias="${user.alias}"
@@ -351,29 +373,35 @@ followingBoard.addEventListener("click", async (event) => {
 							<div
 								class="user-username text-white text-base opacity-35"
 							>${user.username}</div>
-						</div>
-						<button
-							type="button"
-							class="follow-status px-4 w-28 h-8 border border-solid border-neon-white-15 rounded-xl cursor-pointer text-next text-base font-semibold bg-transparent"
-							data-id="${user.id}"
-							data-user = "${userID}"
-						>
-							Following
-						</button>
-					</div>
-				</div>`;
+						</div>`;
+		if (personal) {
+			following += `						
+				<button
+					type="button"
+					class="follow-status px-4 w-28 h-8 border border-solid border-neon-white-15 rounded-xl cursor-pointer text-next text-base font-semibold bg-transparent"
+					data-id="${user.id}"
+					data-user = "${userID}"
+				>
+					Following
+				</button>
+			</div>
+		</div>`;
+		} else {
+			following += `</div>
+			</div>`;
+		}
 		followingTab.innerHTML += following;
 	}
 	followStatus = document.querySelectorAll(".follow-status");
 	followStatus.forEach((status, index) => {
 		status.addEventListener("click", () => {
 			if (status.textContent.trim() === "Following") {
-				const grandparent=status.parentElement.parentElement;
+				const grandparent = status.parentElement.parentElement;
 				const target_alias = grandparent.getAttribute("data-alias");
 				currentFollowStatus = index;
 				unfollowModal.classList.add("active");
 				document.body.style.overflow = "hidden";
-				unfollowQuestion.innerHTML = 'Unfollow &nbsp';
+				unfollowQuestion.innerHTML = "Unfollow &nbsp";
 				unfollowQuestion.innerHTML += `					<div
 						class="unfollowee-username whitespace-nowrap overflow-hidden text-ellipsis w-fit-content max-w-24"
 					>
@@ -397,7 +425,8 @@ followingBoard.addEventListener("click", async (event) => {
 						target_id: targetID,
 					}),
 				});
-				numFollowings.textContent = parseInt(numFollowings.textContent) + 1;
+				numFollowings.textContent =
+					parseInt(numFollowings.textContent) + 1;
 				status.textContent = "Following";
 				status.style.backgroundColor = "transparent";
 				status.style.border = "0.8px solid rgba(243, 245, 247, 0.15)";

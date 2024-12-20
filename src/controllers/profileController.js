@@ -41,12 +41,28 @@ controller.getProfile = async (req, res) => {
 				].profile_picture.replace("static", "");
 			}
 		}
-		res.render("profile", {
-			title: "Profile",
-			user: user,
-			followers: followers,
-			followings: followings,
-		});
+		const personal = false;
+		if(personal){
+			res.render("personal-profile", {
+				title: "Profile",
+				profileData:{
+					user: user,
+					followers: followers,
+					followings: followings,
+					personal: personal,
+				}
+			});
+		}else{
+			res.render("other-user-profile", {
+				title: "Profile",
+				profileData:{
+					user: user,
+					followers: followers,
+					followings: followings,
+					personal: personal,
+				}
+			});
+		}
 	} catch (err) {
 		console.error("Error getting user profile", err.stack);
 		res.status(500).send("Internal server error");
