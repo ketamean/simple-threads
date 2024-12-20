@@ -11,20 +11,15 @@ require("dotenv").config();
 //   database: "threads_db",
 // });
 
-// const client = new Client({
-//   connectionString: `postgresql://postgres.auckcpjwdzammqaabubc:${process.env.POSTGRES_PASSWORD}@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres`,
-// });
-
-// how to connect: connect => type => choose node.js => copy URL
 const client = new Client({
-  connectionString: `postgresql://postgres.yadvzifnfnmphedirnbd:${process.env.POSTGRES_PASSWORD}@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres`,
+	connectionString: `postgresql://postgres.yadvzifnfnmphedirnbd:${process.env.POSTGRES_PASSWORD}@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres`,
 });
 
 (async () => {
-  await client
-    .connect()
-    .then(() => console.log("Connected to the database"))
-    .catch((err) => console.error("Connection error", err.stack));
+	await client
+		.connect()
+		.then(() => console.log("Connected to the database"))
+		.catch((err) => console.error("Connection error", err.stack));
 })();
 
 const createTablesQuery = `
@@ -84,8 +79,8 @@ const createTablesQuery = `
 `;
 
 client
-  .query(createTablesQuery)
-  .then(() => console.log("Tables created successfully"))
-  .catch((err) => console.error("Error creating tables", err.stack));
+	.query(createTablesQuery)
+	.then(() => console.log("Tables created successfully"))
+	.catch((err) => console.error("Error creating tables", err.stack));
 
 module.exports = client;

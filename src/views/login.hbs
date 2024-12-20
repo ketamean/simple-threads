@@ -1,29 +1,55 @@
 <div class="h-full w-full flex justify-center py-14 px-3">
-    <div class="max-w-lg w-full h-full flex flex-col items-center justify-center gap-y-1">
-        <h1 class="text-center font-bold text-2xl text-white py-3">Say more with <span class="text-cyan-100">Simple-Threads</span></h1>
-        <p class="text-gray-500 py-3 text-center">Join <span class="text-cyan-100">Simple-Threads</span> to share thoughts, find out what's going on, follow your people and more.</p>
-        <form class="w-full grid grid-cols-1 gap-y-3" action="" method="post">
-            <input class="w-full h-12 rounded-2xl border-none py-2 px-3" name="username" type="text" placeholder="Username or email" minlength="1" required value="">
-            <input class="w-full h-12 rounded-2xl border-none py-2 px-3" name="password" type="password" placeholder="Password" minlength="1" required value="">
-            <input class="w-full h-12 rounded-2xl border-none py-2 px-3 text-black bg-slate-200 font-bold" type="submit" value="Log in">
-        </form>
-        <div class="w-full relative grid grid-cols-2">
-            <p class="h-4 row-start-5 row-end-5 w-full text-white text-left">
-                <a
-                    class="w-full visited:text-white visited:no-underline link:text-white link:no-underline"
-                    href="/reset-password"
-                >
-                    Forgot password?
-                </a>
-            </p>
-            <p class="h-4 row-start-5 row-end-5 w-full text-white text-right">
-                <a
-                    class="w-full visited:text-white visited:no-underline link:text-white link:no-underline"
-                    href="/signup"
-                >
-                    Create an account?
-                </a>
-            </p>
-        </div>
+  <div
+    class="max-w-lg w-full h-full flex flex-col items-center justify-center gap-y-1"
+  >
+    <h1 class="text-center font-bold text-2xl text-white py-3">Say more with
+      <span class="text-cyan-100">Simple-Threads</span></h1>
+    <p class="text-gray-500 py-3 text-center">Join
+      <span class="text-cyan-100">Simple-Threads</span>
+      to share thoughts, find out what's going on, follow your people and more.</p>
+    <form class="w-full grid grid-cols-1 gap-y-3" action="" method="post">
+      <input
+        class="w-full h-12 rounded-2xl border-none py-2 px-3"
+        name="username"
+        type="text"
+        placeholder="Username or email"
+        minlength="1"
+        required
+        value=""
+      />
+      <input
+        class="w-full h-12 rounded-2xl border-none py-2 px-3"
+        name="password"
+        type="password"
+        placeholder="Password"
+        minlength="1"
+        required
+        value=""
+      />
+      <input
+        class="w-full h-12 rounded-2xl border-none py-2 px-3 text-black bg-slate-200 font-bold"
+        type="submit"
+        value="Log in"
+      />
+    </form>
+    <div class="w-full relative grid grid-cols-2">
+      <p class="h-4 row-start-5 row-end-5 w-full text-white text-left">
+        <a
+          class="w-full visited:text-white visited:no-underline link:text-white link:no-underline"
+          href="/reset-password"
+        >
+          Forgot password?
+        </a>
+      </p>
+      <p class="h-4 row-start-5 row-end-5 w-full text-white text-right">
+        <a
+          class="w-full visited:text-white visited:no-underline link:text-white link:no-underline"
+          href="/signup"
+        >
+          Create an account?
+        </a>
+      </p>
     </div>
+  </div>
 </div>
+<script type="module" src="/js/login.js"></script>
