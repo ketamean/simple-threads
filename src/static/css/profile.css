@@ -1,0 +1,45 @@
+.tabs > .active {
+	color: rgb(243, 245, 247);
+	border-bottom: 1px solid rgba(243, 245, 247);
+}
+.profile-follow-board.active {
+	height: calc(100% - 60px - 60px);
+	margin-bottom: 64px;
+}
+
+@media screen and (min-width: 768px) {
+	.profile-follow-board.active {
+		height: 80%;
+		width: 50%;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		transition: none !important;
+		border-radius: 16px;
+	}
+}
+
+.tab.active {
+	display: block;
+}
+
+.unfollow-modal.active {
+	display: flex;
+}
+
+.share-modal.active {
+	display: flex;
+}
+
+.edit-profile-modal.active {
+	display: flex;
+	overflow-y: hidden;
+}
+
+.tab::-webkit-scrollbar {
+	display: none;
+}
+
+.thread-images-container::-webkit-scrollbar {
+	display: none;
+}
