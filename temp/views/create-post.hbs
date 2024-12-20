@@ -1,0 +1,34 @@
+<div class="select-none">
+  <form id="formCreatePost" class="w-0" action="/create-post" method="post"></form>
+  <div class="flex items-center w-full py-4 px-8">
+    <p class="font-bold justify-self-center">New thread</p>
+
+    <button
+      class="bg-none border-none text-gray-400 cursor-pointer hover:text-white justify-self-end"
+      form="formCreatePost" type="submit"
+    >
+      Draft
+    </button>
+  </div>
+  
+  <div class="flex flex-col w-full justify-center px-8 py-4">
+    <div class="username">
+      {{username}}
+    </div>
+    <textarea
+      class="border-none bg-inherit text-white w-full h-auto resize-none text-wrap min-h-20 max-h-80 overflow-y-hidden py-2 px-0 leading-normal placeholder:text-gray-600 active:border-none active:outline-none focus:border-none focus:outline-none "
+      placeholder="What's new?"
+      id="threadInput"
+      maxlength="500"
+      name="content"
+      form="formCreatePost"
+    ></textarea>
+    <div class="flex gap-4">
+      <img class="w-6 cursor-pointer" src="/img/card-image.svg" alt="">
+      <img class="w-6 cursor-pointer" src="/img/filetype-gif.svg" alt="">
+      <img class="w-6 cursor-pointer" src="/img/geo-alt.svg" alt="">
+    </div>
+  </div>
+</div>
+
+<script src="/js/create-post.js"></script>
