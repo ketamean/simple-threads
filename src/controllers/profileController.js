@@ -4,8 +4,6 @@ const controller = {};
 controller.getProfile = async (req, res) => {
 	try {
 		const user = await usersModel.findById(req.params.id);
-		const followers = await usersModel.getUserFollowers(req.params.id);
-		const followings = await usersModel.getUserFollowing(req.params.id);
 		if (user.profile_picture === null || user.profile_picture === "") {
 			user.profile_picture = "/img/user-placeholder.jpg";
 		} else if (user.profile_picture.includes("http")) {
@@ -13,42 +11,12 @@ controller.getProfile = async (req, res) => {
 		} else if (user.profile_picture.includes("static")) {
 			user.profile_picture = user.profile_picture.replace("static", "");
 		}
-		for (let i = 0; i < followers.length; i++) {
-			if (
-				followers[i].profile_picture === null ||
-				followers[i].profile_picture === ""
-			) {
-				followers[i].profile_picture = "/img/user-placeholder.jpg";
-			} else if (followers[i].profile_picture.includes("http")) {
-				followers[i].profile_picture = followers[i].profile_picture;
-			} else if (followers[i].profile_picture.includes("static")) {
-				followers[i].profile_picture = followers[
-					i
-				].profile_picture.replace("static", "");
-			}
-		}
-		for (let i = 0; i < followings.length; i++) {
-			if (
-				followings[i].profile_picture === null ||
-				followings[i].profile_picture === ""
-			) {
-				followings[i].profile_picture = "/img/user-placeholder.jpg";
-			} else if (followings[i].profile_picture.includes("http")) {
-				followings[i].profile_picture = followings[i].profile_picture;
-			} else if (followings[i].profile_picture.includes("static")) {
-				followings[i].profile_picture = followings[
-					i
-				].profile_picture.replace("static", "");
-			}
-		}
 		const personal = false;
 		if(personal){
 			res.render("personal-profile", {
 				title: "Profile",
 				profileData:{
 					user: user,
-					followers: followers,
-					followings: followings,
 					personal: personal,
 				}
 			});
@@ -57,8 +25,6 @@ controller.getProfile = async (req, res) => {
 				title: "Profile",
 				profileData:{
 					user: user,
-					followers: followers,
-					followings: followings,
 					personal: personal,
 				}
 			});
