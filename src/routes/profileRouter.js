@@ -27,6 +27,6 @@ router.get("/:id", profileController.getProfile);
 router.post("/:id/followers", profileController.getFollowers);
 router.post("/:id/followings", profileController.getFollowings);
 router.post("/:id", upload.single('avatar'), profileController.updateProfile);
-router.put("/:id/unfollow", profileController.unfollowUser);
-router.put("/:id/follow", profileController.followUser);
+router.delete("/:id/unfollow", profileController.unfollowUser);
+router.post("/:id/follow", profileController.followUser);
 module.exports = router;

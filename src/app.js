@@ -124,11 +124,11 @@ app.get("/create-post", (req, res) => {
   res.render("create-post");
 });
 
-app.get("/profile", (req, res) => {
-  res.locals.css = metadata.md_profile.css || [];
-  res.locals.tab_profile = true;
-  res.render("personal-profile");
-});
+// app.get("/profile", (req, res) => {
+//   res.locals.css = metadata.md_profile.css || [];
+//   res.locals.tab_profile = true;
+//   res.render("personal-profile");
+// });
 
 app.get("/notifications", (req, res) => {
   res.locals.notifications = [
