@@ -1,10 +1,10 @@
 // controllers/userController.js
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const User = require("../models/usersModel");
-const sendLink = require("../utils/sendLink");
-const redis = require("../config/redis");
-const { md_login, md_signup, md_resetPassword } = require("../metadata");
+const User = require("../models/usersModel.js");
+const sendLink = require("../utils/sendLink.js");
+const redis = require("../config/redis.js");
+const { md_login, md_signup, md_resetPassword } = require("../metadata.js");
 const metadata = require("../metadata.js");
 
 //init redis;
@@ -68,7 +68,7 @@ controllers.signUp = async (req, res) => {
 };
 
 // Sign In Controller
-controllers.signIn = async (req, res) => {
+controllers.login = async (req, res) => {
   const { username, password } = req.body;
   console.log("Sign In");
   try {
@@ -176,9 +176,9 @@ controllers.signOut = async (req, res) => {
     }
     res.clearCookie("refreshToken");
 
-    res.redirect(200, "/users/signIn?message=Logged out successfully");
+    res.redirect(200, "/users/login?message=Logged out successfully");
   } catch (error) {
-    res.redirect(500, `/users/signIn?message=${error}`);
+    res.redirect(500, `/users/login?message=${error}`);
   }
 };
 
@@ -355,7 +355,7 @@ controllers.unfollowUser = async (req, res) => {
 };
 
 //get controllers
-controllers.getSignIn = (req, res) => {
+controllers.getLogin = (req, res) => {
   console.log("get sign in");
   res.locals.css = md_login.css;
   res.render("login", { layout: "layoutWelcome" });

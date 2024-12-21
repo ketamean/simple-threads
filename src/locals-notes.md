@@ -8,6 +8,13 @@ app.get('login', (req, res) => {
 })
 ```
 - All `.css` file must be put in `/static/css`
+```js
+app.get('/feed', (req, res) => {
+  res.locals.tab_feed = true
+  res.locals.userId = '19id20rj'
+  res.render('feed')
+})
+```
 # Post
 Essential metadata for 1 post
 - username: str
