@@ -8,6 +8,10 @@ const commentsRouter = require("./commentsRouter");
 const createPostRouter = require("./createPostRouter");
 const notificationsRouter = require("./notificationsRouter");
 
+router.get('/', (req, res) => {
+  res.redirect('/auth/feed')
+})
+
 router.use('/feed', feedRouter);
 router.use('/like', likeRouter);
 router.use('/comments', commentsRouter);
