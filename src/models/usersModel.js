@@ -1,5 +1,5 @@
 // models/usersModel.js
-const client = require("../config/database");
+const client = require("../config/initDatabase");
 
 const user = {
   createUser: async ({ email, password, username }) => {

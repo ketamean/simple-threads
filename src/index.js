@@ -36,7 +36,7 @@ app.engine(
     partialsDir: __dirname + "/views/partials",
     extname: "hbs",
     defaultLayout: "layoutSurfing",
-    defaultView: __dirname + "/views/pages",
+    defaultView: __dirname + "/views",
     runtimeOptions: {
       allowProtoPropertiesByDefault: true,
     },

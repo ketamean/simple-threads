@@ -3,37 +3,35 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/usersModel");
 const redis = require("../config/redis");
 
+const decodeAccessToken = async (token) => {
+
+}
+
 // for get data from server
-const verifyToken = async (req, res, next) => {
-  console.log("verify token");
+const verifyAccessToken = async (req, res, next) => {
+  console.log("verify access token");
   try {
     const token = req.headers["authorization"]?.split(" ")[1];
-    console.log(token);
     if (!token) {
       console.log("No token");
       return res
         .status(401)
-        .redirect("/users/signIn?message=No token provided");
+        .redirect("/users/login");
     }
 
     jwt.verify(token, process.env.JWT_ACCESS_SECRET, async (err, decoded) => {
       if (err) {
-        if (err.name === "JsonWebTokenError") {
+        if (err.name === "JsonWebTokenError" || err.name === "TokenExpiredError") {
           return res
             .status(401)
-            .redirect("/users/signIn?message=Token expired");
-        }
-        if (err.name === "TokenExpiredError") {
-          return res
-            .status(401)
-            .redirect("/users/signIn?message=Token expired");
+            .redirect("/users/login?message=Token expired");
         }
         return next(err);
       }
 
       const user = await User.findById(decoded.userID);
       if (!user) {
-        return res.status(401).redirect("/users/signIn?message=User not found");
+        return res.status(401).redirect("/users/login?message=User not found");
       }
 
       req.user = user;
@@ -58,35 +56,21 @@ const verifyRefreshToken = async (req, res, next) => {
   const refreshToken = req.cookies.refreshToken;
   console.log(refreshToken);
   if (!refreshToken) {
-    return res
-      .status(401)
-      .redirect("/users/signIn?message=No refresh token provided");
+    return res.redirect("/users/login");
   }
-
+  console.log('after', refreshToken);
   try {
     jwt.verify(
       refreshToken,
       process.env.JWT_REFRESH_SECRET,
       async (err, decoded) => {
-        if (err) {
-          if (err.name === "JsonWebTokenError") {
-            return res
-              .status(401)
-              .redirect("/users/signIn?message=Invalid Token");
-          }
-          if (err.name === "TokenExpiredError") {
-            return res
-              .status(401)
-              .redirect("/users/signIn?message=Token expired");
-          }
-          return next(err);
-        }
+        if (err) return res.redirect("/users/login");
 
         const token = await redis.getKey(decoded.userID.toString());
         if (!token || token != refreshToken) {
           return res
             .status(401)
-            .redirect("/users/signIn?message=User not found");
+            .redirect("/users/login?message=User not found");
         }
         req.userID = decoded.userID;
         next();
@@ -94,10 +78,10 @@ const verifyRefreshToken = async (req, res, next) => {
     );
   } catch (error) {
     if (error.name === "JsonWebTokenError") {
-      return res.status(401).redirect("/users/signIn?message=Invalid Token");
+      return res.status(401).redirect("/users/login?message=Invalid Token");
     }
     if (error.name === "TokenExpiredError") {
-      return res.status(401).redirect("/users/signIn?message=Token expired");
+      return res.status(401).redirect("/users/login?message=Token expired");
     }
     next(error);
   }
@@ -145,4 +129,4 @@ const verifyResetToken = async (req, res, next) => {
   }
 };
 
-module.exports = { verifyToken, verifyResetToken, verifyRefreshToken };
+module.exports = { verifyAccessToken, verifyResetToken, verifyRefreshToken };

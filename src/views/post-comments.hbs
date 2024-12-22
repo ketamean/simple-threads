@@ -5,7 +5,7 @@
       <div class="w-full my-4 grid grid-cols[3rem_1fr] gap-x-4">
         <!-- left: user avatar -->
         <div class="w-full h-full col-start-1 col-end-1">
-          <a href="/profile/{{userId}}" class="m-0 p-0" role="link" tabindex="0">
+          <a href="/auth/profile/{{userId}}" class="m-0 p-0" role="link" tabindex="0">
             <img
               class="border-none object-cover rounded-full"
               height="36" width="36" src="{{avatarImagePath}}" alt="{{username}}'s profile picture"
@@ -21,7 +21,7 @@
             <div class="max-w-40 overflow-hidden text-ellipsis whitespace-nowrap">
                 <a
                   class="w-full visited:text-white visited:no-underline link:text-white link:no-underline hover:underline hover:font-bold hover:text-white"
-                  href="/profile/{{userId}}"
+                  href="/auth/profile/{{userId}}"
                 >
                     <span>{{username}}</span>
                 </a>

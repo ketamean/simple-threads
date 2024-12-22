@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const User = require("../models/usersModel.js");
 const sendLink = require("../utils/sendLink.js");
+const {hashPassword, comparePassword} = require("../utils/hashPassword.js");
 const redis = require("../config/redis.js");
 const { md_login, md_signup, md_resetPassword } = require("../metadata.js");
 const metadata = require("../metadata.js");
@@ -35,20 +36,23 @@ const generateRefresshToken = (userID) => {
 controllers.signUp = async (req, res) => {
   console.log("signUp");
   const { email, password, username } = req.body;
-
   try {
+    // Check if username includes '@'
+    if (username.includes('@')) {
+      return res.status(400).json({ message: "Username contains numbers and alphabetical letters only" });
+    }
+
     // Check if user exists
     const existingUser = await User.findByUsername(username);
     const existingEmail = await User.findByEmail(email);
     if (existingUser) {
-      return res.status(400).json({ message: "Username already exists" });
+      return res.status(400).json({ message: "Username/Email already exists" });
     }
 
     if (existingEmail) {
-      return res.status(400).json({ message: "Email already exists" });
+      return res.status(400).json({ message: "Username/Email already exists" });
     }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await hashPassword(password)
     const newUser = await User.createUser({
       email,
       password: hashedPassword,
@@ -69,17 +73,19 @@ controllers.signUp = async (req, res) => {
 
 // Sign In Controller
 controllers.login = async (req, res) => {
-  const { username, password } = req.body;
+  const { identifier, password } = req.body;
   console.log("Sign In");
   try {
-    const user = await User.findByUsername(username);
+    let user
+    if (identifier.includes('@')) user = await User.findByEmail(identifier)
+    else user = await User.findByUsername(identifier)
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(401).json({ message: "Incorrect username/password" });
     }
     console.log(password);
-    const isValidPassword = await bcrypt.compare(password, user.password);
+    const isValidPassword = await comparePassword(password, user.password)
     if (!isValidPassword) {
-      return res.status(401).json({ message: "Invalid password" });
+      return res.status(401).json({ message: "Incorrect username/password" });
     }
 
     const accessToken = generateAccessToken(user.id);

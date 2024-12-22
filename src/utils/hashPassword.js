@@ -1,8 +1,8 @@
 // utils/password.js
 const bcrypt = require("bcrypt");
-const saltRounds = 10;
+const defaultSaltRounds = 12;
 
-const hashPassword = async (password) => {
+const hashPassword = async (password, saltRounds=defaultSaltRounds) => {
   try {
     const salt = await bcrypt.genSalt(saltRounds);
     const hash = await bcrypt.hash(password, salt);
