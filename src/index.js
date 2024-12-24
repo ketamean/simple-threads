@@ -64,15 +64,15 @@ app.use(
 );
 
 // Cookie default options
-app.use((req, res, next) => {
-  res.cookie("options", {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    maxAge: 24 * 60 * 60 * 1000, // 24 hours
-    sameSite: "strict",
-  });
-  next();
-});
+// app.use((req, res, next) => {
+//   res.cookie("options", {
+//     httpOnly: true,
+//     secure: process.env.NODE_ENV === "production",
+//     maxAge: 24 * 60 * 60 * 1000, // 24 hours
+//     sameSite: "strict",
+//   });
+//   next();
+// });
 
 //middleware json
 app.use(cors());

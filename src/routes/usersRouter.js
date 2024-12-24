@@ -19,9 +19,7 @@ router.post("/login", usersController.login);
 router.get("/signup", usersController.getSignUp);
 router.post("/signup", usersController.signUp);
 router.get("/verify", usersController.verifyUser);
-
-
-
+router.get("/verify-successful", usersController.verifySuccessful);
 
 // signout
 router.post("/signout", usersController.signOut);

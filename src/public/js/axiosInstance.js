@@ -26,6 +26,7 @@ axiosInstance.getToken = () => {
 const resetTokenData = async () => {
   try {
     const response = await axiosInstance.get("/users/resettoken");
+    console.log("get reset token success!");
     return response.data;
   } catch (error) {
     console.error("Error fetching reset token data:", error);
@@ -43,7 +44,7 @@ axiosInstance.interceptors.request.use(
     const currentTime = Date.now();
     if (
       timeExpired < currentTime &&
-      !config.url.includes("/users/resetToken") &&
+      !config.url.includes("/users/resettoken") &&
       !config.url.includes("/users/login") &&
       !config.url.includes("/users/signup")
     ) {
@@ -77,10 +78,7 @@ axiosInstance.interceptors.response.use(
       console.log(
         `status: ${error.response.status}, message: ${error.response.data}`
       );
-      if (
-        error.response.status === 401 &&
-        error.config.url != "/users/login"
-      ) {
+      if (error.response.status === 401 && error.config.url != "/users/login") {
         // if token invalid
         console.log("invalid token");
         window.location.href = "/users/login";
