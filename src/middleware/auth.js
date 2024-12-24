@@ -60,7 +60,7 @@ const verifyRefreshToken = async (req, res, next) => {
   if (!refreshToken) {
     return res
       .status(401)
-      .redirect("/users/signIn?message=No refresh token provided");
+      .redirect("/users/login?message=No refresh token provided");
   }
 
   try {
@@ -72,12 +72,12 @@ const verifyRefreshToken = async (req, res, next) => {
           if (err.name === "JsonWebTokenError") {
             return res
               .status(401)
-              .redirect("/users/signIn?message=Invalid Token");
+              .redirect("/users/login?message=Invalid Token");
           }
           if (err.name === "TokenExpiredError") {
             return res
               .status(401)
-              .redirect("/users/signIn?message=Token expired");
+              .redirect("/users/login?message=Token expired");
           }
           return next(err);
         }
@@ -86,7 +86,7 @@ const verifyRefreshToken = async (req, res, next) => {
         if (!token || token != refreshToken) {
           return res
             .status(401)
-            .redirect("/users/signIn?message=User not found");
+            .redirect("/users/login?message=User not found");
         }
         req.userID = decoded.userID;
         next();
@@ -94,10 +94,10 @@ const verifyRefreshToken = async (req, res, next) => {
     );
   } catch (error) {
     if (error.name === "JsonWebTokenError") {
-      return res.status(401).redirect("/users/signIn?message=Invalid Token");
+      return res.status(401).redirect("/users/login?message=Invalid Token");
     }
     if (error.name === "TokenExpiredError") {
-      return res.status(401).redirect("/users/signIn?message=Token expired");
+      return res.status(401).redirect("/users/login?message=Token expired");
     }
     next(error);
   }
@@ -106,7 +106,6 @@ const verifyRefreshToken = async (req, res, next) => {
 const verifyResetToken = async (req, res, next) => {
   console.log("Verify reset token");
   const ressetToken = req.query.resetToken;
-  console.log(ressetToken);
   if (!ressetToken) {
     return res.status(401).json({ message: "No token provided" });
   }
