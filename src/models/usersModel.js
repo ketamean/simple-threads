@@ -4,8 +4,8 @@ const client = require("../config/database");
 const user = {
   createUser: async ({ email, password, username }) => {
     const query = `
-    INSERT INTO Users (email, password, username, fullname, bio, profile_picture, created_at, updated_at, alias)
-    VALUES ($1, $2, $3, NULL, NULL, NULL, NOW(), NOW(), NULL)
+    INSERT INTO Users (email, password, username, fullname, bio, profile_picture, created_at, updated_at)
+    VALUES ($1, $2, $3, NULL, NULL, NULL, NOW(), NOW())
     RETURNING *;`;
     const values = [email, password, username];
     console.log(values);
@@ -110,6 +110,48 @@ const user = {
       const res = await client.query(query);
     } catch (err) {
       console.error("Error removing follower", err.stack);
+    }
+  },
+
+  // Add user to UnverifiedUsers
+  addUnverifiedUser: async ({ email, password, username }) => {
+    const query = `
+    INSERT INTO UnverifiedUsers (email, password, username, created_at)
+    VALUES ($1, $2, $3, NOW())
+    RETURNING *;`;
+    const values = [email, password, username];
+    try {
+      const res = await client.query(query, values);
+      return res.rows[0];
+    } catch (err) {
+      console.error("Error adding unverified user", err.stack);
+      throw err;
+    }
+  },
+
+  findUnverifiedByEmail: async (email) => {
+    const query = `
+    SELECT * FROM UnverifiedUsers WHERE email = $1;`;
+    try {
+      const res = await client.query(query, [email]);
+      return res.rows[0];
+    } catch (err) {
+      console.error("Error finding unverified user by email", err.stack);
+      throw err;
+    }
+  },
+
+  // Remove user from UnverifiedUsers
+  removeUnverifiedUser: async (email) => {
+    const query = `
+    DELETE FROM UnverifiedUsers WHERE email = $1
+    RETURNING *;`;
+    try {
+      const res = await client.query(query, [email]);
+      return res.rows[0];
+    } catch (err) {
+      console.error("Error removing unverified user", err.stack);
+      throw err;
     }
   },
 };

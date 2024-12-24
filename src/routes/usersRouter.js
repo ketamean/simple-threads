@@ -18,6 +18,8 @@ router.post("/login", usersController.login);
 // signup
 router.get("/signup", usersController.getSignUp);
 router.post("/signup", usersController.signUp);
+router.get("/verify", usersController.verifyUser);
+router.get("/verify-successful", usersController.verifySuccessful);
 
 // signout
 router.post("/signout", usersController.signOut);
@@ -39,6 +41,6 @@ router.put(
 );
 
 //reset accessToken
-router.get("/resetToken", usersController.resetAccessToken);
+router.get("/resettoken", usersController.resetAccessToken);
 
 module.exports = router;

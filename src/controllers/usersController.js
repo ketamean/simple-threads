@@ -2,10 +2,11 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const User = require("../models/usersModel.js");
-const sendLink = require("../utils/sendLink.js");
+const { sendResetLink, sendVerificationLink } = require("../utils/sendLink.js");
 const redis = require("../config/redis.js");
 const { md_login, md_signup, md_resetPassword } = require("../metadata.js");
 const metadata = require("../metadata.js");
+const path = require("path");
 
 //init redis;
 redis.init();
@@ -14,26 +15,28 @@ redis.init();
 const JWT_ACCESS_SECRET = process.env.JWT_ACCESS_SECRET || "no-secret";
 const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || "no-secret";
 const JWT_LINK_SECRET = process.env.JWT_LINK_SECRET;
+const id_page = process.env.ID_ACCESS_PAGE;
 
 const controllers = {};
 
 // Generate JWT Token
 const generateAccessToken = (userID) => {
   return jwt.sign({ userID }, JWT_ACCESS_SECRET, {
-    expiresIn: "30s",
+    expiresIn: "30m",
     algorithm: "HS256",
   });
 };
 
 const generateRefresshToken = (userID) => {
   return jwt.sign({ userID }, JWT_REFRESH_SECRET, {
+    expiresIn: "30d",
     algorithm: "HS256",
   });
 };
 
 // Sign Up Controller
 controllers.signUp = async (req, res) => {
-  console.log("signUp");
+  console.log("signUp and dont verfiy");
   const { email, password, username } = req.body;
 
   try {
@@ -49,19 +52,80 @@ controllers.signUp = async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = await User.createUser({
+    await User.addUnverifiedUser({
       email,
       password: hashedPassword,
       username,
     });
 
+    const verificationToken = jwt.sign({ email }, JWT_LINK_SECRET, {
+      expiresIn: "1h",
+      algorithm: "HS256",
+    });
+
+    await sendVerificationLink(email, verificationToken);
+
     res.status(201).json({
-      message: "User registered successfully",
-      user: { ...newUser, password: undefined },
+      message: "User registered successfully. Verification email sent.",
     });
   } catch (error) {
     res.status(500).json({
       message: "Error registering user",
+      error: error.message,
+    });
+  }
+};
+
+// Verify User Controller
+controllers.verifyUser = async (req, res) => {
+  console.log("verify user");
+
+  const token = req.query.token;
+
+  try {
+    // Verify the token
+    const decoded = jwt.verify(token, JWT_LINK_SECRET);
+    const { email } = decoded;
+
+    // Check if user exists in UnverifiedUsers
+    const unverifiedUser = await User.findUnverifiedByEmail(email);
+    if (!unverifiedUser) {
+      return res
+        .status(404)
+        .json({ message: "User not found or already verified" });
+    }
+
+    // Move user from UnverifiedUsers to Users
+    await User.createUser({
+      email: unverifiedUser.email,
+      password: unverifiedUser.password,
+      username: unverifiedUser.username,
+    });
+
+    // Remove user from UnverifiedUsers
+    await User.removeUnverifiedUser(email);
+    res.redirect(`/users/verify-successful?id_page=${id_page}`);
+  } catch (error) {
+    res.status(500).json({
+      message: "Error verifying user",
+      error: error.message,
+    });
+  }
+};
+
+//
+controllers.verifySuccessful = (req, res) => {
+  console.log("verify successful");
+  try {
+    const id = req.query.id_page;
+    if (id == id_page) {
+      res.render("verify-successful", { layout: "layoutVerify" });
+    } else {
+      res.redirect("/users/login");
+    }
+  } catch (error) {
+    res.status(500).json({
+      message: "Error rendering verification success page",
       error: error.message,
     });
   }
@@ -74,12 +138,16 @@ controllers.login = async (req, res) => {
   try {
     const user = await User.findByUsername(username);
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res
+        .status(404)
+        .json({ message: "User not found or invalid password!" });
     }
     console.log(password);
     const isValidPassword = await bcrypt.compare(password, user.password);
     if (!isValidPassword) {
-      return res.status(401).json({ message: "Invalid password" });
+      return res
+        .status(401)
+        .json({ message: "User not found or invalid password!" });
     }
 
     const accessToken = generateAccessToken(user.id);
@@ -103,7 +171,7 @@ controllers.login = async (req, res) => {
     res.status(200).json({
       message: "Login successful",
       accessToken: accessToken,
-      timeExpired: Date.now() + 0.5 * 60 * 1000,
+      timeExpired: Date.now() + 0.5 * 60 * 1000, // 30 minutes
       user: { ...user, password: undefined },
     });
   } catch (error) {
@@ -158,7 +226,7 @@ controllers.resetAccessToken = async (req, res, next) => {
 
     res.status(200).json({
       accessToken,
-      timeExpired: Date.now() + 0.5 * 60 * 1000,
+      timeExpired: Date.now() + 0.5 * 60 * 1000, // 30 minutes
     });
   } catch (error) {
     return res.status(401).json({ message: "Invalid refresh token" });
@@ -213,7 +281,7 @@ controllers.resetPasswordAsk = async (req, res) => {
 
     // Send link to email
     console.log(`resset password!!! ${resetToken}`);
-    await sendLink(user.email, resetToken);
+    await sendResetLink(user.email, resetToken);
 
     return res.status(200).json({
       message: "Link has been sent to your email",

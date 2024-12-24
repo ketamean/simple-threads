@@ -5,7 +5,7 @@ document.querySelector("form").addEventListener("submit", async (e) => {
   const username = e.target.username.value;
   const password = e.target.password.value;
   await axiosInstance
-    .post("/users/signIn", {
+    .post("/users/login", {
       username,
       password,
     })
