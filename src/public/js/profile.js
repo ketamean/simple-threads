@@ -58,18 +58,6 @@ function getCookies() {
 	return trimmedCookieObj;
 }
 
-followersPreview.addEventListener("click", async () => {
-	followBoard.classList.toggle("active");
-	if (followBoard.classList.contains("active")) {
-		if (
-			window.matchMedia("(min-width: 640px)").matches &&
-			window.matchMedia("(max-width: 768px)").matches
-		) {
-			document.body.style.overflow = "hidden";
-		}
-	}
-});
-
 document.addEventListener("click", (e) => {
 	// if both the followersPreview and followBoard does not have the clicked target, close the followBoard
 	if (
@@ -184,7 +172,7 @@ if (personal) {
 			followStatus[currentFollowStatus].getAttribute("data-id");
 		event.preventDefault();
 		await fetch(`${userID}/unfollow`, {
-			method: "PUT",
+			method: "DELETE",
 			headers: {
 				"Content-Type": "application/json",
 			},
@@ -209,7 +197,7 @@ followStatus.forEach((status, index) => {
 			const followed_id = status.getAttribute("data-id");
 			const user_id = status.getAttribute("data-user");
 			await fetch(`${userID}/follow`, {
-				method: "PUT",
+				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
 				},
@@ -224,6 +212,121 @@ followStatus.forEach((status, index) => {
 			status.style.border = "0.8px solid rgba(243, 245, 247, 0.15)";
 			status.style.color = "rgb(119, 119, 119)";
 		}
+	});
+});
+
+followersPreview.addEventListener("click", async () => {
+	followBoard.classList.toggle("active");
+	if (followBoard.classList.contains("active")) {
+		if (
+			window.matchMedia("(min-width: 640px)").matches &&
+			window.matchMedia("(max-width: 768px)").matches
+		) {
+			document.body.style.overflow = "hidden";
+		}
+	}
+	followersTab.classList.remove("hidden");
+	followersTab.classList.add("block");
+	followingTab.classList.add("hidden");
+	followingTab.classList.remove("block");
+	let followers = await axios.post(`/profile/:{id}/followers`, {
+		user_id: userID,
+	});
+	followers = followers.data;
+	followersTab.innerHTML = "";
+	for (let user of followers) {
+		let follower = `<div
+					class="user w-full h-20 flex items-center justify-evenly px-3 border-b border-solid border-neon-white-15"
+					data-id="${user.id}"
+					data-alias="${user.alias}"
+				>
+					<img
+						class="user-avatar w-16 h-16 rounded-full"
+						alt=""
+						src=${user.profile_picture}
+					/>
+					<div
+						style="
+							display: flex;
+							align-items: center;
+							justify-content: space-between;
+							width: 80%;
+							height: 80%;
+							padding-left: 0.5rem;
+						"
+					>
+						<div
+							class="user-names flex flex-col justify-evenly h-5/6"
+						>
+							<div
+								class="user-alias text-white text-base font-semibold"
+							>${user.alias}</div>
+							<div
+								class="user-username text-white text-base opacity-35"
+							>${user.username}</div>
+						</div>`;
+		if (personal) {
+			follower += `						
+						<button
+							type="button"
+							class="follow-status px-4 w-28 h-8 border border-solid border-neon-white-15 rounded-xl cursor-pointer text-next text-base font-semibold bg-transparent"
+							data-id="${user.id}"
+							data-user = "${userID}"
+						>
+							Remove?
+						</button>
+					</div>
+				</div>`;
+		} else {
+			follower += `</div>
+				</div>`;
+		}
+		followersTab.innerHTML += follower;
+	}
+	followStatus = document.querySelectorAll(".follow-status");
+	followStatus.forEach((status, index) => {
+		status.addEventListener("click", () => {
+			if (
+				status.textContent.trim() === "Remove?" ||
+				status.textContent.trim() === "Following"
+			) {
+				const grandparent = status.parentElement.parentElement;
+				const target_alias = grandparent.getAttribute("data-alias");
+				currentFollowStatus = index;
+				unfollowModal.classList.add("active");
+				document.body.style.overflow = "hidden";
+				unfollowQuestion.innerHTML = "Unfollow &nbsp";
+				unfollowQuestion.innerHTML += `					<div
+						class="unfollowee-username whitespace-nowrap overflow-hidden text-ellipsis w-fit-content max-w-24"
+					>
+						${target_alias}
+					</div>?`;
+			}
+		});
+	});
+	followStatus.forEach((status, index) => {
+		status.addEventListener("click", async (event) => {
+			if (status.textContent === "Follow") {
+				event.preventDefault();
+				const targetID = followStatus[index].getAttribute("data-id");
+				// await fetch(`${userID}/follow`, {
+				// 	method: "PUT",
+				// 	headers: {
+				// 		"Content-Type": "application/json",
+				// 	},
+				// 	body: JSON.stringify({
+				// 		user_id: userID,
+				// 		target_id: targetID,
+				// 	}),
+				// });
+				numFollowings.textContent =
+					parseInt(numFollowings.textContent) + 1;
+				status.textContent = "Following";
+				status.style.backgroundColor = "transparent";
+				status.style.border = "0.8px solid rgba(243, 245, 247, 0.15)";
+				status.style.color = "rgb(119, 119, 119)";
+			}
+		});
 	});
 });
 
@@ -416,7 +519,7 @@ followingBoard.addEventListener("click", async (event) => {
 				event.preventDefault();
 				const targetID = followStatus[index].getAttribute("data-id");
 				await fetch(`${userID}/follow`, {
-					method: "PUT",
+					method: "POST",
 					headers: {
 						"Content-Type": "application/json",
 					},
