@@ -1,10 +1,10 @@
 // controllers/userController.js
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const User = require("../models/usersModel");
-const sendLink = require("../utils/sendLink");
-const redis = require("../config/redis");
-const { md_login, md_signup, md_resetPassword } = require("../metadata");
+const User = require("../models/usersModel.js");
+const { sendResetLink, sendVerificationLink } = require("../utils/sendLink.js");
+const redis = require("../config/redis.js");
+const { md_login, md_signup, md_resetPassword } = require("../metadata.js");
 const metadata = require("../metadata.js");
 
 //init redis;
@@ -33,7 +33,7 @@ const generateRefresshToken = (userID) => {
 
 // Sign Up Controller
 controllers.signUp = async (req, res) => {
-  console.log("signUp");
+  console.log("signUp and dont verfiy");
   const { email, password, username } = req.body;
 
   try {
@@ -49,16 +49,23 @@ controllers.signUp = async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = await User.createUser({
+    await User.addUnverifiedUser({
       email,
       password: hashedPassword,
       username,
     });
 
-    res.status(201).json({
-      message: "User registered successfully",
-      user: { ...newUser, password: undefined },
+    const verificationToken = jwt.sign({ email }, JWT_LINK_SECRET, {
+      expiresIn: "1h",
+      algorithm: "HS256",
     });
+
+    await sendVerificationLink(email, verificationToken);
+
+    res.status(201).json({
+      message: "User registered successfully. Verification email sent.",
+    });
+
   } catch (error) {
     res.status(500).json({
       message: "Error registering user",
@@ -67,8 +74,46 @@ controllers.signUp = async (req, res) => {
   }
 };
 
+// Verify User Controller
+controllers.verifyUser = async (req, res) => {
+  console.log("verify user");
+
+  const token = req.query.token;
+
+  try {
+    // Verify the token
+    const decoded = jwt.verify(token, JWT_LINK_SECRET);
+    const { email } = decoded;
+
+    // Check if user exists in UnverifiedUsers
+    const unverifiedUser = await User.findUnverifiedByEmail(email);
+    if (!unverifiedUser) {
+      return res.status(404).json({ message: "User not found or already verified" });
+    }
+
+    // Move user from UnverifiedUsers to Users
+    await User.createUser({
+      email: unverifiedUser.email,
+      password: unverifiedUser.password,
+      username: unverifiedUser.username,
+    });
+
+    // Remove user from UnverifiedUsers
+    await User.removeUnverifiedUser(email);
+
+    res.status(200).json({
+      message: "User verified and moved to users table successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error verifying user",
+      error: error.message,
+    });
+  }
+};
+
 // Sign In Controller
-controllers.signIn = async (req, res) => {
+controllers.login = async (req, res) => {
   const { username, password } = req.body;
   console.log("Sign In");
   try {
@@ -176,9 +221,9 @@ controllers.signOut = async (req, res) => {
     }
     res.clearCookie("refreshToken");
 
-    res.redirect(200, "/users/signIn?message=Logged out successfully");
+    res.redirect(200, "/users/login?message=Logged out successfully");
   } catch (error) {
-    res.redirect(500, `/users/signIn?message=${error}`);
+    res.redirect(500, `/users/login?message=${error}`);
   }
 };
 
@@ -213,7 +258,7 @@ controllers.resetPasswordAsk = async (req, res) => {
 
     // Send link to email
     console.log(`resset password!!! ${resetToken}`);
-    await sendLink(user.email, resetToken);
+    await sendResetLink(user.email, resetToken);
 
     return res.status(200).json({
       message: "Link has been sent to your email",
@@ -355,7 +400,7 @@ controllers.unfollowUser = async (req, res) => {
 };
 
 //get controllers
-controllers.getSignIn = (req, res) => {
+controllers.getLogin = (req, res) => {
   console.log("get sign in");
   res.locals.css = md_login.css;
   res.render("login", { layout: "layoutWelcome" });
