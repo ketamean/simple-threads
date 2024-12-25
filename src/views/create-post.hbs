@@ -1,34 +1,52 @@
-<div class="select-none">
-  <form id="formCreatePost" class="w-0" action="/create-post" method="post"></form>
-  <div class="flex items-center w-full py-4 px-8">
-    <p class="font-bold justify-self-center">New thread</p>
+<div class="w-full text-xl">
+  {{! Thread heading }}
+  <div
+    class="max-w-4xl w-full py-4 border-b border-slate-100 border-opacity-50 sm:border-none text-center font-bold mx-auto"
+  >New thread</div>
+  {{! Thread page }}
+  <div
+    class="p-4 w-full sm:bg-eerie-black mx-auto max-w-4xl sm:mt-4 rounded-3xl"
+  >
+    {{! Post header }}
+    <div class="flex items-center space-x-3 mb-4">
+      <img src="https://placehold.co/36" alt="" class="rounded-full" />
+      <div class="flex flex-col">
+        <span class="font-semibold">Your Username</span>
+        <button class="flex items-center space-x-1 text-sm">
+          <i class="iconoir-globe"></i>
+          <span>Anyone can reply</span>
+        </button>
+      </div>
+    </div>
+    {{! Post content }}
+    <div class="mb-4">
+      <textarea
+        class="w-full min-h-[120px] p-2 text-base border-none outline-none resize-none sm:bg-eerie-black bg-black placeholder:white"
+        placeholder="Start a thread..."
+      ></textarea>
+    </div>
 
-    <button
-      class="bg-none border-none text-gray-400 cursor-pointer hover:text-white justify-self-end"
-      form="formCreatePost" type="submit"
+    {{! Action Buttons }}
+    <div
+      class="flex items-center space-x-3 border-t border-b border-gray-200 py-3 border-opacity-25"
     >
-      Draft
-    </button>
-  </div>
-  
-  <div class="flex flex-col w-full justify-center px-8 py-4">
-    <div class="username">
-      {{username}}
+      <button class="p-2">
+        <i class="iconoir-media-image"></i>
+      </button>
+      <button class="p-2">
+        <i class="iconoir-at-sign"></i>
+      </button>
+      <button class="p-2">
+        <i class="iconoir-link"></i>
+      </button>
     </div>
-    <textarea
-      class="border-none bg-inherit text-white w-full h-auto resize-none text-wrap min-h-20 max-h-80 overflow-y-hidden py-2 px-0 leading-normal placeholder:text-gray-600 active:border-none active:outline-none focus:border-none focus:outline-none "
-      placeholder="What's new?"
-      id="threadInput"
-      maxlength="500"
-      name="content"
-      form="formCreatePost"
-    ></textarea>
-    <div class="flex gap-4">
-      <img class="w-6 cursor-pointer" src="/img/card-image.svg" alt="">
-      <img class="w-6 cursor-pointer" src="/img/filetype-gif.svg" alt="">
-      <img class="w-6 cursor-pointer" src="/img/geo-alt.svg" alt="">
-    </div>
+
+    {{!-- Post footer --}}
+    <div class="flex items-center justify-between mt-3">
+        <div class="flex items-center space-x-3">
+          <button class="px-4 py-2 border-none rounded hover:bg-black" >
+            Post
+          </button>
+        </div>
   </div>
 </div>
-
-<script src="/js/create-post.js"></script>
