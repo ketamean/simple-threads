@@ -9,6 +9,7 @@ const metadata = require("../metadata.js");
 const path = require("path");
 
 //init redis;
+
 redis.init();
 
 //set jwt-secret
