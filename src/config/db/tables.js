@@ -65,7 +65,16 @@ tables.ThreadImages = `
     id SERIAL PRIMARY KEY,
     thread_id INT NOT NULL REFERENCES Threads(id),
     image_url VARCHAR(255) NOT NULL
-  )
+  );
+`
+
+tables.UserToken = `
+  CREATE TABLE IF NOT EXISTS UserTokens (
+    id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL REFERENCES Users(id),
+    refresh_token TEXT,
+    is_expired BOOLEAN DEFAULT FALSE
+  );
 `
 
 let query = ''

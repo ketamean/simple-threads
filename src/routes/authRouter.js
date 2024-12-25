@@ -8,9 +8,13 @@ const commentsRouter = require("./commentsRouter");
 const createPostRouter = require("./createPostRouter");
 const notificationsRouter = require("./notificationsRouter");
 
+const setLocalsUserId = require('../middleware/setLocalsUserId');
+
+router.use(setLocalsUserId);
+
 router.get('/', (req, res) => {
-  res.redirect('/auth/feed')
-})
+  return res.redirect('/auth/feed')
+});
 
 router.use('/feed', feedRouter);
 router.use('/like', likeRouter);

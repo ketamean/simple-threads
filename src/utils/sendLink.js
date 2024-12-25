@@ -12,7 +12,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const sendLink = (mail, token) => {
+const sendLink = async (mail, token) => {
   const htmlPath = path.join(__dirname, "../public/resetPasswordTemplate.html");
   const htmlContent = fs.readFileSync(htmlPath, "utf8");
 
@@ -23,7 +23,7 @@ const sendLink = (mail, token) => {
     html: htmlContent.replace("{{token}}", token),
   };
 
-  transporter.sendMail(mailOptions, (error, info) => {
+  await transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       console.log(error);
     } else {

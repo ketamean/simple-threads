@@ -7,6 +7,7 @@ const {hashPassword, comparePassword} = require("../utils/hashPassword.js");
 const redis = require("../config/redis.js");
 const { md_login, md_signup, md_resetPassword } = require("../metadata.js");
 const metadata = require("../metadata.js");
+const { generateResetPasswordToken } = require('../utils/generateToken.js')
 
 //init redis;
 redis.init();
@@ -72,9 +73,9 @@ controllers.signUp = async (req, res) => {
 };
 
 // Sign In Controller
-controllers.login = async (req, res) => {
+controllers.postLogin = async (req, res) => {
   const { identifier, password } = req.body;
-  console.log("Sign In");
+  console.log("postLogin");
   try {
     let user
     if (identifier.includes('@')) user = await User.findByEmail(identifier)
@@ -203,34 +204,26 @@ controllers.resetPasswordAsk = async (req, res) => {
     }
 
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      console.log('user not found');
+      return res.status(400).redirect('/users/set-password');
     }
+    const userId = user.id;
+    const token = generateResetPasswordToken(userId);
 
-    const userID = user.id.toString() + "#";
-    console.log(`email atfer hash: ${userID}`);
-
-    const resetToken = jwt.sign({ userID: userID }, JWT_LINK_SECRET, {
-      expiresIn: "10m",
-      algorithm: "HS256",
-    });
-
-    //store hashEmail for auth
-    await redis.storeKey(userID, resetToken);
+    //store token for authentication
+    await redis.storeKey(userId, token);
 
     // Send link to email
-    console.log(`resset password!!! ${resetToken}`);
+    console.log(`reset password!!! ${resetToken}`);
     await sendLink(user.email, resetToken);
 
-    return res.status(200).json({
-      message: "Link has been sent to your email",
-      email: user.email,
-      resetToken: resetToken,
-    });
+    res.locals.errorMessage = 'A link has been sent to your email account';
+    return res.status(200)
+      .redirect('/users/login');
   } catch (error) {
-    return res.status(500).json({
-      message: "Error in password reset request",
-      error: error.message,
-    });
+    console.log(error);
+    return res.status(500)
+      .redirect('/users/set-password');
   }
 };
 
