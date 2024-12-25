@@ -5,7 +5,7 @@ controller.getProfile = async (req, res) => {
 	try {
 		const user = await usersModel.findById(req.params.id);
 		// const userPost = await usersModel.getUserPosts(req.params.id);
-		if (user.profile_picture === null || user.profile_picture === "") {
+		if (user.profile_picture === null || user.profile_picture === "" || user.profile_picture === "undefined" || user.profile_picture === undefined || user.profile_picture === "null") {
 			user.profile_picture = "/img/user-placeholder.jpg";
 		} else if (user.profile_picture.includes("http")) {
 			user.profile_picture = user.profile_picture;
