@@ -33,6 +33,7 @@ const createTablesQuery = `
     email VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
     username VARCHAR(50) UNIQUE NOT NULL,
+    alias VARCHAR(50),
     fullname VARCHAR(100),
     bio TEXT,
     profile_picture VARCHAR(255),
@@ -40,7 +41,7 @@ const createTablesQuery = `
     updated_at TIMESTAMP DEFAULT NOW()
   );
 
-   CREATE TABLE IF NOT EXISTS UnverifiedUsers (
+  CREATE TABLE IF NOT EXISTS UnverifiedUsers (
     id SERIAL PRIMARY KEY,
     email VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
@@ -68,6 +69,12 @@ const createTablesQuery = `
     user_id INT NOT NULL REFERENCES Users(id),
     thread_id INT NOT NULL REFERENCES Threads(id),
     created_at TIMESTAMP DEFAULT NOW()
+  );
+
+  CREATE TABLE IF NOT EXISTS ThreadImage(
+  id SERIAL PRIMARY KEY,
+  thread_id int NOT NULL REFERENCES Threads(id),
+  image_url VARCHAR(255) NOT NULL
   );
 
   CREATE TABLE IF NOT EXISTS Comments (

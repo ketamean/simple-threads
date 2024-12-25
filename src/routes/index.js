@@ -6,6 +6,7 @@ const middlewareCookie = require('../middleware/setCookieResponse')
 // Import routes
 const authRouter = require("./authRouter");
 const usersRouter = require("./usersRouter");
+const profileRouter = require("./profileRouter");
 
 router.get('/', (req,res)  => {
   res.redirect('/auth')
@@ -18,6 +19,9 @@ router.use("/users", usersRouter);
 
 //router.use("/auth", middlewareCookie.setCookieResponse);
 router.use("/auth", middlewareAuth.verifyRefreshToken, authRouter);
+
+// profile router, must logged in before use
+router.use("/profile", profileRouter);
 
 //test router
 router.get("/testToken", middlewareAuth.verifyToken, (req, res) => {
