@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Activity</title>
+
+    <link rel="stylesheet" href="/css/activity.css" />
+    <link rel="stylesheet" href="css/normalize.css" />
+    <link rel="stylesheet" type="text/css" href="/css/universal.css">
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+     <script>
+        tailwind.config = {
+            theme: {
+                    extend: {
+                        colors: {
+                            "jet-black": '#0a0a0a',
+                            'semi-black': 'rgba(0, 0, 0, 0.5)',
+                            'chinese-black': '#101010',
+                            "neon-white": {
+                                "DEFAULT": '#f3f5f7',
+                                "15": "rgba(243, 245, 247, 0.15)",
+                                "35": "rgba(243, 245, 247, 0.35)",
+                            },
+                            "eerie-black": '#181818',
+                            "see-more": "rgb(173, 163, 150)",
+                            "next": "rgb(119, 119, 119)",
+                            "pop-up": "#787878",
+                            "lucky": "#777777",
+                            "333": "#333333",
+                            "24": "rgb(24,24,24)"
+                        },
+                        lineHeight:{
+                            "12": '48px',
+                            "16": '4rem',
+                            'settingBtn': 'calc(1.4 * 1em)',
+                        },
+                        spacing:{
+                            "settingBox": "340.656px",
+                            "0.5": "0.125rem",
+                            "post": "32rem",
+                            "followBoard": "calc(100% - 120px)",
+                            "tab": "calc(100% - 48px)"
+                        },
+                        gridTemplateColumns:{
+                            "post": "12% 88%;"
+                        },
+                        backgroundImage:{
+                            userPlaceholder: "url('/img/user-placeholder.jpg')",
+                        }
+                    }
+                },
+            }
+    </script>
+
+  </head>
+
+  <body>
+    <div class="activity-container"> 
+      <!-- delete confirmation overlay -->
+      <div class="delete-confirmation-overlay hidden">
+        <div class="delete-confirmation-container">
+          <div class="delete-confirmation-box">
+            <div class="delete-confirmation-content">
+              <span>Are you sure you want to delete this notification?</span>
+              <div class="delete-confirmation-buttons">
+                <button type="button" class="confirm-delete-button">Yes</button>
+                <button type="button" class="cancel-delete-button">No</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- delete confirmation overlay -->
+      <header class="pt-4 pb-2 z-40 w-full h-14 bg-black/50 text-center fixed left-0 top-0 flex justify-center sm:w-14 sm:pl-2 sm:pt-4">
+            <i class="fa-solid fa-bell notification-svg sm:top-[50px]"></i>
+            <a href="/" title="Threads" class="h-full transition-transform ease-in scale-110" id="logo">
+            </a>    <svg class="h-full" aria-label="Threads" height="100%" role="img" fill="white" viewBox="0 0 192 192" width="100%" xmlns="http://www.w3.org/2000/svg"><path d="M141.537 88.9883C140.71 88.5919 139.87 88.2104 139.019 87.8451C137.537 60.5382 122.616 44.905 97.5619 44.745C97.4484 44.7443 97.3355 44.7443 97.222 44.7443C82.2364 44.7443 69.7731 51.1409 62.102 62.7807L75.881 72.2328C81.6116 63.5383 90.6052 61.6848 97.2286 61.6848C97.3051 61.6848 97.3819 61.6848 97.4576 61.6855C105.707 61.7381 111.932 64.1366 115.961 68.814C118.893 72.2193 120.854 76.925 121.825 82.8638C114.511 81.6207 106.601 81.2385 98.145 81.7233C74.3247 83.0954 59.0111 96.9879 60.0396 116.292C60.5615 126.084 65.4397 134.508 73.775 140.011C80.8224 144.663 89.899 146.938 99.3323 146.423C111.79 145.74 121.563 140.987 128.381 132.296C133.559 125.696 136.834 117.143 138.28 106.366C144.217 109.949 148.617 114.664 151.047 120.332C155.179 129.967 155.42 145.8 142.501 158.708C131.182 170.016 117.576 174.908 97.0135 175.059C74.2042 174.89 56.9538 167.575 45.7381 153.317C35.2355 139.966 29.8077 120.682 29.6052 96C29.8077 71.3178 35.2355 52.0336 45.7381 38.6827C56.9538 24.4249 74.2039 17.11 97.0132 16.9405C119.988 17.1113 137.539 24.4614 149.184 38.788C154.894 45.8136 159.199 54.6488 162.037 64.9503L178.184 60.6422C174.744 47.9622 169.331 37.0357 161.965 27.974C147.036 9.60668 125.202 0.195148 97.0695 0H96.9569C68.8816 0.19447 47.2921 9.6418 32.7883 28.0793C19.8819 44.4864 13.2244 67.3157 13.0007 95.9325L13 96L13.0007 96.0675C13.2244 124.684 19.8819 147.514 32.7883 163.921C47.2921 182.358 68.8816 191.806 96.9569 192H97.0695C122.03 191.827 139.624 185.292 154.118 170.811C173.081 151.866 172.51 128.119 166.26 113.541C161.776 103.087 153.227 94.5962 141.537 88.9883ZM98.4405 129.507C88.0005 130.095 77.1544 125.409 76.6196 115.372C76.2232 107.93 81.9158 99.626 99.0812 98.6368C101.047 98.5234 102.976 98.468 104.871 98.468C111.106 98.468 116.939 99.0737 122.242 100.233C120.264 124.935 108.662 128.946 98.4405 129.507Z"></path></svg>
+            </a>
+        </header>
+
+
+      <main class="w-full h-[calc(100%-50px)] py-12.5 px-0 sm:py-5">
+        <!-- tag choice -->
+        <div class="m-4 max-w-full flex relative h-[42px] pt-1 pb-1 gap-1.5 self-center overflow-x-auto sm:" role="toolbar">
+          <a
+            class="activity-link-tag min-w-[100px] max-w-full h-[34px] border border-[rgba(243,245,247,0.15)] rounded-[10px] inline-flex flex-row items-center justify-center select-none whitespace-nowrap basis-auto flex-shrink-0 no-underline px-4 text-[#f3f5f7] tag-active"
+            href="#"
+            role="link"
+            tabindex="0"
+          >
+            <div class="font-semibold text-xl">All</div>
+          </a>
+          <a class="activity-link-tag min-w-[100px] max-w-full h-[34px] border border-[rgba(243,245,247,0.15)] rounded-[10px] inline-flex flex-row items-center justify-center select-none whitespace-nowrap basis-auto flex-shrink-0 no-underline px-4 text-[#f3f5f7]" href="#" role="link" tabindex="0">
+            <div class="font-semibold text-xl">Follow</div>
+          </a>
+          <a class="activity-link-tag min-w-[100px] max-w-full h-[34px] border border-[rgba(243,245,247,0.15)] rounded-[10px] inline-flex flex-row items-center justify-center select-none whitespace-nowrap basis-auto flex-shrink-0 no-underline px-4 text-[#f3f5f7]" href="#" role="link" tabindex="0">
+            <div class="font-semibold text-xl">Comments</div>
+          </a>
+          <a class="activity-link-tag min-w-[100px] max-w-full h-[34px] border border-[rgba(243,245,247,0.15)] rounded-[10px] inline-flex flex-row items-center justify-center select-none whitespace-nowrap basis-auto flex-shrink-0 no-underline px-4 text-[#f3f5f7]" href="#" role="link" tabindex="0">
+            <div class="font-semibold text-xl">Likes</div>
+          </a>
+        </div>
+        <!-- tag choice -->
+
+        <!-- mark read or delete -->
+        <div class="activity-notification-block hidden">
+          <button type="button" class="mark-read-button"><span>Mark as read</span>
+            <i class="fa-solid fa-square-check"></i>
+          </button>
+
+          <button type="button" class="delete-button"><span>Delete</span>
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </div>
+
+        <!-- none screen -->
+        <div class="activity-follow none hidden">
+          <span>Nothing to see here yet</span>
+        </div>
+        <!-- none screen -->
+
+        <!-- follow screen -->
+        <div class="activity-follow follow hidden">
+
+          <!--Follow-->
+          <div class="activity-follow-block">
+            <div class="activity-follow-container">
+              <div class="activity-follow-img">
+                <div class="activity-follow-img-block">
+                  <a
+                    href="#"
+                    class="activity-follow-img-link-container"
+                    role="link"
+                    tabindex="0"
+                  >
+                    <div class="activity-follow-img-div">
+                      <img src="img/avt.jpg" alt="img-avt" />
+                    </div>
+                  </a>
+                  <div class="activity-follow-img-svg-container">
+                    <div class="activity-follow-img-svg avt-color">
+                      <svg
+                        aria-label=""
+                        role="img"
+                        viewBox="0 0 18 18"
+                        class="activity-svg-avt"
+                      >
+                        <title>svg-icon-avt</title>
+                        <path
+                          d="M5.81283 13C5.55932 13 5.35968 12.9466 5.2139 12.8398C5.0713 12.736 5 12.5921 5 12.4082C5 12.1235 5.0919 11.8224 5.2757 11.505C5.4595 11.1876 5.72569 10.891 6.07427 10.6151C6.42286 10.3363 6.84274 10.1109 7.33393 9.93882C7.82828 9.76381 8.38285 9.67631 8.99762 9.67631C9.61557 9.67631 10.1701 9.76381 10.6613 9.93882C11.1557 10.1109 11.5756 10.3363 11.921 10.6151C12.2696 10.891 12.5357 11.1876 12.7195 11.505C12.9065 11.8224 13 12.1235 13 12.4082C13 12.5921 12.9271 12.736 12.7813 12.8398C12.6387 12.9466 12.4407 13 12.1872 13H5.81283ZM9.00238 8.87987C8.6633 8.87987 8.34957 8.79384 8.0612 8.6218C7.77283 8.44679 7.53991 8.21246 7.36245 7.9188C7.18816 7.62217 7.10101 7.28995 7.10101 6.92214C7.10101 6.56025 7.18816 6.23396 7.36245 5.94327C7.53991 5.65258 7.77283 5.42269 8.0612 5.25362C8.34957 5.08454 8.6633 5 9.00238 5C9.34145 5 9.65518 5.08306 9.94355 5.24917C10.2319 5.41528 10.4633 5.64368 10.6376 5.93437C10.815 6.2221 10.9037 6.54839 10.9037 6.91324C10.9037 7.28402 10.815 7.61772 10.6376 7.91435C10.4633 8.21098 10.2319 8.44679 9.94355 8.6218C9.65518 8.79384 9.34145 8.87987 9.00238 8.87987Z"
+                        >
+                        </path>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="activity-follow-infor-block">
+                <div class="activity-follow-infor-container">
+                  <div class="activity-follow-infor-element">
+                    <div class="activity-follow-infor-left">
+                      <div class="activity-follow-infor-header">
+                        <div class="activity-follow-infor-header-name"><span
+                          >quocngo</span>
+                        </div>
+                        <div class="activity-follow-infor-header-time"><span
+                          >23/10/24</span></div>
+                      </div>
+                      <div class="activity-follow-infor-footer"><span>Followed
+                          you</span></div>
+                    </div>
+                    <div class="activity-follow-infor-right">
+                      <div
+                        class="activity-follow-infor-button"
+                        role="button"
+                        tabindex="0"
+                      >
+                        <div
+                          class="activity-follow-infor-button-content"
+                        >Following
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- check box -->
+              <div class="activity-follow-checkbox hidden">
+                <label class="custom-checkbox">
+                  <input type="checkbox" class="check-box" name="checkbox" />
+                  <span class="checkmark"></span>
+                </label>
+              </div>
+              <!-- check box -->
+            </div>
+          </div>
+        </div>
+        <!-- follow screen -->
+
+        <!-- all screen -->
+        <div class="activity-follow all">
+            {{{body}}}
+        </div>
+        <!-- all screen -->
+
+      </main>
+    </div>
+
+
+
+     <footer class="py-2 z-40 w-full h-14 bg-black/50 text-center fixed bottom-0 left-0 grid grid-cols-4 min-w-52 sm:h-full sm:py-0 sm:pl-2 sm:min-w-14 sm:w-14 sm:grid-rows-4 sm:grid-cols-1 sm:min-h-54 sm:max-h-96">
+            <a href="/auth/feed" class="flex justify-center items-center cursor-pointer">
+                <svg
+                    aria-label="Newsfeed"
+                    role="img"
+                    viewBox="0 0 26 26"
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="w-8 h-8 cursor-pointer footer-svg"
+                >
+                    <path
+                        d="M2.25 12.8855V20.7497C2.25 21.8543 3.14543 22.7497 4.25 22.7497H9.25C9.52614 22.7497 9.75 22.5258 9.75 22.2497V17.6822V16.4997C9.75 14.7048 11.2051 13.2497 13 13.2497C14.7949 13.2497 16.25 14.7048 16.25 16.4997V17.6822V22.2497C16.25 22.5258 16.4739 22.7497 16.75 22.7497H21.75C22.8546 22.7497 23.75 21.8543 23.75 20.7497V12.8855C23.75 11.3765 23.0685 9.94814 21.8954 8.99882L16.1454 4.34539C14.3112 2.86094 11.6888 2.86094 9.85455 4.34539L4.10455 8.99882C2.93153 9.94814 2.25 11.3765 2.25 12.8855Z"
+                        class="{{#if tab_feed}}active{{/if}}"
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-width="2.5"
+                    ></path>
+                </svg>
+            </a>
+            <a href="/auth/create-post" class="flex justify-center items-center cursor-pointer">
+                <svg
+                    aria-label="New post"
+                    role="img"
+                    viewBox="0 0 26 26"
+                    class="w-8 h-8 cursor-pointer footer-svg"
+                    stroke="{{#if tab_createPost}}#f3f5f7{{else}}currentColor{{/if}}"
+                >
+                    <path
+                        d="M22.75 13L22.75 13.15C22.75 16.5103 22.75 18.1905 22.096 19.4739C21.5208 20.6029 20.6029 21.5208 19.4739 22.096C18.1905 22.75 16.5103 22.75 13.15 22.75L12.85 22.75C9.48969 22.75 7.80953 22.75 6.52606 22.096C5.39708 21.5208 4.4792 20.6029 3.90396 19.4739C3.25 18.1905 3.25 16.5103 3.25 13.15L3.25 12.85C3.25 9.48968 3.25 7.80953 3.90396 6.52606C4.4792 5.39708 5.39708 4.4792 6.52606 3.90396C7.80953 3.25 9.48968 3.25 12.85 3.25L13 3.25"
+                        stroke-linecap="round"
+                        stroke-width="2.5"
+                    ></path>
+                    <path
+                        d="M21.75 4.25L13.75 12.25"
+                        stroke-linecap="round"
+                        stroke-width="2.5"
+                    ></path>
+                </svg>
+            </a>
+            <a href="/auth/notifications" class="flex justify-center items-center cursor-pointer">
+                <svg
+                    aria-label="Notifications"
+                    role="img"
+                    viewBox="0 0 26 26"
+                    class="w-8 h-8 cursor-pointer footer-svg"
+                >
+                    <path
+                        d="M2.5 9.85683C2.5 14.224 6.22178 18.5299 12.0332 22.2032C12.3554 22.397 12.7401 22.5909 13 22.5909C13.2703 22.5909 13.655 22.397 13.9668 22.2032C19.7782 18.5299 23.5 14.224 23.5 9.85683C23.5 6.11212 20.8698 3.5 17.4599 3.5C15.4847 3.5 13.9356 4.39792 13 5.74479C12.0851 4.40812 10.5257 3.5 8.5401 3.5C5.14059 3.5 2.5 6.11212 2.5 9.85683Z"
+                        stroke="currentColor"
+                        stroke-width="2.5"
+                        class="{{#if tab_notifications}}active{{/if}}"
+                    ></path>
+                </svg>
+            </a>
+            <a href="/auth/profile/{{userId}}" class="flex justify-center items-center cursor-pointer">
+                <svg
+                    aria-label="Profile"
+                    role="img"
+                    viewBox="0 0 26 26"
+                    class="w-8 h-8 cursor-pointer footer-svg"
+                >
+                    <circle
+                        cx="13"
+                        cy="7.25"
+                        r="4"
+                        stroke="currentColor"
+                        stroke-width="2.5"
+                        class="{{#if tab_profile}}active{{/if}}"
+                    ></circle>
+                    <path
+                        d="M6.26678 23.75H19.744C21.603 23.75 22.5 23.2186 22.5 22.0673C22.5 19.3712 18.8038 15.75 13 15.75C7.19625 15.75 3.5 19.3712 3.5 22.0673C3.5 23.2186 4.39704 23.75 6.26678 23.75Z"
+                        stroke="currentColor"
+                        stroke-width="2.5"
+                        class="{{#if tab_profile}}active{{/if}}"
+                    ></path>
+                </svg>
+            </a>
+        </footer>
+  </body>
+  <script src="/js/activity.js"></script>
+  <script src="/js/header-activity.js"></script>
+
+</html>
