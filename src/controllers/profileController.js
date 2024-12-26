@@ -3,37 +3,44 @@ const controller = {};
 
 controller.getProfile = async (req, res) => {
 	try {
+		const tokenID = req.userID;
 		const user = await usersModel.findById(req.params.id);
 		// const userPost = await usersModel.getUserPosts(req.params.id);
-		if (user.profile_picture === null || user.profile_picture === "") {
+		if (
+			user.profile_picture === null ||
+			user.profile_picture === "" ||
+			user.profile_picture === "undefined" ||
+			user.profile_picture === undefined ||
+			user.profile_picture === "null"
+		) {
 			user.profile_picture = "/img/user-placeholder.jpg";
 		} else if (user.profile_picture.includes("http")) {
 			user.profile_picture = user.profile_picture;
-		} else if (user.profile_picture.includes("static")) {
-			user.profile_picture = user.profile_picture.replace("static", "");
+		} else if (user.profile_picture.includes("public")) {
+			user.profile_picture = user.profile_picture.replace("public", "");
 		}
-		const personal = true;
+		const personal = parseInt(tokenID) === parseInt(req.params.id);
 		const follower = await usersModel.getUserFollowers(req.params.id);
 		const following = await usersModel.getUserFollowing(req.params.id);
-		if(personal){
+		if (personal) {
 			res.render("personal-profile", {
 				title: "Profile",
-				profileData:{
+				profileData: {
 					user: user,
 					personal: personal,
 					followerNum: follower.length,
-					followingNum: following.length
-				}
+					followingNum: following.length,
+				},
 			});
-		}else{
+		} else {
 			res.render("other-user-profile", {
 				title: "Profile",
-				profileData:{
+				profileData: {
 					user: user,
 					personal: personal,
 					followerNum: follower.length,
-					followingNum: following.length
-				}
+					followingNum: following.length,
+				},
 			});
 		}
 	} catch (err) {
@@ -48,16 +55,19 @@ controller.getFollowers = async (req, res) => {
 		for (let i = 0; i < followers.length; i++) {
 			if (
 				followers[i].profile_picture === null ||
-				followers[i].profile_picture === ""
+				followers[i].profile_picture === "" ||
+				followers[i].profile_picture === "undefined" ||
+				followers[i].profile_picture === undefined ||
+				followers[i].profile_picture === "null"
 			) {
 				followers[i].profile_picture = "/img/user-placeholder.jpg";
 			} else if (followers[user].profile_picture.includes("http")) {
 				followers[user].profile_picture =
 					followers[user].profile_picture;
-			} else if (followers[user].profile_picture.includes("static")) {
+			} else if (followers[user].profile_picture.includes("public")) {
 				followers[user].profile_picture = followers[
 					user
-				].profile_picture.replace("static", "");
+				].profile_picture.replace("public", "");
 			}
 		}
 		res.status(200).json(followers);
@@ -73,15 +83,18 @@ controller.getFollowings = async (req, res) => {
 		for (let i = 0; i < followings.length; i++) {
 			if (
 				followings[i].profile_picture === null ||
-				followings[i].profile_picture === ""
+				followings[i].profile_picture === "" ||
+				followings[i].profile_picture === "undefined" ||
+				followings[i].profile_picture === undefined ||
+				followings[i].profile_picture === "null"
 			) {
 				followings[i].profile_picture = "/img/user-placeholder.jpg";
 			} else if (followings[i].profile_picture.includes("http")) {
 				followings[i].profile_picture = followings[i].profile_picture;
-			} else if (followings[i].profile_picture.includes("static")) {
+			} else if (followings[i].profile_picture.includes("public")) {
 				followings[i].profile_picture = followings[
 					i
-				].profile_picture.replace("static", "");
+				].profile_picture.replace("public", "");
 			}
 		}
 		res.send(followings);
@@ -93,8 +106,9 @@ controller.getFollowings = async (req, res) => {
 
 controller.updateProfile = async (req, res) => {
 	try {
-		let { alias, bio } = JSON.parse(JSON.stringify(req.body));
+		let { alias, bio } = JSON.parse(req.body.user);
 		let avatar = req.file ? req.file.path : "";
+		console.log(req);
 		const userID = req.params.id;
 		const currentUser = await usersModel.findById(userID);
 		if (alias === "" || alias === undefined || alias === "undefined")
@@ -124,6 +138,7 @@ controller.updateProfile = async (req, res) => {
 
 controller.followUser = async (req, res) => {
 	try {
+		console.log(req.body);
 		await usersModel.followUser(req.body.user_id, req.body.target_id);
 		res.status(200).json("User followed");
 	} catch (err) {
@@ -134,6 +149,7 @@ controller.followUser = async (req, res) => {
 
 controller.unfollowUser = async (req, res) => {
 	try {
+		console.log(req.body);
 		await usersModel.unfollowUser(req.body.user_id, req.body.target_id);
 		res.status(200).json("User unfollowed");
 	} catch (err) {

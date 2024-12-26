@@ -27,80 +27,19 @@ const client = new Client({
     .catch((err) => console.error("Connection error", err.stack));
 })();
 
-const createTablesQuery = `
-  CREATE TABLE IF NOT EXISTS Users (
-    id SERIAL PRIMARY KEY,
-    email VARCHAR(255) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    username VARCHAR(50) UNIQUE NOT NULL,
-    alias VARCHAR(50),
-    fullname VARCHAR(100),
-    bio TEXT,
-    profile_picture VARCHAR(255),
-    created_at TIMESTAMP DEFAULT NOW(),
-    updated_at TIMESTAMP DEFAULT NOW()
-  );
+const createTablesQuery = require('./db/genQueryCreateTables');
+const createIndexesQuery = require('./db/genQueryCreateIndexes');
 
-  CREATE TABLE IF NOT EXISTS UnverifiedUsers (
-    id SERIAL PRIMARY KEY,
-    email VARCHAR(255) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    username VARCHAR(50) UNIQUE NOT NULL,
-    created_at TIMESTAMP DEFAULT NOW()
-  );
+(async() => {
+  try {
+    await client.query(createTablesQuery);
+    console.log("Tables created successfully");
 
-  CREATE TABLE IF NOT EXISTS Threads (
-    id SERIAL PRIMARY KEY,
-    user_id INT NOT NULL REFERENCES Users(id),
-    content TEXT NOT NULL,
-    image_url VARCHAR(255),
-    created_at TIMESTAMP DEFAULT NOW()
-  );
-
-  CREATE TABLE IF NOT EXISTS Followers (
-    id SERIAL PRIMARY KEY,
-    follower_id INT NOT NULL REFERENCES Users(id),
-    following_id INT NOT NULL REFERENCES Users(id),
-    created_at TIMESTAMP DEFAULT NOW()
-  );
-
-  CREATE TABLE IF NOT EXISTS Likes (
-    id SERIAL PRIMARY KEY,
-    user_id INT NOT NULL REFERENCES Users(id),
-    thread_id INT NOT NULL REFERENCES Threads(id),
-    created_at TIMESTAMP DEFAULT NOW()
-  );
-
-  CREATE TABLE IF NOT EXISTS ThreadImage(
-  id SERIAL PRIMARY KEY,
-  thread_id int NOT NULL REFERENCES Threads(id),
-  image_url VARCHAR(255) NOT NULL
-  );
-
-  CREATE TABLE IF NOT EXISTS Comments (
-    id SERIAL PRIMARY KEY,
-    thread_id INT NOT NULL REFERENCES Threads(id),
-    user_id INT NOT NULL REFERENCES Users(id),
-    content TEXT NOT NULL,
-    created_at TIMESTAMP DEFAULT NOW()
-  );
-
-  CREATE TABLE IF NOT EXISTS Notifications (
-    id SERIAL PRIMARY KEY,
-    user_id INT NOT NULL REFERENCES Users(id),
-    image_url VARCHAR(255) NOT NULL,   
-    header VARCHAR(50) NOT NULL,   
-    type VARCHAR(50) NOT NULL,
-    related_id INT,
-    message TEXT NOT NULL,
-    is_read BOOLEAN DEFAULT FALSE,
-    created_at TIMESTAMP DEFAULT NOW()
-  );
-`;
-
-client
-  .query(createTablesQuery)
-  .then(() => console.log("Tables created successfully"))
-  .catch((err) => console.error("Error creating tables", err.stack));
+    await client.query(createIndexesQuery);
+    console.log("Indexes created successfully");
+  } catch (err) {
+    console.error("Error creating tables", err.stack);
+  }
+})();
 
 module.exports = client;

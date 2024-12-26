@@ -3,10 +3,10 @@ const router = express.Router();
 const multer = require("multer");
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, "static/uploads/");
+        cb(null, "public/uploads");
     },
     filename: (req, file, cb) => {
-        cb(null, file.fieldname + "-" + file.originalname + "-" + Date.now()+"." + file.mimetype.split("/")[1]);
+        cb(null, file.originalname.split(".")[0] + "_" + Date.now() + "." + file.originalname.split(".")[1]);
     },
     fileFilter: (req, file, cb) => {
         if(file.mimetype === "image/png" || file.mimetype === "image/jpg" || file.mimetype === "image/jpeg") {
