@@ -1,16 +1,21 @@
 const client = require("../config/database");
 
-// THIS DOES NOT HANDLE ERRORS.
-// ERRORS ARE HANDLED BY CONTROLLERS
 const thread = {
-  createThread: async ({ user_id, content, createdAt }) => {
+  createThread: async (user_id, content, created_at) => {
     const query = `
     INSERT INTO Threads (user_id, content, created_at)
-    VALUES ($1, $2, NOW())
+    VALUES ($1, $2, $3)
     RETURNING *;`;
-    const values = [user_id, content, createdAt];
+    const values = [user_id, content, created_at];
     const res = await client.query(query, values);
     return res.rows[0];
+  },
+  createThreadImage: async (thread_id, image_url) => {
+    const query = `
+    INSERT INTO ThreadImages (thread_id, image_url)
+    VALUES ($1, $2);`;
+    const values = [thread_id, image_url];
+    await client.query(query, values);
   },
   getAllPosts: async () => {
     const query = `
@@ -39,7 +44,7 @@ const thread = {
     return res.rows;
   },
   async getNLikes(id) {
-    console.log('thread models: get n likes')
+    console.log("thread models: get n likes");
     const query = `
       SELECT count(*)
       FROM Likes
@@ -51,7 +56,7 @@ const thread = {
     return res.count;
   },
   async getNComments(id) {
-    console.log('thread models: get n comments')
+    console.log("thread models: get n comments");
     const query = `
       SELECT count(*)
       FROM Comments
@@ -63,7 +68,7 @@ const thread = {
     return res.count;
   },
   async checkUserLikedThread(threadId, userId) {
-    console.log('check user liked')
+    console.log("check user liked");
     const query = `
       SELECT count(*)
       FROM Likes
@@ -72,7 +77,8 @@ const thread = {
     const values = [threadId, userId];
     const res = (await client.query(query, values)).rows;
     console.log(res.length);
-    if (res.length > 1) throw new Error(`User liked thread ${threadId} more than once`);
+    if (res.length > 1)
+      throw new Error(`User liked thread ${threadId} more than once`);
     return res.length === 1; // true if liked, false of have not liked yet
   },
   async getThreadById(threadId, viewerId) {

@@ -27,11 +27,4 @@ controllers.getFeed = async (req, res) => {
   res.render("feed");
 };
 
-controllers.createFeed = (req, res) => {
-  res.locals.username = "vinhpham";
-  res.locals.css = metadata.md_createPost.css || [];
-  res.locals.tab_createPost = true;
-  res.render("create-post");
-};
-
 module.exports = controllers;
