@@ -6,7 +6,7 @@ const middleware = require("../middleware/auth");
 const router = express.Router();
 const upload = require("../middleware/upload");
 
-//get - login/Sign In
+//get - login/Sign I
 router.get("/", (req, res) => {
   res.redirect("/users/login");
 });

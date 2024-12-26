@@ -4,8 +4,8 @@ const client = require("../config/database");
 const user = {
   createUser: async ({ email, password, username }) => {
     const query = `
-    INSERT INTO Users (email, password, username, fullname, bio, profile_picture, created_at, updated_at)
-    VALUES ($1, $2, $3, NULL, NULL, NULL, NOW(), NOW())
+    INSERT INTO Users (email, password, username, fullname, bio, profile_picture, created_at, updated_at, alias)
+    VALUES ($1, $2, $3, NULL, NULL, NULL, NOW(), NOW(), NULL)
     RETURNING *;`;
     const values = [email, password, username];
     console.log(values);
@@ -42,32 +42,32 @@ const user = {
     return res.rows[0];
   },
   //update user info
-	updateUserInfo: async (userid, alias, bio, filePath) => {
-		const query = `
+  updateUserInfo: async (userid, alias, bio, filePath) => {
+    const query = `
     UPDATE users SET alias = '${alias}', bio = '${bio}', profile_picture = '${filePath}' WHERE id = ${userid} RETURNING *
     `;
-		try {
-			const res = await client.query(query);
-		} catch (err) {
-			console.error("Error updating user info", err.stack);
-			throw err;
-		}
-	},
-	// get user's followers
-	getUserFollowers: async (userid) => {
-		const query = `
+    try {
+      const res = await client.query(query);
+    } catch (err) {
+      console.error("Error updating user info", err.stack);
+      throw err;
+    }
+  },
+  // get user's followers
+  getUserFollowers: async (userid) => {
+    const query = `
     SELECT * FROM followers F, users U WHERE F.follower_id = U.id AND F.following_id = ${userid} ORDER BY F.created_at DESC
     `;
-		try {
-			const res = await client.query(query);
-			return res.rows;
-		} catch (err) {
-			console.error("Error getting user followers", err.stack);
-		}
-	},
-	// get user's followings
-	getUserFollowing: async (userid) => {
-		const query = `
+    try {
+      const res = await client.query(query);
+      return res.rows;
+    } catch (err) {
+      console.error("Error getting user followers", err.stack);
+    }
+  },
+  // get user's followings
+  getUserFollowing: async (userid) => {
+    const query = `
     SELECT * FROM followers F, users U WHERE F.follower_id = ${userid} AND F.following_id = U.id ORDER BY F.created_at DESC
     `;
 		try {
@@ -93,33 +93,46 @@ const user = {
 		const query = `
     INSERT INTO followers (follower_id, following_id, created_at) VALUES (${userID}, ${targetID}, to_timestamp(${currentTime})) ON CONFLICT DO NOTHING
     `;
-		try {
-			const res = await client.query(query);
-		} catch (err) {
-			console.error("Error following user", err.stack);
-		}
-	},
-	// unfollow user
-	unfollowUser: async (userID, targetID) => {
-		// followerID is the user who wants to unfollow, followeeID is the user who is being unfollowed
-		const query = `
+    try {
+      const res = await client.query(query);
+    } catch (err) {
+      console.error("Error following user", err.stack);
+    }
+  },
+  // unfollow user
+  unfollowUser: async (userID, targetID) => {
+    // followerID is the user who wants to unfollow, followeeID is the user who is being unfollowed
+    const query = `
     DELETE FROM followers WHERE follower_id = ${userID} and following_id = ${targetID}
     `;
-		try {
-			const res = await client.query(query);
-		} catch (err) {
-			console.error("Error unfollowing user", err.stack);
-		}
-	},
+    try {
+      const res = await client.query(query);
+    } catch (err) {
+      console.error("Error unfollowing user", err.stack);
+    }
+  },
   // get user's followers
   removeFollower: async (userID, targetID) => {
     const query = `
-    DELETE FROM follow WHERE follower_id = ${targetID} and following_id = ${userID}
+    DELETE FROM followers WHERE follower_id = ${targetID} and following_id = ${userID}
     `;
     try {
       const res = await client.query(query);
     } catch (err) {
       console.error("Error removing follower", err.stack);
+    }
+  },
+
+  // check if following user
+  checkFollowing: async (userID, targetID) => {
+    const query = `
+    SELECT * FROM followers WHERE follower_id = ${userID} and following_id = ${targetID}
+    `;
+    try {
+      const res = await client.query(query);
+      return res.rows.length > 0;
+    } catch (err) {
+      console.error("Error checking following", err.stack);
     }
   },
 

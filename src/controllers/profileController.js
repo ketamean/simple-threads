@@ -1,11 +1,13 @@
 const usersModel = require("../models/usersModel");
+const threadsModel = require("../models/threadsModel");
 const controller = {};
 
 controller.getProfile = async (req, res) => {
 	try {
 		const tokenID = req.userID;
 		const user = await usersModel.findById(req.params.id);
-		// const userPost = await usersModel.getUserPosts(req.params.id);
+		const userPosts = await threadsModel.getThreadByUserID(req.params.id);
+		console.log(userPosts);
 		if (
 			user.profile_picture === null ||
 			user.profile_picture === "" ||
@@ -30,9 +32,12 @@ controller.getProfile = async (req, res) => {
 					personal: personal,
 					followerNum: follower.length,
 					followingNum: following.length,
+					posts: userPosts,
+					tokenID: tokenID,
 				},
 			});
 		} else {
+			const isFollowing = await usersModel.checkFollowing(tokenID, req.params.id);
 			res.render("other-user-profile", {
 				title: "Profile",
 				profileData: {
@@ -40,6 +45,9 @@ controller.getProfile = async (req, res) => {
 					personal: personal,
 					followerNum: follower.length,
 					followingNum: following.length,
+					posts: userPosts,
+					isFollowing: isFollowing,
+					tokenID: tokenID,
 				},
 			});
 		}

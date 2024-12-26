@@ -1,0 +1,540 @@
+/* hidden hover for a element */
+
+* {
+  font-family: var(--font-family, sans-serif);
+  box-sizing: border-box;
+}
+
+html {
+  height: 100vh;
+  width: 100vw;
+  min-width: 265px;
+  font-size: calc(12px + 0.15vw); /* define 1rem */
+}
+
+body {
+  height: 100%;
+  width: 100%;
+  background-color: black;
+  color: white;
+  font-size: 1rem;
+}
+
+nav {
+  position: fixed;
+  bottom: 0;
+}
+
+main {
+  margin: 0 auto;
+  max-width: 500px;
+  height: 100%;
+  padding: var(--header-height, 48px) var(--main-padding-lr, 16px);
+}
+
+a,
+div {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+}
+
+/* add check box */
+
+/* check box */
+.custom-checkbox input[type="checkbox"] {
+  display: none;
+}
+.custom-checkbox .checkmark {
+  width: 20px;
+  height: 20px;
+  background-color: #ccc;
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  vertical-align: middle;
+  transition: background-color 0.3s;
+}
+.custom-checkbox input[type="checkbox"]:checked + .checkmark {
+  background-color: #007bff;
+}
+.custom-checkbox input[type="checkbox"]:checked + .checkmark::after {
+  content: "";
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  width: 6px;
+  height: 12px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+/* check box */
+
+.grid-check-box {
+  grid-template-columns: 60px 1fr 40px !important;
+  overflow-x: hidden;
+}
+
+.activity-follow-checkbox {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: flex-start;
+  padding: 5px;
+  margin-right: 10px;
+}
+
+.activity-notification-block {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  padding: 10px;
+  justify-content: space-between;
+}
+
+.mark-read-button,
+.delete-button {
+  padding: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  border: 0.5px solid rgba(243, 245, 247, 0.15);
+  background-color: rgb(30, 30, 30);
+  color: #ffffff;
+}
+
+.mark-read-button:active,
+.delete-button:active {
+  color: black;
+  background-color: white;
+}
+
+.delete-confirmation-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.delete-confirmation-container {
+  background-color: #1e1e1e;
+  border-radius: 16px;
+  padding: 20px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.delete-confirmation-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.delete-confirmation-content {
+  align-items: center;
+  color: #f3f5f7;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  justify-content: center;
+  text-align: center;
+}
+
+.delete-confirmation-content span {
+  font-size: 15px;
+  font-weight: 600;
+  width: 70%;
+  display: inline-block;
+  text-align: center;
+  line-height: normal;
+}
+
+.delete-confirmation-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.confirm-delete-button,
+.cancel-delete-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.confirm-delete-button {
+  background-color: #007bff;
+  color: #ffffff;
+}
+
+.cancel-delete-button {
+  background-color: #777777;
+  color: #ffffff;
+}
+
+.confirm-delete-button:active,
+.cancel-delete-button:active,
+.confirm-delete-button:hover,
+.cancel-delete-button:hover {
+  transform: scale(1.1);
+  transition: transform 0.2s;
+}
+
+/* add check box */
+
+.activity-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  box-sizing: border-box;
+}
+
+/* trans pop-up */
+.pop-up {
+  transition-timing-function: ease-in-out;
+  transition-duration: 0.3s;
+  transform: scale(0.9);
+}
+
+.hidden {
+  display: none !important;
+}
+
+.header-logo {
+  display: flex;
+  align-items: center;
+  max-width: 100%;
+  justify-content: center;
+}
+
+.activity-header {
+  width: 100%;
+  max-width: 500px;
+  height: 60px;
+  margin: auto;
+  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr 50vw 1fr;
+  grid-template-rows: 1fr;
+}
+
+.threads-svg {
+  cursor: pointer;
+  transition-property: transform;
+  transition-duration: 0.2s;
+  width: 18%;
+}
+
+.top-bar {
+  width: 21px;
+  height: 2.5px;
+}
+
+.bottom-bar {
+  width: 14px;
+  height: 2.5px;
+}
+
+.notification {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  left: 32px;
+}
+
+.notification-svg {
+  font-size: 21px;
+  position: absolute;
+  color: #777777;
+  left: 16px;
+}
+
+.nav-svg {
+  width: 30px;
+  height: 30px;
+  color: rgba(243, 245, 247, 0.35);
+  cursor: pointer;
+}
+
+.active {
+  fill: #f3f5f7;
+}
+
+/* tag bar thread*/
+
+.tag-active {
+  background-color: white;
+  color: black !important;
+}
+
+/* no content screen */
+.none {
+  display: flex;
+  height: calc(100% - 60px);
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.none span {
+  color: rgb(119, 119, 119);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: calc(1.4 * 1em);
+  position: relative;
+}
+
+/* follow screen */
+
+.activity-follow {
+  height: calc(100% - 40px);
+  padding-bottom: 40px;
+  width: 100%;
+  overflow-y: auto;
+  user-select: none;
+}
+
+.unread {
+  background-color: rgba(30, 30, 30, 0.9);
+  margin-left: 3px;
+  border-top-left-radius: 16px;
+  border-bottom-left-radius: 16px;
+  overflow-x: hidden;
+}
+.activity-follow-container {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 60px 1fr;
+}
+
+.activity-follow-img-svg {
+  height: 18px;
+  width: 18px;
+  border: 2px solid #121212;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.avt-color {
+  background-color: #6e3def;
+}
+
+.star-color {
+  background-color: #007aff;
+}
+
+.activity-follow-infor-header-name {
+  max-width: calc(100vw / 3.5);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  align-items: center;
+}
+
+.change-width {
+  max-width: calc(100vw / 1.7);
+}
+.activity-follow-infor-header-name span {
+  font-size: 15px;
+  font-weight: 600;
+  max-width: 100%;
+  color: #f3f5f7;
+}
+
+.activity-follow-infor-content {
+  padding-top: 0.5em;
+  font-size: 15px;
+  font-weight: 400;
+  color: #f3f5f7;
+  line-height: calc(1.4 * 1em);
+  max-width: 100%;
+  overflow: hidden;
+  word-wrap: break-word;
+}
+
+.activity-follow-infor-right {
+  height: 42px;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  align-self: flex-start;
+}
+
+.activity-follow-infor-button {
+  min-width: 104px;
+  height: 34px;
+  padding-left: 16px;
+  padding-right: 16px;
+  border: 1px solid rgba(243, 245, 247, 0.15);
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  flex-basis: auto;
+  display: flex;
+}
+
+.activity-follow-infor-button-content {
+  font-size: 15px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  color: #777777;
+}
+
+.active-content {
+  color: #f3f5f7 !important;
+}
+
+.activity-follow-infor-react-container {
+  display: flex;
+  height: 20px;
+  margin-top: 6px;
+  margin-bottom: 10px;
+  position: relative;
+}
+.activity-follow-infor-react-flex {
+  display: flex;
+  gap: 2.5rem;
+  user-select: none;
+}
+
+.activity-follow-infor-react {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  width: calc(100vw / 10);
+  gap: 4px;
+}
+
+.activity-follow-infor-react.span {
+  font-size: 13px;
+  color: #cccccc;
+}
+
+.react-svg {
+  height: 18px;
+  width: 18px;
+  stroke-width: 2;
+  stroke: currentColor;
+  color: #cccccc;
+  flex-shrink: 0;
+}
+
+.react-reposts {
+  height: 18px;
+  width: 18px;
+  flex-shrink: 0;
+  color: #cccccc;
+  fill: currentColor;
+}
+
+.react-shared {
+  /*display inside*/
+  fill: none;
+}
+
+.react-like-on {
+  color: red;
+  fill: red;
+  font-weight: 600;
+}
+
+.next-svg {
+  color: rgb(119, 119, 119);
+  height: 16px;
+  width: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+/*reposts content*/
+.reposts-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  flex-grow: 1;
+  z-index: 1;
+}
+
+.reposts-container {
+  background-color: rgb(24, 24, 24);
+  width: 100%;
+  border: 0.5px solid rgba(243, 245, 247, 0.15);
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+}
+
+.reposts-box {
+  margin: 16px;
+  border-radius: 14px;
+  background-color: rgb(30, 30, 30);
+}
+
+.reposts-content {
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.reposts-top {
+  border-bottom: 0.5px solid rgba(243, 245, 247, 0.15);
+}
+.reposts-text {
+  display: flex;
+  width: 100%;
+  position: relative;
+}
+
+.reposts-text span {
+  display: block;
+  line-height: calc(1.4 * 1em);
+  overflow: hidden;
+  max-width: 100%;
+  font-size: 15px;
+  text-align: start;
+  word-break: break-word;
+  font-weight: 600;
+  flex-grow: 1;
+}
+
+.reposts-icon {
+  display: flex;
+  margin-left: 8px;
+  align-items: center;
+}
+
+.reposts-primary-svg {
+  height: 20px;
+  width: 20px;
+  display: block;
+  position: relative;
+  color: rgb(243, 245, 247);
+  fill: currentColor;
+}

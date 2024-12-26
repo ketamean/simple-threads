@@ -1,21 +1,24 @@
 const express = require("express");
 const router = express.Router();
 const middlewareAuth = require("../middleware/auth");
-const middlewareCookie = require('../middleware/setCookieResponse')
+const middlewareCookie = require("../middleware/setCookieResponse");
 
 // Import routes
 const authRouter = require("./authRouter");
+const authHeaderRouter = require("./authHeaderRouter");
 const usersRouter = require("./usersRouter");
 const profileRouter = require("./profileRouter");
 
-router.get('/', (req,res)  => {
-  res.redirect('/auth')
-})
+router.get("/", (req, res) => {
+  res.redirect("/auth");
+});
 
 // Use other routes, no middleware required
 router.use("/users", usersRouter);
 
-// auth router, must logged in before use
+// auth access router, must logged in before use
+router.use("/auth-header", middlewareAuth.verifyToken, authHeaderRouter);
+
 
 //router.use("/auth", middlewareCookie.setCookieResponse);
 router.use(
@@ -29,12 +32,5 @@ router.use(
 // profile router, must logged in before use
 router.use("/profile", profileRouter);
 
-//test router
-router.get("/testToken", middlewareAuth.verifyToken, (req, res) => {
-  res.json({
-    message: "You have accessed a protected route",
-    user: req.user,
-  });
-});
 
 module.exports = router;

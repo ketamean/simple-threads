@@ -95,6 +95,26 @@ const thread = {
     if (liked) res.liked = true;
     return res;
   },
+  async getThreadByUserID(userId) {
+    const query = `
+      SELECT t.*, u.username, u.profile_picture
+      FROM Threads t, users u
+      WHERE t.user_id = $1 AND t.user_id = u.id
+    `;
+    const res = (await client.query(query, [userId])).rows;
+    for (let i = 0; i < res.length; i++) {
+      if(res[i].profile_picture === null || res[i].profile_picture === "" || res[i].profile_picture === "undefined" || res[i].profile_picture === undefined || res[i].profile_picture === "null") {
+        res[i].profile_picture = "/img/user-placeholder.jpg";
+      }
+      else{
+        res[i].profile_picture = res[i].profile_picture.replace("public", "");
+      }
+      res[i].likes_count = await this.getNLikes(res[i].id);
+      res[i].comments_count = await this.getNComments(res[i].id);
+      res[i].liked = await this.checkUserLikedThread(res[i].id, userId);
+    }
+    return res;
+  }
 };
 
 module.exports = thread;
