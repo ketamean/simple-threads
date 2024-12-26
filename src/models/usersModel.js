@@ -42,9 +42,16 @@ const user = {
     return res.rows[0];
   },
   //update user info
-	updateUserInfo: async (userid, alias, bio, filePath) => {
+	updateUserInfo: async (userid, username, bio, filePath) => {
+    // check if username exists
+    const checkUsername = `SELECT * FROM users WHERE username = '${username}' AND id != ${userid}`;
+    const resUsername = await client.query(checkUsername);
+    if (resUsername.rows.length > 0) {
+      console.log("Username already exists");
+      return
+    }
 		const query = `
-    UPDATE users SET alias = '${alias}', bio = '${bio}', profile_picture = '${filePath}' WHERE id = ${userid} RETURNING *
+    UPDATE users SET username = '${username}', bio = '${bio}', profile_picture = '${filePath}' WHERE id = ${userid} RETURNING *
     `;
 		try {
 			const res = await client.query(query);
