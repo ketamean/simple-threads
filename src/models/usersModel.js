@@ -70,17 +70,27 @@ const user = {
     const query = `
     SELECT * FROM followers F, users U WHERE F.follower_id = ${userid} AND F.following_id = U.id ORDER BY F.created_at DESC
     `;
-    try {
-      const res = await client.query(query);
-      return res.rows;
-    } catch (err) {
-      console.error("Error getting user followings", err.stack);
+		try {
+			const res = await client.query(query);
+			return res.rows;
+		} catch (err) {
+			console.error("Error getting user followings", err.stack);
+		}
+	},
+	// follow user
+	followUser: async (userID, targetID) => {
+		const currentTime = Date.now() / 1000;
+    if (userID === targetID) {
+      console.log("Cannot follow yourself");
+      return
     }
-  },
-  // follow user
-  followUser: async (userID, targetID) => {
-    const currentTime = Date.now() / 1000;
-    const query = `
+    const checkExists = `SELECT * FROM followers WHERE follower_id = ${userID} and following_id = ${targetID}`;
+    const res = await client.query(checkExists);
+    if (res.rows.length > 0) {
+      console.log(res.rows);
+      return
+    }
+		const query = `
     INSERT INTO followers (follower_id, following_id, created_at) VALUES (${userID}, ${targetID}, to_timestamp(${currentTime})) ON CONFLICT DO NOTHING
     `;
     try {
@@ -104,12 +114,25 @@ const user = {
   // get user's followers
   removeFollower: async (userID, targetID) => {
     const query = `
-    DELETE FROM follow WHERE follower_id = ${targetID} and following_id = ${userID}
+    DELETE FROM followers WHERE follower_id = ${targetID} and following_id = ${userID}
     `;
     try {
       const res = await client.query(query);
     } catch (err) {
       console.error("Error removing follower", err.stack);
+    }
+  },
+
+  // check if following user
+  checkFollowing: async (userID, targetID) => {
+    const query = `
+    SELECT * FROM followers WHERE follower_id = ${userID} and following_id = ${targetID}
+    `;
+    try {
+      const res = await client.query(query);
+      return res.rows.length > 0;
+    } catch (err) {
+      console.error("Error checking following", err.stack);
     }
   },
 

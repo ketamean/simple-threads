@@ -11,16 +11,22 @@ const verifyToken = async (req, res, next) => {
     console.log(token);
     if (!token) {
       console.log("No token");
-      return res.status(401).redirect("/users/login?message=No token provided");
+      return res
+        .status(401)
+        .redirect("/users/login?message=No token provided");
     }
 
     jwt.verify(token, process.env.JWT_ACCESS_SECRET, async (err, decoded) => {
       if (err) {
         if (err.name === "JsonWebTokenError") {
-          return res.status(401).redirect("/users/login?message=Token expired");
+          return res
+            .status(401)
+            .redirect("/users/login?message=Token expired");
         }
         if (err.name === "TokenExpiredError") {
-          return res.status(401).redirect("/users/login?message=Token expired");
+          return res
+            .status(401)
+            .redirect("/users/login?message=Token expired");
         }
         return next(err);
       }
@@ -30,13 +36,13 @@ const verifyToken = async (req, res, next) => {
     });
   } catch (error) {
     if (error.name === "JsonWebTokenError") {
-      return res.status(401).redirect("/users/signIn?message=Token expired");
+      return res.status(401).redirect("/users/login?message=Token expired");
     }
     if (error.name === "TokenExpiredError") {
       // handle  in front end to resset token
-      return res.status(401).redirect("/users/signIn?message=Token expired");
+      return res.status(401).redirect("/users/login?message=Token expired");
     }
-    return res.status(401).redirect("/users/signIn?message=Token expired");
+    return res.status(401).redirect("/users/login?message=Token expired");
   }
 };
 

@@ -21,7 +21,13 @@ router.use("/auth-header", middlewareAuth.verifyToken, authHeaderRouter);
 
 
 //router.use("/auth", middlewareCookie.setCookieResponse);
-router.use("/auth", middlewareAuth.verifyRefreshToken, authRouter);
+router.use(
+  "/auth",
+  //middlewareAuth.verifyToken,
+  middlewareAuth.verifyRefreshToken,
+  middlewareCookie.setCookieResponse,
+  authRouter
+);
 
 // profile router, must logged in before use
 router.use("/profile", profileRouter);

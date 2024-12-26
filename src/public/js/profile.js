@@ -1,3 +1,4 @@
+import axiosInstance from "./axiosInstance.js";
 const love = document.querySelectorAll(".love");
 const loveIcon = document.querySelectorAll(".iconoir-heart");
 const likeNum = document.querySelectorAll(".like-number");
@@ -44,18 +45,6 @@ for (let i = 0; i < love.length; i++) {
 			love[i].style.color = "#fe0034";
 		}
 	});
-}
-
-function getCookies() {
-	const cookies = document.cookie.split(";").map((cookie) => {
-		return cookie.split("=");
-	}); // get an array of key-value pairs(cookie) in string then split them by "="
-	const cookieObj = Object.fromEntries(cookies); // convert the array of key-value pairs to an object
-	const trimmedCookieObj = {};
-	for (const key in cookieObj) {
-		trimmedCookieObj[key.trim()] = cookieObj[key].trim();
-	}
-	return trimmedCookieObj;
 }
 
 document.addEventListener("click", (e) => {
@@ -136,13 +125,28 @@ editProfileCancel.addEventListener("click", () => {
 	editProfileForm.reset();
 });
 
-editProfileSave.addEventListener("click", (event) => {
+editProfileSave.addEventListener("click", async(event) => {
 	event.preventDefault();
-	editProfileForm.submit();
+	const formData = new FormData(editProfileForm);
+	const alias = formData.get("alias");
+	const bio = formData.get("bio");
+	const avatar = formData.get("avatar");
+	console.log(avatar);
+	const userForm = new FormData();
+	userForm.append("user", JSON.stringify({
+		alias,
+		bio,
+	}));
+	userForm.append("avatar", avatar);
+	await axiosInstance.post(`auth/profile/${userID}`, userForm, {
+		headers: {
+			"Content-Type": "multipart/form-data",
+		},
+	});
 	setTimeout(() => {
 		editProfileModal.classList.remove("active");
-		document.body.style.overflow = "auto";
-	}, 2000);
+		window.location.reload();
+	}, 500);
 });
 
 editProfileAvatarInput.addEventListener("change", () => {
@@ -171,15 +175,17 @@ if (personal) {
 		const targetID =
 			followStatus[currentFollowStatus].getAttribute("data-id");
 		event.preventDefault();
-		await fetch(`${userID}/unfollow`, {
-			method: "DELETE",
+		let data = {
+			user_id: userID,
+			target_id: targetID,
+		}
+		data = JSON.stringify(data);
+		await axiosInstance.delete(`auth/profile/${userID}/unfollow`, {
+			data
+		}, {
 			headers: {
 				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				user_id: userID,
-				target_id: targetID,
-			}),
+			}
 		});
 		numFollowings.textContent = parseInt(numFollowings.textContent) - 1;
 		followStatus[currentFollowStatus].textContent = "Follow";
@@ -195,16 +201,18 @@ followStatus.forEach((status, index) => {
 		if (status.textContent === "Follow") {
 			event.preventDefault();
 			const followed_id = status.getAttribute("data-id");
-			const user_id = status.getAttribute("data-user");
-			await fetch(`${userID}/follow`, {
-				method: "POST",
+			let data = {
+				user_id: userID,
+				target_id: followed_id,
+			}
+			data = JSON.stringify(data);
+			await axiosInstance.post(`auth/profile/${userID}/follow`, {
+				user_id: userID,
+				target_id: followed_id,
+			}, {
 				headers: {
 					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					user_id: userID,
-					target_id: followed_id,
-				}),
+				}
 			});
 			numFollowings.textContent = parseInt(numFollowings.textContent) + 1;
 			status.textContent = "Following";
@@ -229,7 +237,7 @@ followersPreview.addEventListener("click", async () => {
 	followersTab.classList.add("block");
 	followingTab.classList.add("hidden");
 	followingTab.classList.remove("block");
-	let followers = await axios.post(`/profile/:{id}/followers`, {
+	let followers = await axiosInstance.post(`auth/profile/:{id}/followers`, {
 		user_id: userID,
 	});
 	followers = followers.data;
@@ -335,7 +343,7 @@ followersBoard.addEventListener("click", async (event) => {
 	followersTab.classList.add("block");
 	followingTab.classList.add("hidden");
 	followingTab.classList.remove("block");
-	let followers = await axios.post(`/profile/:{id}/followers`, {
+	let followers = await axiosInstance.post(`auth/profile/:{id}/followers`, {
 		user_id: userID,
 	});
 	followers = followers.data;
@@ -415,16 +423,19 @@ followersBoard.addEventListener("click", async (event) => {
 			if (status.textContent === "Follow") {
 				event.preventDefault();
 				const targetID = followStatus[index].getAttribute("data-id");
-				// await fetch(`${userID}/follow`, {
-				// 	method: "PUT",
-				// 	headers: {
-				// 		"Content-Type": "application/json",
-				// 	},
-				// 	body: JSON.stringify({
-				// 		user_id: userID,
-				// 		target_id: targetID,
-				// 	}),
-				// });
+				let data = {
+					user_id: userID,
+					target_id: targetID,
+				};
+				data = JSON.stringify(data);
+				await axiosInstance.post(`auth/profile/${userID}/follow`, {
+					user_id: userID,
+					target_id: targetID
+				}, {
+					headers: {
+						"Content-Type": "application/json",
+					}
+				});
 				numFollowings.textContent =
 					parseInt(numFollowings.textContent) + 1;
 				status.textContent = "Following";
@@ -441,7 +452,7 @@ followingBoard.addEventListener("click", async (event) => {
 	followersTab.classList.remove("block");
 	followingTab.classList.remove("hidden");
 	followingTab.classList.add("block");
-	let followings = await axios.post(`/profile/:{id}/followings`, {
+	let followings = await axiosInstance.post(`auth/profile/:{id}/followings`, {
 		user_id: userID,
 	});
 	followings = followings.data;
@@ -518,15 +529,18 @@ followingBoard.addEventListener("click", async (event) => {
 			if (status.textContent === "Follow") {
 				event.preventDefault();
 				const targetID = followStatus[index].getAttribute("data-id");
-				await fetch(`${userID}/follow`, {
-					method: "POST",
+				let data = {
+					user_id: userID,
+					target_id: targetID,
+				}
+				data = JSON.stringify(data);
+				await axiosInstance.post(`auth/profile/${userID}/follow`, {
+					user_id: userID,
+					target_id: targetID
+				}, {
 					headers: {
 						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({
-						user_id: userID,
-						target_id: targetID,
-					}),
+					}
 				});
 				numFollowings.textContent =
 					parseInt(numFollowings.textContent) + 1;
@@ -538,3 +552,43 @@ followingBoard.addEventListener("click", async (event) => {
 		});
 	});
 });
+
+if(!personal) {
+	const followButton = document.querySelector(".follow-button");
+	followButton.addEventListener("click", async (event) => {
+		event.preventDefault();
+		if(followButton.textContent === "Follow") {
+			await axiosInstance.post(`auth/profile/${userID}/follow`, {
+				user_id: tokenID,
+				target_id: userID
+			}, {
+				headers: {
+					"Content-Type": "application/json",
+				}
+			});
+			numFollowings.textContent = parseInt(numFollowings.textContent) + 1;
+			followButton.textContent = "Following";
+			followButton.style.backgroundColor = "transparent";
+			followButton.style.border = "0.8px solid rgba(243, 245, 247, 0.15)";
+			followButton.style.color = "rgb(119, 119, 119)";
+		}
+		else{
+			let data = {
+				user_id: tokenID,
+				target_id: userID,
+			}
+			data = JSON.stringify(data);
+			await axiosInstance.delete(`auth/profile/${userID}/unfollow`, {
+				data
+			}, {
+				headers: {
+					"Content-Type": "application/json",
+				}
+			});
+			numFollowings.textContent = parseInt(numFollowings.textContent) - 1;
+			followButton.textContent = "Follow";
+			followButton.style.backgroundColor = "#fe0034";
+			followButton.style.color = "#FFFFFF";
+		}
+	});
+}

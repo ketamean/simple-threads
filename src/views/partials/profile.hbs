@@ -1,5 +1,5 @@
 	<div
-		class="profile-main w-full h-auto mb-16 max-w-xl text-white pt-16 lg:absolute lg:left-1/2 lg:-translate-x-1/2 md:mb-0 md:absolute md:left-1/2 md:-translate-x-1/2"
+		class="profile-main w-full h-auto mb-16 max-w-4xl py-4 border-b border-slate-100 border-opacity-50 text-white lg:absolute lg:left-1/2 lg:-translate-x-1/2 md:mb-0 md:absolute md:left-1/2 md:-translate-x-1/2 sm:border-none"
 	>
 		<div
 			class="basic-info w-full h-36 flex flex-row justify-between pt-4 pl-2 pb-3 pr-2"
@@ -11,29 +11,29 @@
 						<div
 							class="username text-lg font-normal"
 						>{{{username}}}</div>
-						<div class="bio text-lg font-medium text-ellipsis">{{{bio}}}</div>
+						<div class="bio text-lg font-basis text-ellipsis overflow-hidden">{{{bio}}}</div>
 					{{/with}}
 				</div>
-				<div class="followers-preview h-9 cursor-pointer select-none">
-					<div class="image-preview relative">
+				<div class="followers-preview h-4 cursor-pointer select-none max-w-40 flex justify-start items-center">
+					<div class="image-preview flex justify-start items-center h-4">
 						<img
 							src="/img/user-placeholder.jpg"
 							alt=""
-							class="preview-followers w-4 h-4 rounded-full absolute "
+							class="preview-followers w-4 h-4 rounded-full "
 						/>
 						<img
 							src="/img/user-placeholder.jpg"
 							alt=""
-							class="preview-followers w-4 h-4 rounded-full absolute ml-3 "
+							class="preview-followers w-4 h-4 rounded-full"
 						/>
 						<img
 							src="/img/user-placeholder.jpg"
 							alt=""
-							class="preview-followers w-4 h-4 rounded-full absolute ml-6 "
+							class="preview-followers w-4 h-4 rounded-full"
 						/>
 					</div>
 					<div
-						class="number-of-follower w-full h-4 ml-8 text-nowrap text-center leading-4 text-base text-lucky hover:underline"
+						class="number-of-follower h-4 ml-2 text-nowrap text-center leading-4 text-base text-lucky hover:underline w-max"
 					>{{{followerNum}}} {{#if (compare followers.length '>' 1)}}followers{{else}}follower{{/if}}</div>
 				</div>
 			</div>
@@ -51,6 +51,18 @@
 				type="button"
 				class="edit-profile w-5/12 h-full flex justify-center items-center rounded-xl cursor-pointer border border-solid border-neon-white-15 bg-jet-black text-neon-white font-semibold text-base"
 			>Edit profile</button>
+		{{else}}
+			{{#if isFollowing}}
+				<button
+					type="button"
+					class="follow-button w-5/12 h-full flex justify-center items-center rounded-xl cursor-pointer border border-solid border-neon-white-15 bg-jet-black text-neon-white font-semibold text-base"
+				>Following</button>
+			{{else}}
+				<button
+					type="button"
+					class="follow-button w-5/12 h-full flex justify-center items-center rounded-xl cursor-pointer border border-solid border-neon-white-15 bg-red-600 text-neon-white font-semibold text-base"
+				>Follow</button>
+			{{/if}}
 		{{/if}}
 			<button
 				type="button"
@@ -69,7 +81,7 @@
 			<div class="profile-tab-item reposts cursor-pointer">Reposts</div>
 		</div>
 		<div
-			class="post-tab w-full h-auto flex min-h-post justify-evenly items-center flex-col mb-8"
+			class="post-tab w-full h-auto flex min-h-post flex-col mb-8"
 		>
 		{{#each posts}}
 			{{> post this}}
@@ -148,13 +160,13 @@
 			<div
 				class="edit-profile-header-item title font-semibold text-white text-xl"
 			>Edit Profile</div>
-			<div class="edit-profile-header-item save text-white">Save</div>
+			<div class="edit-profile-header-item save text-white cursor-pointer">Save</div>
 		</div>
 		<div
 			class="edit-profile-card bg-chinese-black border border-solid border-neon-white-15 rounded-2xl w-96 h-13 flex flex-col justify-evenly p-3 text-base relative"
 		>
 			<form
-				action="/profile/{{{user.id}}}"
+				action="auth/profile/{{{user.id}}}"
 				class="edit-profile-form"
 				enctype="multipart/form-data"
 				method="POST"
@@ -189,6 +201,7 @@
 						type="text"
 						name="bio"
 						placeholder="{{{user.bio}}}"
+						maxlength="50"
 						class="w-full h-10 text-neon-white border-b-2 p-0 focus:border-b-2 focus:border-solid focus:border-neon-white bg-transparent text-neon-white outline-none"
 					/>
 				</div>
@@ -203,6 +216,7 @@
 <script>
 	const userID = {{user.id}};
 	const personal = {{personal}};
+	const tokenID = {{tokenID}};
 </script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script src="/js/profile.js"></script>
+<script src="/js/profile.js" type="module"></script>
