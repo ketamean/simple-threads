@@ -1,19 +1,105 @@
-const controllers = {}
+const notificationModel = require("../models/notificationModel.js");
+const userModel = require("../models/usersModel.js");
+//insert post model
 
-controllers.get = (req, res) => {
+const controllers = {};
 
-}
+controllers.get = async (req, res) => {
+  console.log("get notification");
+  const userID = req.userID;
+  const notificationData = await notificationModel.getNotificationsByUserId(
+    userID
+  );
+  console.log(notificationData);
+  res.locals.metadata = notificationData;
+  res.locals.tab_notifications = true;
+  res.render("activity", { layout: "layoutNotification" });
+};
 
-controllers.post = (req, res) => {
-  
-}
+controllers.post = async (req, res) => {
+  try {
+    //get user id
+    const user = await userModel.findById(req.userID);
+    //
+    const descriptions = {
+      like: "Likes your post",
+      comment: "Comments on your post",
+      follow: "Follows you",
+    };
 
-controllers.put = (req, res) => {
-  
-}
+    //find user interact and post
+    const { user_id, type, post_id } = req.query;
+    // use post model to find post
+    const post = {
+      content: "123",
+    };
 
-controllers.del = (req, res) => {
-  
-}
+    //Type of content
+    let content, link;
 
-module.exports = controllers
+    if (post_id) {
+      content = post.content;
+      link = "post/" + post_id;
+    } else {
+      content = "Follow back";
+      link = "profile/" + user.id;
+    }
+
+    const notificationData = {
+      userId: user_id,
+      interactorId: user.id,
+      imgInteractor: user.profile_picture,
+      nameInteractor: user.alias,
+      link: link,
+      describe: descriptions[type],
+      content: content,
+      type: type,
+    };
+
+    const result = await notificationModel.addNotification(notificationData);
+
+    console.log(result);
+
+    return res.status(200).json({ message: "Success" });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+controllers.put = async (req, res) => {
+  try {
+    console.log("mark as read noti");
+    const { id_arr } = req.body;
+    console.log(id_arr);
+
+    const result = await notificationModel.markMultipleAsRead(id_arr);
+    if (result) {
+      res.status(200).json({ message: "Notification marked as read" });
+    } else {
+      return res.status(404).json({ message: "Notification not found" });
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+controllers.del = async (req, res) => {
+  try {
+    console.log("del noti");
+    const { id_arr } = req.body;
+    console.log(id_arr);
+    const result = await notificationModel.deleteMultipleNotifications(id_arr);
+    if (result) {
+      res.status(200).json({ message: "Notification deleted" });
+    } else {
+      return res.status(404).json({ message: "Notification not found" });
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+module.exports = controllers;

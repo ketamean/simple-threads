@@ -18,7 +18,7 @@ document.querySelector("form").addEventListener("submit", async (e) => {
         response.data.timeExpired
       );
 
-      // move to homepage/feed
+      // move to homepage/feed using axios
       window.location.href = "/";
     })
     .catch((error) => {
