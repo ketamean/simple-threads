@@ -3,12 +3,12 @@ indexes.Comments_threadId = `
   CREATE INDEX IF NOT EXISTS Comments_threadId ON "public"."comments" USING btree ("thread_id");
 `
 
-indexes.Follows_followerId = `
-  CREATE INDEX IF NOT EXISTS Follows_followerId ON "public"."follows" USING btree ("follower_id");
+indexes.Followers_followerId = `
+  CREATE INDEX IF NOT EXISTS Follows_followerId ON "public"."followers" USING btree ("follower_id");
 `
 
-indexes.Followes_followingId = `
-  CREATE INDEX IF NOT EXISTS Follows_followingId ON "public"."follows" USING btree ("following_id");
+indexes.Followers_followingId = `
+  CREATE INDEX IF NOT EXISTS Follows_followingId ON "public"."followers" USING btree ("following_id");
 `
 
 indexes.Notifications_ownerId = `

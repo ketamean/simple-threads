@@ -20,8 +20,8 @@ tables.Threads = `
     created_at TIMESTAMP DEFAULT NOW()
   );
 `
-tables.Follows = `
-  CREATE TABLE IF NOT EXISTS Follows (
+tables.Followers = `
+  CREATE TABLE IF NOT EXISTS Followers (
     id SERIAL PRIMARY KEY,
     follower_id INT NOT NULL REFERENCES Users(id),
     following_id INT NOT NULL REFERENCES Users(id),
@@ -68,7 +68,7 @@ tables.ThreadImages = `
   );
 `
 
-tables.UserToken = `
+tables.UserTokens = `
   CREATE TABLE IF NOT EXISTS UserTokens (
     id SERIAL PRIMARY KEY,
     user_id INT NOT NULL REFERENCES Users(id),
