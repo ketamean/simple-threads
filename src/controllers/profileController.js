@@ -115,7 +115,6 @@ controller.getFollowings = async (req, res) => {
 controller.updateProfile = async (req, res) => {
 	try {
 		let { username, bio } = JSON.parse(req.body.user);
-		console.log(req.body);
 		let avatar = req.file ? req.file.path : "";
 		const userID = req.params.id;
 		const currentUser = await usersModel.findById(userID);

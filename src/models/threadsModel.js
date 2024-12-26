@@ -1,5 +1,7 @@
 const client = require("../config/database");
 
+// THIS DOES NOT HANDLE ERRORS.
+// ERRORS ARE HANDLED BY CONTROLLERS
 const thread = {
   createThread: async (user_id, content, created_at) => {
     const query = `
@@ -44,6 +46,8 @@ const thread = {
     return res.rows;
   },
   async getNLikes(id) {
+    console.log('thread models: get n likes')
+  async getNLikes(id) {
     console.log("thread models: get n likes");
     const query = `
       SELECT count(*)
@@ -54,7 +58,12 @@ const thread = {
     const res = (await client.query(query, values)).rows[0];
     console.log(res.count);
     return res.count;
+    const res = (await client.query(query, values)).rows[0];
+    console.log(res.count);
+    return res.count;
   },
+  async getNComments(id) {
+    console.log('thread models: get n comments')
   async getNComments(id) {
     console.log("thread models: get n comments");
     const query = `
