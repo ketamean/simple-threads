@@ -11,11 +11,10 @@ const thread = {
     const res = await client.query(query, values);
     return res.rows[0];
   },
-  getThreadsPage: async (page) => {
+  getAllPosts: async () => {
     const query = `
-    SELECT id FROM Threads ORDER BY created_at DESC LIMIT 10 OFFSET $1;`;
-    const values = [page * 10];
-    const res = await client.query(query, values);
+    SELECT id FROM Threads ORDER BY created_at DESC;`;
+    const res = await client.query(query);
     return res.rows;
   },
   getThreadWithoutImageById: async (id) => {
@@ -32,9 +31,9 @@ const thread = {
     const res = await client.query(query, [id]);
     return res.rows[0];
   },
-  getThreadImageById: async (id) => {
+  getThreadImagesById: async (id) => {
     const query = `
-    SELECT * FROM ThreadImages WHERE thread_id = $1;`;
+    SELECT image_url FROM ThreadImages WHERE thread_id = $1;`;
     const res = await client.query(query, [id]);
     return res.rows;
   },

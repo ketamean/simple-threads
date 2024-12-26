@@ -6,17 +6,18 @@ const { formatDistanceToNow } = require("date-fns");
 
 controllers.getFeed = async (req, res) => {
   try {
-    const { page } = req.query;
-    const postIDs = await Threads.getThreadsPage(0);
-    console.log(postIDs);
+    const postIDs = await Threads.getAllPosts();
     const finalPosts = await Promise.all(
       postIDs.map(async (postID) => {
         const post = await Threads.getThreadWithoutImageById(postID.id);
+        const images = await Threads.getThreadImagesById(postID.id);
+        post.postImagePaths = images
+          ? images.map((image) => image.image_url)
+          : [];
         post.dateDistance = formatDistanceToNow(new Date(post.created_at));
         return post;
       })
     );
-    console.log(finalPosts);
     res.locals.metadata = finalPosts;
   } catch (error) {
     console.log(error);
