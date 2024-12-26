@@ -51,6 +51,18 @@
 				type="button"
 				class="edit-profile w-5/12 h-full flex justify-center items-center rounded-xl cursor-pointer border border-solid border-neon-white-15 bg-jet-black text-neon-white font-semibold text-base"
 			>Edit profile</button>
+		{{else}}
+			{{#if isFollowing}}
+				<button
+					type="button"
+					class="follow-button w-5/12 h-full flex justify-center items-center rounded-xl cursor-pointer border border-solid border-neon-white-15 bg-jet-black text-neon-white font-semibold text-base"
+				>Following</button>
+			{{else}}
+				<button
+					type="button"
+					class="follow-button w-5/12 h-full flex justify-center items-center rounded-xl cursor-pointer border border-solid border-neon-white-15 bg-red-600 text-neon-white font-semibold text-base"
+				>Follow</button>
+			{{/if}}
 		{{/if}}
 			<button
 				type="button"
@@ -69,7 +81,7 @@
 			<div class="profile-tab-item reposts cursor-pointer">Reposts</div>
 		</div>
 		<div
-			class="post-tab w-full h-auto flex min-h-post justify-evenly items-center flex-col mb-8"
+			class="post-tab w-full h-auto flex min-h-post flex-col mb-8"
 		>
 		{{#each posts}}
 			{{> post this}}
@@ -204,6 +216,7 @@
 <script>
 	const userID = {{user.id}};
 	const personal = {{personal}};
+	const tokenID = {{tokenID}};
 </script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="/js/profile.js" type="module"></script>

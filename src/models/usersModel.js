@@ -114,12 +114,25 @@ const user = {
   // get user's followers
   removeFollower: async (userID, targetID) => {
     const query = `
-    DELETE FROM follow WHERE follower_id = ${targetID} and following_id = ${userID}
+    DELETE FROM followers WHERE follower_id = ${targetID} and following_id = ${userID}
     `;
     try {
       const res = await client.query(query);
     } catch (err) {
       console.error("Error removing follower", err.stack);
+    }
+  },
+
+  // check if following user
+  checkFollowing: async (userID, targetID) => {
+    const query = `
+    SELECT * FROM followers WHERE follower_id = ${userID} and following_id = ${targetID}
+    `;
+    try {
+      const res = await client.query(query);
+      return res.rows.length > 0;
+    } catch (err) {
+      console.error("Error checking following", err.stack);
     }
   },
 
