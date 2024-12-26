@@ -1,8 +1,12 @@
+const jwt = require("jsonwebtoken");
+
 const setCookieResponse = (req, res, next) => {
   try {
-    // res.cookie()
+    res.locals.userId = req.user.id;
+    next();
   } catch (err) {
-    res.status(400).json({message: 'Cannot found cookie userId'})
+    res.errorMessage = 'You have lost your authentication'
+    return res.redirect('/login');
   }
 }
 

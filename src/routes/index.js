@@ -17,7 +17,13 @@ router.use("/users", usersRouter);
 // auth router, must logged in before use
 
 //router.use("/auth", middlewareCookie.setCookieResponse);
-router.use("/auth", middlewareAuth.verifyRefreshToken, authRouter);
+router.use(
+  "/auth",
+  // middlewareAuth.verifyToken,
+  // middlewareAuth.verifyRefreshToken,
+  middlewareCookie.setCookieResponse,
+  authRouter
+);
 
 //test router
 router.get("/testToken", middlewareAuth.verifyToken, (req, res) => {
