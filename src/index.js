@@ -5,19 +5,8 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const routes = require("./routes");
 const expHbs = require("express-handlebars");
+const Handlebars = require("handlebars");
 const app = express();
-
-// Set up Handlebars
-// app.engine(
-//   "hbs",
-//   expHbs.engine({
-//     layoutsDir: __dirname + "/views/layouts",
-//     partialsDir: __dirname + "/views/partials",
-//     extname: "hbs",
-//     defaultLayout: "layoutSurfing",
-//     defaultView: __dirname + "/views/pages",
-//   })
-// );
 
 const comparison = expHbs.create({
   compare: function (left, comparator, right) {
@@ -27,6 +16,29 @@ const comparison = expHbs.create({
       return false;
     }
   },
+});
+
+Handlebars.registerHelper("formatDate", function (datetime) {
+  const now = new Date();
+  const date = new Date(datetime);
+  const diffInMs = now - date;
+  const diffInMinutes = diffInMs / (1000 * 60);
+  const diffInHours = diffInMinutes / 60;
+  const diffInDays = diffInHours / 24;
+
+  if (diffInMinutes < 60) {
+    return `${Math.floor(diffInMinutes)}m`;
+  } else if (diffInHours < 24) {
+    return `${Math.floor(diffInHours)}h`;
+  } else if (diffInDays < 7) {
+    return `${Math.floor(diffInDays)}d`;
+  } else {
+    return date.toLocaleDateString("en-GB");
+  }
+});
+
+Handlebars.registerHelper("eq", function (a, b) {
+  return a === b;
 });
 
 app.engine(
@@ -45,7 +57,6 @@ app.engine(
 );
 
 app.set("view engine", "hbs");
-
 
 //public folder
 app.use(express.static(path.join(__dirname, "public"), { index: "home.html" }));

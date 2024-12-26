@@ -1,15 +1,21 @@
-// models/threadsModel.js
 const client = require("../config/database");
 
 const thread = {
-  createThread: async ({ user_id, content, createdAt }) => {
+  createThread: async (user_id, content, created_at) => {
     const query = `
     INSERT INTO Threads (user_id, content, created_at)
-    VALUES ($1, $2, NOW())
+    VALUES ($1, $2, $3)
     RETURNING *;`;
-    const values = [user_id, content, createdAt];
+    const values = [user_id, content, created_at];
     const res = await client.query(query, values);
     return res.rows[0];
+  },
+  createThreadImage: async (thread_id, image_url) => {
+    const query = `
+    INSERT INTO ThreadImages (thread_id, image_url)
+    VALUES ($1, $2);`;
+    const values = [thread_id, image_url];
+    await client.query(query, values);
   },
   getAllPosts: async () => {
     const query = `
@@ -37,7 +43,7 @@ const thread = {
     const res = await client.query(query, [id]);
     return res.rows;
   },
-  getNLikes: async (id) => {
+  async getNLikes(id) {
     console.log("thread models: get n likes");
     const query = `
       SELECT count(*)
@@ -45,11 +51,11 @@ const thread = {
       WHERE thread_id = $1;
     `;
     const values = [id];
-    const res = await client.query(query, values);
-    console.log(res);
-    return res;
+    const res = (await client.query(query, values)).rows[0];
+    console.log(res.count);
+    return res.count;
   },
-  getNComments: async (id) => {
+  async getNComments(id) {
     console.log("thread models: get n comments");
     const query = `
       SELECT count(*)
@@ -57,11 +63,11 @@ const thread = {
       WHERE thread_id = $1;
     `;
     const values = [id];
-    const res = await client.query(query, values);
-    console.log(res);
-    return res;
+    const res = (await client.query(query, values)).rows[0];
+    return res.count;
   },
-  checkUserLikedThread: async (threadId, userId) => {
+  async checkUserLikedThread(threadId, userId) {
+    console.log("check user liked");
     const query = `
       SELECT count(*)
       FROM Likes
@@ -69,26 +75,16 @@ const thread = {
     `;
     const values = [threadId, userId];
     const res = (await client.query(query, values)).rows;
-    if (rows.length > 1)
+    if (res.length > 1)
       throw new Error(`User liked thread ${threadId} more than once`);
-    return rows.length === 1; // true if liked, false of have not liked yet
+    return res.length === 1; // true if liked, false of have not liked yet
   },
-  getThreadOwner: async (threadId) => {
+  async getThreadById(threadId, viewerId) {
+    const nLike = await this.getNLikes(threadId);
+    const nComments = await this.getNComments(threadId);
+    const liked = await this.checkUserLikedThread(threadId, viewerId);
     const query = `
-      SELECT u.username as 'username', u.id as 'userId', u.profile_picture as 'avatarImagePath', t.created_at as 'date', t.content as 'content'
-      FROM Threads t, Users u
-      WHERE t.id = $1 AND t.user_id = u.id;
-    `;
-    const res = (await client.query(query, [threadId])).rows[0];
-    if (liked) res.liked = true;
-    return res;
-  },
-  getThreadById: async (threadId, viewerId) => {
-    const nLike = this.getNLikes(threadId);
-    const nComments = this.getNComments(threadId);
-    const liked = this.checkUserLikedThread(threadId, viewerId);
-    const query = `
-      SELECT u.username as 'username', u.id as 'userId', u.profile_picture as 'avatarImagePath', t.created_at as 'date', t.content as 'content', $2 as 'nLikes', $3 as 'nComments'
+      SELECT u.username AS "username", u.id AS "userId", u.profile_picture AS "avatarImagePath", t.created_at AS "date", t.content AS "content", $2 AS "nLikes", $3 AS "nComments"
       FROM Threads t, Users u
       WHERE t.id = $1 AND t.user_id = u.id;
     `;
@@ -97,17 +93,28 @@ const thread = {
     if (liked) res.liked = true;
     return res;
   },
-  getThreadByUserID: async(userId) => {
+  async getThreadByUserID(userId) {
     const query = `
-      SELECT *
-      FROM Threads t
-      WHERE t.user_id = $1;
+      SELECT t.*, u.username, u.profile_picture
+      FROM Threads t, users u
+      WHERE t.user_id = $1 AND t.user_id = u.id
     `;
     const res = (await client.query(query, [userId])).rows;
     for (let i = 0; i < res.length; i++) {
-      // res[i].nLikes = this.getNLikes(res[i].threadId);
-      // res[i].nComments = this.getNComments(res[i].threadId);
-      // res[i].liked = this.checkUserLikedThread(res[i].threadId, userId);
+      if(res[i].profile_picture === null || res[i].profile_picture === "" || res[i].profile_picture === "undefined" || res[i].profile_picture === undefined || res[i].profile_picture === "null") {
+        res[i].profile_picture = "/img/user-placeholder.jpg";
+      }
+      else{
+        res[i].profile_picture = res[i].profile_picture.replace("public", "");
+      }
+      res[i].likes_count = await this.getNLikes(res[i].id);
+      res[i].comments_count = await this.getNComments(res[i].id);
+      res[i].liked = await this.checkUserLikedThread(res[i].id, userId);
+      const postImagePaths = await this.getThreadImagesById(res[i].id);
+      res[i].postImagePaths = [];
+      for (let j = 0; j < postImagePaths.length; j++) {
+        res[i].postImagePaths.push(postImagePaths[j].image_url);
+      }
     }
     return res;
   }

@@ -1,5 +1,5 @@
 	<div
-		class="profile-main w-full h-auto mb-16 max-w-xl text-white pt-16 lg:absolute lg:left-1/2 lg:-translate-x-1/2 md:mb-0 md:absolute md:left-1/2 md:-translate-x-1/2"
+		class="profile-main w-full h-auto mb-16 max-w-4xl py-4 border-b border-slate-100 border-opacity-50 text-white lg:absolute lg:left-1/2 lg:-translate-x-1/2 md:mb-0 md:absolute md:left-1/2 md:-translate-x-1/2 sm:border-none"
 	>
 		<div
 			class="basic-info w-full h-36 flex flex-row justify-between pt-4 pl-2 pb-3 pr-2"
@@ -51,6 +51,18 @@
 				type="button"
 				class="edit-profile w-5/12 h-full flex justify-center items-center rounded-xl cursor-pointer border border-solid border-neon-white-15 bg-jet-black text-neon-white font-semibold text-base"
 			>Edit profile</button>
+		{{else}}
+			{{#if isFollowing}}
+				<button
+					type="button"
+					class="follow-button w-5/12 h-full flex justify-center items-center rounded-xl cursor-pointer border border-solid border-neon-white-15 bg-jet-black text-neon-white font-semibold text-base"
+				>Following</button>
+			{{else}}
+				<button
+					type="button"
+					class="follow-button w-5/12 h-full flex justify-center items-center rounded-xl cursor-pointer border border-solid border-neon-white-15 bg-red-600 text-neon-white font-semibold text-base"
+				>Follow</button>
+			{{/if}}
 		{{/if}}
 			<button
 				type="button"
@@ -69,7 +81,7 @@
 			<div class="profile-tab-item reposts cursor-pointer">Reposts</div>
 		</div>
 		<div
-			class="post-tab w-full h-auto flex min-h-post justify-evenly items-center flex-col mb-8"
+			class="post-tab w-full h-auto flex min-h-post flex-col mb-8"
 		>
 		{{#each posts}}
 			{{> post this}}
@@ -154,10 +166,7 @@
 			class="edit-profile-card bg-chinese-black border border-solid border-neon-white-15 rounded-2xl w-96 h-13 flex flex-col justify-evenly p-3 text-base relative"
 		>
 			<form
-				action="auth/profile/{{{user.id}}}"
 				class="edit-profile-form"
-				enctype="multipart/form-data"
-				method="POST"
 			>
 				<label
 					for="avatar"
@@ -173,11 +182,11 @@
 				<div
 					class="form-item w-full h-20 flex flex-col justify-evenly p-2"
 				>
-					<label for="alias" class="text-white">Name</label>
+					<label for="username" class="text-white">Name</label>
 					<input
 						type="text"
-						name="alias"
-						placeholder="{{{user.alias}}}"
+						name="username"
+						placeholder="{{{user.username}}}"
 						class="w-full h-10 text-neon-white border-b-2 p-0 focus:border-b-2 focus:border-solid focus:border-neon-white bg-transparent text-neon-white outline-none"
 					/>
 				</div>
@@ -204,6 +213,7 @@
 <script>
 	const userID = {{user.id}};
 	const personal = {{personal}};
+	const tokenID = {{tokenID}};
 </script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="/js/profile.js" type="module"></script>

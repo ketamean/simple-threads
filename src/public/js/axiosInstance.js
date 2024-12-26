@@ -54,7 +54,7 @@ axiosInstance.interceptors.request.use(
         newTokenData.accessToken,
         newTokenData.timeExpired
       );
-      config.headers["Authorization"] = `Bearer ${newTokenData.token}`;
+      config.headers["Authorization"] = `Bearer ${newTokenData.accessToken}`;
     } else if (token) {
       config.headers["Authorization"] = `Bearer ${token}`;
     }
