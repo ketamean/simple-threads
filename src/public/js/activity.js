@@ -1,3 +1,5 @@
+import axiosInstance from "./axiosInstance.js";
+
 const activity_tag = document.querySelectorAll(".activity-link-tag");
 const activity_follow_screen = document.querySelectorAll(".activity-follow");
 const notificationButton = document.querySelector(".notification-svg");
@@ -19,6 +21,8 @@ const confirmDeleteButton = document.querySelector(".confirm-delete-button");
 const cancelDeleteButton = document.querySelector(".cancel-delete-button");
 
 // change screen tag handle
+
+let screenActivity;
 activity_tag.forEach((tag) => {
   tag.addEventListener("click", (event) => {
     activity_tag.forEach((tag) => tag.classList.remove("tag-active"));
@@ -38,57 +42,53 @@ activity_tag.forEach((tag) => {
         activity_follow_screen.forEach((tag) => {
           tag.classList.add("hidden");
         });
-        document
-          .querySelector(".activity-follow.all")
-          .classList.remove("hidden");
+        screenActivity = document.querySelector(".activity-follow.all");
+        if (screenActivity.children.length > 0) {
+          screenActivity.classList.remove("hidden");
+        } else {
+          document
+            .querySelector(".activity-follow.none")
+            .classList.remove("hidden");
+        }
         break;
       case "Follow":
         activity_follow_screen.forEach((tag) => {
           tag.classList.add("hidden");
         });
-        document
-          .querySelector(".activity-follow.follow")
-          .classList.remove("hidden");
+        screenActivity = document.querySelector(".activity-follow.follow");
+        if (screenActivity.children.length > 0) {
+          screenActivity.classList.remove("hidden");
+        } else {
+          document
+            .querySelector(".activity-follow.none")
+            .classList.remove("hidden");
+        }
         break;
-      case "Replies":
+      case "Likes":
         activity_follow_screen.forEach((tag) => {
           tag.classList.add("hidden");
         });
-        document
-          .querySelector(".activity-follow.none")
-          .classList.remove("hidden");
+        screenActivity = document.querySelector(".activity-follow.like");
+        if (screenActivity.children.length > 0) {
+          screenActivity.classList.remove("hidden");
+        } else {
+          document
+            .querySelector(".activity-follow.none")
+            .classList.remove("hidden");
+        }
         break;
-      case "Mentions":
+      case "Comments":
         activity_follow_screen.forEach((tag) => {
           tag.classList.add("hidden");
         });
-        document
-          .querySelector(".activity-follow.none")
-          .classList.remove("hidden");
-        break;
-      case "Quotes":
-        activity_follow_screen.forEach((tag) => {
-          tag.classList.add("hidden");
-        });
-        document
-          .querySelector(".activity-follow.none")
-          .classList.remove("hidden");
-        break;
-      case "Reposts":
-        activity_follow_screen.forEach((tag) => {
-          tag.classList.add("hidden");
-        });
-        document
-          .querySelector(".activity-follow.none")
-          .classList.remove("hidden");
-        break;
-      case "Verified":
-        activity_follow_screen.forEach((tag) => {
-          tag.classList.add("hidden");
-        });
-        document
-          .querySelector(".activity-follow.none")
-          .classList.remove("hidden");
+        screenActivity = document.querySelector(".activity-follow.comment");
+        if (screenActivity.children.length > 0) {
+          screenActivity.classList.remove("hidden");
+        } else {
+          document
+            .querySelector(".activity-follow.none")
+            .classList.remove("hidden");
+        }
         break;
       default:
         break;
@@ -178,14 +178,28 @@ deleteButton.addEventListener("click", () => {
 });
 
 // confirm delete notification
-confirmDeleteButton.addEventListener("click", () => {
+confirmDeleteButton.addEventListener("click", async () => {
+  const deleteSet = new Set();
   followContainer.forEach((container) => {
     const checkbox = container.querySelector(".check-box");
     if (checkbox.checked) {
+      const id = container.id.split("noti-")[1];
+      deleteSet.add(id);
       container.remove();
     }
   });
+  await axiosInstance
+    .delete("/auth-header/notifications", {
+      data: { id_arr: Array.from(deleteSet) },
+    })
+    .then((response) => {
+      console.log("Deleted notifications:", response.data);
+    })
+    .catch((error) => {
+      console.error("Error deleting notifications:", error);
+    });
   deleteConfirmationOverlay.classList.add("hidden");
+  return location.reload();
 });
 
 // cancel delete notification
@@ -207,12 +221,24 @@ deleteConfirmationOverlay.addEventListener("click", (event) => {
 });
 
 // mark read
-markButton.addEventListener("click", () => {
+markButton.addEventListener("click", async () => {
+  const markAsRead = new Set();
   followContainer.forEach((container) => {
     const checkbox = container.querySelector(".check-box");
     if (checkbox.checked) {
+      const id = container.id.split("noti-")[1];
+      markAsRead.add(id);
       container.classList.remove("unread");
       checkbox.checked = false;
     }
   });
+  await axiosInstance
+    .put("/auth-header/notifications", { id_arr: Array.from(markAsRead) })
+    .then((response) => {
+      console.log("Marked as read:", response.data);
+    })
+    .catch((error) => {
+      console.error("Error marking as read:", error);
+    });
+  return location.reload();
 });

@@ -1,7 +1,37 @@
-{{#each metadata}}
-    {{#if (eq this.type "Content")}}
-        {{>contentNotification context=this}}
-    {{else}}
-        {{>followNotification context=this}}
-    {{/if}}
-{{/each}}
+<div class="activity-follow all">
+    {{#each metadata}}
+        {{#if (eq this.type "follow")}}
+            {{>followNotification context=this}}
+        {{else}}
+            {{>contentNotification context=this}}
+        {{/if}}
+    {{/each}}
+</div>
+
+<!-- follow screen -->
+<div class="activity-follow follow hidden">
+    {{#each metadata}}
+            {{#if (eq this.type "follow")}}
+                {{>followNotification context=this}}
+            {{/if}}
+    {{/each}}
+</div>
+
+<!-- like screen -->
+<div class="activity-follow like hidden">
+    {{#each metadata}}
+        {{#if (eq this.type "like")}}
+            {{>contentNotification context=this}}
+        {{/if}}
+    {{/each}}
+</div>
+
+<!-- comment screen -->
+<div class="activity-follow comment hidden">
+    {{#each metadata}}
+        {{#if (eq this.type "comment")}}
+            {{>contentNotification context=this}}
+        {{/if}}
+    {{/each}}
+</div>
+<script type="module" src="/js/activity.js"></script>

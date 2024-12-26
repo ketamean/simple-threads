@@ -1,6 +1,6 @@
 <!--Content-->
-<div class="activity-follow-block">
-  <div class="activity-follow-container">
+<div class="block relative h-auto mt-[12px] mb-[12px] overflow-x-hidden">
+  <div class="activity-follow-container {{#unless is_read}}unread{{/unless}}" id="noti-{{id}}">
     <div class="p-[12px] col-start-1">
       <div class="relative block">
         <a
@@ -14,7 +14,7 @@
           >
             <img
               class="rounded-full border-0 object-cover"
-              src="{{img}}"
+              src="/{{img_interactor}}"
               alt="img-avt"
             />
           </div>
@@ -45,13 +45,13 @@
       >
         <div class="flex items-center">
           <div class="flex-grow min-w-0">
-            <div class="flex gap-[2px] max-w-full overflow-hidden">
+            <div class="flex gap-[5px] max-w-full overflow-hidden">
               <div class="activity-follow-infor-header-name change-width">
-                <span>{{username}}</span>
+                <span>{{name_interactor}}</span>
               </div>
               <div class="activity-follow-infor-header-time"><span
                   class="text-[15px] font-normal text-[#777777] overflow-ellipsis leading-[1.4] max-w-full"
-                >{{date}}</span></div>
+                >{{formatDate created_at}}</span></div>
             </div>
             <div
               class="text-[15px] font-normal text-[#777777] overflow-ellipsis leading-[1.4] max-w-full"

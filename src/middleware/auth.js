@@ -5,39 +5,27 @@ const redis = require("../config/redis");
 
 // for get data from server
 const verifyToken = async (req, res, next) => {
-  console.log("verify token");
+  console.log("verify accesss token");
   try {
     const token = req.headers["authorization"]?.split(" ")[1];
     console.log(token);
     if (!token) {
       console.log("No token");
-      return res
-        .status(401)
-        .redirect("/users/signIn?message=No token provided");
+      return res.status(401).redirect("/users/login?message=No token provided");
     }
 
     jwt.verify(token, process.env.JWT_ACCESS_SECRET, async (err, decoded) => {
       if (err) {
         if (err.name === "JsonWebTokenError") {
-          return res
-            .status(401)
-            .redirect("/users/signIn?message=Token expired");
+          return res.status(401).redirect("/users/login?message=Token expired");
         }
         if (err.name === "TokenExpiredError") {
-          return res
-            .status(401)
-            .redirect("/users/signIn?message=Token expired");
+          return res.status(401).redirect("/users/login?message=Token expired");
         }
         return next(err);
       }
 
-      const user = await User.findById(decoded.userID);
-      if (!user) {
-        return res.status(401).redirect("/users/signIn?message=User not found");
-      }
-
-      req.user = user;
-      req.user.password = null;
+      req.userID = decoded.userID;
       next();
     });
   } catch (error) {

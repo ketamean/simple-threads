@@ -44,6 +44,9 @@ controllers.signUp = async (req, res) => {
     // Check if user exists
     const existingUser = await User.findByUsername(username);
     const existingEmail = await User.findByEmail(email);
+
+    console.log(existingUser);
+
     if (existingUser) {
       return res.status(400).json({ message: "Username already exists" });
     }
@@ -143,7 +146,6 @@ controllers.login = async (req, res) => {
         .status(404)
         .json({ message: "User not found or invalid password!" });
     }
-    console.log(password);
     const isValidPassword = await bcrypt.compare(password, user.password);
     if (!isValidPassword) {
       return res
@@ -155,7 +157,6 @@ controllers.login = async (req, res) => {
     const refreshToken = generateRefresshToken(user.id);
 
     // Store the refresh token in Redis
-    console.log(user.id);
     console.log(`Access Token: ${accessToken}, Refresh Token: ${refreshToken}`);
 
     await redis.storeKey(user.id.toString(), refreshToken);
@@ -172,7 +173,7 @@ controllers.login = async (req, res) => {
     res.status(200).json({
       message: "Login successful",
       accessToken: accessToken,
-      timeExpired: Date.now() + 0.5 * 60 * 1000, // 30 minutes
+      timeExpired: Date.now() + 30 * 60 * 1000, // 30 minutes
       user: { ...user, password: undefined },
     });
   } catch (error) {
@@ -227,7 +228,7 @@ controllers.resetAccessToken = async (req, res, next) => {
 
     res.status(200).json({
       accessToken,
-      timeExpired: Date.now() + 0.5 * 60 * 1000, // 30 minutes
+      timeExpired: Date.now() + 30 * 60 * 1000, // 30 minutes
     });
   } catch (error) {
     return res.status(401).json({ message: "Invalid refresh token" });

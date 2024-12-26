@@ -18,6 +18,25 @@ const comparison = expHbs.create({
   },
 });
 
+Handlebars.registerHelper("formatDate", function (datetime) {
+  const now = new Date();
+  const date = new Date(datetime);
+  const diffInMs = now - date;
+  const diffInMinutes = diffInMs / (1000 * 60);
+  const diffInHours = diffInMinutes / 60;
+  const diffInDays = diffInHours / 24;
+
+  if (diffInMinutes < 60) {
+    return `${Math.floor(diffInMinutes)}m`;
+  } else if (diffInHours < 24) {
+    return `${Math.floor(diffInHours)}h`;
+  } else if (diffInDays < 7) {
+    return `${Math.floor(diffInDays)}d`;
+  } else {
+    return date.toLocaleDateString("en-GB");
+  }
+});
+
 Handlebars.registerHelper("eq", function (a, b) {
   return a === b;
 });
@@ -73,72 +92,6 @@ app.use(express.urlencoded({ extended: false }));
 
 // Import routes
 app.use("/", routes);
-
-//test activity
-
-app.get("/activity", (req, res) => {
-  res.locals.metadata = [
-    {
-      img: "/1",
-      username: "Quoc Khoi",
-      date: "12/10/24",
-      describe: "Followed you",
-      content: "Follow",
-      type: "Follow",
-      is_read: false,
-    },
-    {
-      img: "/1",
-      username: "Quoc Khoi 2",
-      date: "12/10/23",
-      describe: "Followed you",
-      content: "Follow",
-      type: "Follow",
-      is_read: false,
-    },
-    {
-      img: "/1",
-      username: "Quoc Khoi 33333333333333333333333",
-      date: "12/10/23",
-      describe: "Followed you",
-      content: "Follow back",
-      type: "Follow",
-      is_read: true,
-    },
-    {
-      img: "/2",
-      username: "Quoc Khoi",
-      date: "12/10/24",
-      describe: "Post their first thread",
-      content:
-        "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsum assumenda laudantium similique quae, undeconsectetur aliquam modi illo, placeat optio numquam nulla quisquam velit sed sequi laborum vero et",
-      type: "Content",
-      is_read: true,
-    },
-    {
-      img: "/2",
-      username: "Quoc Khoi",
-      date: "12/10/24",
-      describe: "Post their first thread",
-      content:
-        "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsum assumenda laudantium similique quae, undeconsectetur aliquam modi illo, placeat optio numquam nulla quisquam velit sed sequi laborum vero et",
-      type: "Content",
-      is_read: true,
-    },
-    {
-      img: "/2",
-      username: "Quoc Khoi",
-      date: "12/10/24",
-      describe: "Post their first thread",
-      content:
-        "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsum assumenda laudantium similique quae, undeconsectetur aliquam modi illo, placeat optio numquam nulla quisquam velit sed sequi laborum vero et",
-      type: "Content",
-      is_read: true,
-    },
-  ];
-  res.locals.tab_notifications = true;
-  res.render("activity", { layout: "layoutNotification" });
-});
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

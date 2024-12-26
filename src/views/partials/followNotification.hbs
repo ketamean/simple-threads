@@ -1,6 +1,6 @@
 <!--Follow-->
 <div class="block relative h-auto mt-[12px] mb-[12px] overflow-x-hidden">
-  <div class="activity-follow-container  {{#unless is_read}}unread{{/unless}}">
+  <div class="activity-follow-container {{#unless is_read}}unread{{/unless}}" id="noti-{{id}}">
     <div class="p-[12px] col-start-1">
       <div class="relative block">
         <a
@@ -10,7 +10,7 @@
           tabindex="0"
         >
           <div class="h-[36px] m-0 p-0 no-underline list-none border-none rounded-full flex">
-            <img class="rounded-full border-0 object-cover" src="{{img}}" alt="img-avt" />
+            <img class="rounded-full border-0 object-cover" src="/{{img_interactor}}" alt="img-avt" />
           </div>
         </a>
         <div class="absolute top-[20px] right-[-6px]">
@@ -35,12 +35,12 @@
       <div class="pt-[12px] pb-[12px] flex-grow min-w-0 max-w-full cursor-pointer">
         <div class="flex items-center">
           <div class="flex-grow min-w-0">
-            <div class="flex gap-[2px] max-w-full overflow-hidden">
+            <div class="flex gap-[5px] max-w-full overflow-hidden">
               <div class="activity-follow-infor-header-name"><span
-                >{{username}}</span>
+                >{{name_interactor}}</span>
               </div>
               <div class="activity-follow-infor-header-time"><span class="text-[15px] font-normal text-[#777777] overflow-ellipsis leading-[1.4] max-w-full"
-                >{{date}}</span></div>
+                >{{formatDate created_at}}</span></div>
             </div>
             <div class="text-[15px] font-normal text-[#777777] overflow-ellipsis leading-[1.4] max-w-full"><span
               >{{describe}}</span></div>
