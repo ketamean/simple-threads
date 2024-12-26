@@ -552,3 +552,43 @@ followingBoard.addEventListener("click", async (event) => {
 		});
 	});
 });
+
+if(!personal) {
+	const followButton = document.querySelector(".follow-button");
+	followButton.addEventListener("click", async (event) => {
+		event.preventDefault();
+		if(followButton.textContent === "Follow") {
+			await axiosInstance.post(`auth/profile/${userID}/follow`, {
+				user_id: tokenID,
+				target_id: userID
+			}, {
+				headers: {
+					"Content-Type": "application/json",
+				}
+			});
+			numFollowings.textContent = parseInt(numFollowings.textContent) + 1;
+			followButton.textContent = "Following";
+			followButton.style.backgroundColor = "transparent";
+			followButton.style.border = "0.8px solid rgba(243, 245, 247, 0.15)";
+			followButton.style.color = "rgb(119, 119, 119)";
+		}
+		else{
+			let data = {
+				user_id: tokenID,
+				target_id: userID,
+			}
+			data = JSON.stringify(data);
+			await axiosInstance.delete(`auth/profile/${userID}/unfollow`, {
+				data
+			}, {
+				headers: {
+					"Content-Type": "application/json",
+				}
+			});
+			numFollowings.textContent = parseInt(numFollowings.textContent) - 1;
+			followButton.textContent = "Follow";
+			followButton.style.backgroundColor = "#fe0034";
+			followButton.style.color = "#FFFFFF";
+		}
+	});
+}
