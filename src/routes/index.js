@@ -19,8 +19,8 @@ router.use("/users", usersRouter);
 //router.use("/auth", middlewareCookie.setCookieResponse);
 router.use(
   "/auth",
-  // middlewareAuth.verifyToken,
-  // middlewareAuth.verifyRefreshToken,
+  //middlewareAuth.verifyToken,
+  middlewareAuth.verifyRefreshToken,
   middlewareCookie.setCookieResponse,
   authRouter
 );

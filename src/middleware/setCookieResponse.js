@@ -6,7 +6,7 @@ const setCookieResponse = (req, res, next) => {
     next();
   } catch (err) {
     res.errorMessage = 'You have lost your authentication'
-    return res.redirect('/login');
+    return res.redirect('/users/login');
   }
 }
 
