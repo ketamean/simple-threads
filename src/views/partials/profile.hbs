@@ -11,30 +11,30 @@
 						<div
 							class="username text-lg font-normal"
 						>{{{username}}}</div>
-						<div class="bio text-lg font-medium text-ellipsis">{{{bio}}}</div>
+						<div class="bio text-lg font-basis text-ellipsis overflow-hidden">{{{bio}}}</div>
 					{{/with}}
 				</div>
-				<div class="followers-preview h-9 cursor-pointer select-none">
-					<div class="image-preview relative">
+				<div class="followers-preview h-4 cursor-pointer select-none max-w-40 flex justify-start items-center">
+					<div class="image-preview flex justify-start items-center h-4">
 						<img
 							src="/img/user-placeholder.jpg"
 							alt=""
-							class="preview-followers w-4 h-4 rounded-full absolute "
+							class="preview-followers w-4 h-4 rounded-full "
 						/>
 						<img
 							src="/img/user-placeholder.jpg"
 							alt=""
-							class="preview-followers w-4 h-4 rounded-full absolute ml-3 "
+							class="preview-followers w-4 h-4 rounded-full"
 						/>
 						<img
 							src="/img/user-placeholder.jpg"
 							alt=""
-							class="preview-followers w-4 h-4 rounded-full absolute ml-6 "
+							class="preview-followers w-4 h-4 rounded-full"
 						/>
 					</div>
 					<div
-						class="number-of-follower w-full h-4 ml-8 text-nowrap text-center leading-4 text-base text-lucky hover:underline"
-					>{{{followers.length}}} {{#if (compare followers.length '>' 1)}}followers{{else}}follower{{/if}}</div>
+						class="number-of-follower h-4 ml-2 text-nowrap text-center leading-4 text-base text-lucky hover:underline w-max"
+					>{{{followerNum}}} {{#if (compare followers.length '>' 1)}}followers{{else}}follower{{/if}}</div>
 				</div>
 			</div>
 			<img
@@ -88,7 +88,7 @@
 				>Follower</div>
 				<div
 					class="num-follower text-xs text-lucky w-full h-1/2"
-				>{{{followers.length}}}</div>
+				>{{{followerNum}}}</div>
 			</div>
 			<div
 				class="follow-board-item flex flex-col items-start justify-around h-12 text-center leading-5 following"
@@ -98,100 +98,12 @@
 				>Following</div>
 				<div
 					class="num-following text-xs text-lucky w-full h-1/2"
-				>{{followings.length}}</div>
+				>{{followingNum}}</div>
 			</div>
 		</div>
 		<div class="tab tab-follower w-full h-tab overflow-y-scroll block">
-			{{#each followers}}
-				<div
-					class="user w-full h-20 flex items-center justify-evenly px-3 border-b border-solid border-neon-white-15"
-					data-id="{{id}}"
-					data-alias="{{alias}}"
-				>
-					<img
-						class="user-avatar w-16 h-16 rounded-full"
-						alt=""
-						src="{{{profile_picture}}}"
-					/>
-					<div
-						style="
-							display: flex;
-							align-items: center;
-							justify-content: space-between;
-							width: 80%;
-							height: 80%;
-							padding-left: 0.5rem;
-						"
-					>
-						<div
-							class="user-names flex flex-col justify-evenly h-5/6"
-						>
-							<div
-								class="user-alias text-white text-base font-semibold"
-							>{{{alias}}}</div>
-							<div
-								class="user-username text-white text-base opacity-35"
-							>{{{username}}}</div>
-						</div>
-						{{#if personal}}
-						<button
-							type="button"
-							class="follow-status px-4 w-28 h-8 border border-solid border-neon-white-15 rounded-xl cursor-pointer text-next text-base font-semibold bg-transparent"
-							data-id="{{id}}"
-							data-user = "{{user.id}}"
-						>
-							Remove?
-						</button>
-						{{/if}}
-					</div>
-				</div>
-			{{/each}}
 		</div>
 		<div class="tab tab-following w-full h-tab overflow-y-scroll hidden">
-			{{#each following}}
-				<div
-					class="user w-full h-20 flex items-center justify-evenly px-3 border-b border-solid border-neon-white-15"
-					data-id="{{id}}"
-					data-alias="{{alias}}"
-				>
-					<img
-						class="user-avatar w-16 h-16 rounded-full"
-						alt=""
-						src="{{{avatar}}}"
-					/>
-					<div
-						style="
-							display: flex;
-							align-items: center;
-							justify-content: space-between;
-							width: 80%;
-							height: 80%;
-							padding-left: 0.5rem;
-						"
-					>
-						<div
-							class="user-names flex flex-col justify-evenly h-5/6"
-						>
-							<div
-								class="user-alias text-white text-base font-semibold"
-							>{{{alias}}}</div>
-							<div
-								class="user-username text-white text-base opacity-35"
-							>{{{username}}}</div>
-						</div>
-						{{#if personal}}
-						<button
-							type="button"
-							class="follow-status px-4 w-28 h-8 border border-solid border-neon-white-15 rounded-xl cursor-pointer text-next text-base font-semibold bg-transparent"
-							data-id="{{id}}"
-							data-user = "{{user.id}}"
-						>
-							Following
-						</button>
-						{{/if}}
-					</div>
-				</div>
-			{{/each}}
 		</div>
 	</div>
 	<div
@@ -276,6 +188,8 @@
 					<input
 						type="text"
 						name="bio"
+						placeholder="{{{user.bio}}}"
+						maxlength="50"
 						class="w-full h-10 text-neon-white border-b-2 p-0 focus:border-b-2 focus:border-solid focus:border-neon-white bg-transparent text-neon-white outline-none"
 					/>
 				</div>

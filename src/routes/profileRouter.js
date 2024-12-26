@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
-const profileController = require("../controllers/profileController");
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, "static/uploads/");
@@ -22,11 +21,12 @@ const storage = multer.diskStorage({
     }
 });
 const upload = multer({ storage: storage });
+const profileController = require("../controllers/profileController");
 
 router.get("/:id", profileController.getProfile);
 router.post("/:id/followers", profileController.getFollowers);
 router.post("/:id/followings", profileController.getFollowings);
 router.post("/:id", upload.single('avatar'), profileController.updateProfile);
-router.put("/:id/unfollow", profileController.unfollowUser);
-router.put("/:id/follow", profileController.followUser);
+router.delete("/:id/unfollow", profileController.unfollowUser);
+router.post("/:id/follow", profileController.followUser);
 module.exports = router;
