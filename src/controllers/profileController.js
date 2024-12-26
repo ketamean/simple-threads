@@ -114,13 +114,12 @@ controller.getFollowings = async (req, res) => {
 
 controller.updateProfile = async (req, res) => {
 	try {
-		let { alias, bio } = JSON.parse(req.body.user);
+		let { username, bio } = JSON.parse(req.body.user);
 		let avatar = req.file ? req.file.path : "";
-		console.log(req);
 		const userID = req.params.id;
 		const currentUser = await usersModel.findById(userID);
-		if (alias === "" || alias === undefined || alias === "undefined")
-			alias = currentUser.alias;
+		if (username === "" || username === undefined || username === "undefined")
+			username = currentUser.username;
 		if (bio === "" || bio === undefined || bio === "undefined")
 			bio = currentUser.bio;
 		if (
@@ -133,11 +132,13 @@ controller.updateProfile = async (req, res) => {
 			avatar = currentUser.profile_picture;
 		const user = await usersModel.updateUserInfo(
 			userID,
-			alias,
+			username,
 			bio,
 			avatar
 		);
-		res.redirect(`/profile/${userID}`);
+		res.status(200).json({
+			message: "OK"
+		});
 	} catch (err) {
 		console.error("Error updating user profile", err.stack);
 		res.status(500).send("Internal server error");
