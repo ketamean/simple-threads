@@ -188,6 +188,11 @@ confirmDeleteButton.addEventListener("click", async () => {
       container.remove();
     }
   });
+
+  if (deleteSet.size === 0) {
+    return;
+  }
+
   await axiosInstance
     .delete("/auth-header/notifications", {
       data: { id_arr: Array.from(deleteSet) },
@@ -232,6 +237,11 @@ markButton.addEventListener("click", async () => {
       checkbox.checked = false;
     }
   });
+
+  if (markAsRead.size === 0) {
+    return;
+  }
+
   await axiosInstance
     .put("/auth-header/notifications", { id_arr: Array.from(markAsRead) })
     .then((response) => {
