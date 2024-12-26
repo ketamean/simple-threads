@@ -1,10 +1,44 @@
+// models/threadsModel.js
 const client = require("../config/database");
 
-// THIS DOES NOT HANDLE ERRORS.
-// ERRORS ARE HANDLED BY CONTROLLERS
-const threads = {
+const thread = {
+  createThread: async ({ user_id, content, createdAt }) => {
+    const query = `
+    INSERT INTO Threads (user_id, content, created_at)
+    VALUES ($1, $2, NOW())
+    RETURNING *;`;
+    const values = [user_id, content, createdAt];
+    const res = await client.query(query, values);
+    return res.rows[0];
+  },
+  getAllPosts: async () => {
+    const query = `
+    SELECT id FROM Threads ORDER BY created_at DESC;`;
+    const res = await client.query(query);
+    return res.rows;
+  },
+  getThreadWithoutImageById: async (id) => {
+    const query = `
+    SELECT 
+      t.*,
+      u.username,
+      u.profile_picture,
+      (SELECT COUNT(*) FROM Likes WHERE thread_id = t.id) as likes_count,
+      (SELECT COUNT(*) FROM Comments WHERE thread_id = t.id) as comments_count
+    FROM Threads t
+    JOIN Users u ON t.user_id = u.id
+    WHERE t.id = $1;`;
+    const res = await client.query(query, [id]);
+    return res.rows[0];
+  },
+  getThreadImagesById: async (id) => {
+    const query = `
+    SELECT image_url FROM ThreadImages WHERE thread_id = $1;`;
+    const res = await client.query(query, [id]);
+    return res.rows;
+  },
   getNLikes: async (id) => {
-    console.log('thread models: get n likes')
+    console.log("thread models: get n likes");
     const query = `
       SELECT count(*)
       FROM Likes
@@ -13,10 +47,10 @@ const threads = {
     const values = [id];
     const res = await client.query(query, values);
     console.log(res);
-    return res
+    return res;
   },
   getNComments: async (id) => {
-    console.log('thread models: get n comments')
+    console.log("thread models: get n comments");
     const query = `
       SELECT count(*)
       FROM Comments
@@ -25,7 +59,7 @@ const threads = {
     const values = [id];
     const res = await client.query(query, values);
     console.log(res);
-    return res
+    return res;
   },
   checkUserLikedThread: async (threadId, userId) => {
     const query = `
@@ -35,7 +69,8 @@ const threads = {
     `;
     const values = [threadId, userId];
     const res = (await client.query(query, values)).rows;
-    if (rows.length > 1) throw new Error(`User liked thread ${threadId} more than once`);
+    if (rows.length > 1)
+      throw new Error(`User liked thread ${threadId} more than once`);
     return rows.length === 1; // true if liked, false of have not liked yet
   },
   getThreadOwner: async (threadId) => {
@@ -64,4 +99,4 @@ const threads = {
   },
 };
 
-module.exports = threads;
+module.exports = thread;

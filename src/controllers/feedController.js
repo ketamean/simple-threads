@@ -1,38 +1,28 @@
 const controllers = {};
 const { md_feed } = require("../metadata");
 const metadata = require("../metadata.js");
+const Threads = require("../models/threadsModel");
+const { formatDistanceToNow } = require("date-fns");
 
-controllers.getFeed = (req, res) => {
-  console.log("feeds controller");
+controllers.getFeed = async (req, res) => {
+  try {
+    const postIDs = await Threads.getAllPosts();
+    const finalPosts = await Promise.all(
+      postIDs.map(async (postID) => {
+        const post = await Threads.getThreadWithoutImageById(postID.id);
+        const images = await Threads.getThreadImagesById(postID.id);
+        post.postImagePaths = images
+          ? images.map((image) => image.image_url)
+          : [];
+        post.dateDistance = formatDistanceToNow(new Date(post.created_at));
+        return post;
+      })
+    );
+    res.locals.metadata = finalPosts;
+  } catch (error) {
+    console.log(error);
+  }
   res.locals.css = md_feed.css;
-  res.locals.metadata = [
-    {
-      username: "A",
-      avatarImagePath: "",
-      date: "1/1/2024",
-      content: "hello",
-      nLikes: "30",
-      nComments: "20",
-    },
-    {
-      username: "K",
-      avatarImagePath: "",
-      date: "1/1/2024",
-      content: "hello",
-      postImagePaths: ["1.png", "hehe.png"],
-      nLikes: "30",
-      nComments: "20",
-    },
-    {
-      username: "B",
-      avatarImagePath: "",
-      date: "1/1/2024",
-      content: "hello",
-      postImagePaths: ["1.png", "hehe.png"],
-      nLikes: "30",
-      nComments: "20",
-    },
-  ];
   res.locals.tab_feed = true;
   res.render("feed");
 };
