@@ -80,6 +80,16 @@ const user = {
 	// follow user
 	followUser: async (userID, targetID) => {
 		const currentTime = Date.now() / 1000;
+    if (userID === targetID) {
+      console.log("Cannot follow yourself");
+      return
+    }
+    const checkExists = `SELECT * FROM followers WHERE follower_id = ${userID} and following_id = ${targetID}`;
+    const res = await client.query(checkExists);
+    if (res.rows.length > 0) {
+      console.log(res.rows);
+      return
+    }
 		const query = `
     INSERT INTO followers (follower_id, following_id, created_at) VALUES (${userID}, ${targetID}, to_timestamp(${currentTime})) ON CONFLICT DO NOTHING
     `;
