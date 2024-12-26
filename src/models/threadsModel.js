@@ -97,6 +97,20 @@ const thread = {
     if (liked) res.liked = true;
     return res;
   },
+  getThreadByUserID: async(userId) => {
+    const query = `
+      SELECT *
+      FROM Threads t
+      WHERE t.user_id = $1;
+    `;
+    const res = (await client.query(query, [userId])).rows;
+    for (let i = 0; i < res.length; i++) {
+      // res[i].nLikes = this.getNLikes(res[i].threadId);
+      // res[i].nComments = this.getNComments(res[i].threadId);
+      // res[i].liked = this.checkUserLikedThread(res[i].threadId, userId);
+    }
+    return res;
+  }
 };
 
 module.exports = thread;
