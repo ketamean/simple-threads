@@ -148,13 +148,13 @@
 			<div
 				class="edit-profile-header-item title font-semibold text-white text-xl"
 			>Edit Profile</div>
-			<div class="edit-profile-header-item save text-white">Save</div>
+			<div class="edit-profile-header-item save text-white cursor-pointer">Save</div>
 		</div>
 		<div
 			class="edit-profile-card bg-chinese-black border border-solid border-neon-white-15 rounded-2xl w-96 h-13 flex flex-col justify-evenly p-3 text-base relative"
 		>
 			<form
-				action="/profile/{{{user.id}}}"
+				action="auth/profile/{{{user.id}}}"
 				class="edit-profile-form"
 				enctype="multipart/form-data"
 				method="POST"
@@ -206,4 +206,4 @@
 	const personal = {{personal}};
 </script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script src="/js/profile.js"></script>
+<script src="/js/profile.js" type="module"></script>
