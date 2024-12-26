@@ -46,9 +46,6 @@ const thread = {
     return res.rows;
   },
   async getNLikes(id) {
-    console.log('thread models: get n likes')
-  async getNLikes(id) {
-    console.log("thread models: get n likes");
     const query = `
       SELECT count(*)
       FROM Likes
@@ -58,14 +55,8 @@ const thread = {
     const res = (await client.query(query, values)).rows[0];
     console.log(res.count);
     return res.count;
-    const res = (await client.query(query, values)).rows[0];
-    console.log(res.count);
-    return res.count;
   },
   async getNComments(id) {
-    console.log('thread models: get n comments')
-  async getNComments(id) {
-    console.log("thread models: get n comments");
     const query = `
       SELECT count(*)
       FROM Comments
@@ -76,7 +67,6 @@ const thread = {
     return res.count;
   },
   async checkUserLikedThread(threadId, userId) {
-    console.log("check user liked");
     const query = `
       SELECT count(*)
       FROM Likes
