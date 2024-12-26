@@ -1,6 +1,7 @@
 const controllers = {};
 const { md_feed } = require("../metadata");
 const metadata = require("../metadata.js");
+const { formatDistanceToNow } = require("date-fns");
 
 controllers.getFeed = (req, res) => {
   console.log("feeds controller");
@@ -9,7 +10,9 @@ controllers.getFeed = (req, res) => {
     {
       username: "A",
       avatarImagePath: "",
-      date: "1/1/2024",
+      date: "2024-01-01",
+      dateDistance: formatDistanceToNow(new Date("2024-01-01")),
+      postImagePaths: [],
       content: "hello",
       nLikes: "30",
       nComments: "20",
@@ -17,19 +20,21 @@ controllers.getFeed = (req, res) => {
     {
       username: "K",
       avatarImagePath: "",
-      date: "1/1/2024",
+      date: "2024-03-01",
+      dateDistance: formatDistanceToNow(new Date("2024-03-01")),
       content: "hello",
-      postImagePaths: ["1.png", "hehe.png"],
+      postImagePaths: ["/uploads/1.png", "/uploads/hehe.png"],
       nLikes: "30",
       nComments: "20",
     },
     {
       username: "B",
       avatarImagePath: "",
-      date: "1/1/2024",
+      date: "2024-02-01",
+      dateDistance: formatDistanceToNow(new Date("2024-02-01")),
       content: "hello",
-      postImagePaths: ["1.png", "hehe.png"],
-      nLikes: "30",
+      postImagePaths: ["/uploads/1.png", "/uploads/hehe.png"],
+      nLikes: "35",
       nComments: "20",
     },
   ];
