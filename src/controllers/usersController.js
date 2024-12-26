@@ -166,6 +166,12 @@ controllers.login = async (req, res) => {
       sameSite: "strict",
       path: "/",
     });
+    res.cookie("userid", user.id, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "strict",
+      path: "/",
+    });
 
     //send res
     res.status(200).json({
@@ -243,7 +249,7 @@ controllers.signOut = async (req, res) => {
       await redis.deleteKey(decoded.userId.toString());
     }
     res.clearCookie("refreshToken");
-
+    res.clearCookie("userid");
     res.redirect(200, "/users/login?message=Logged out successfully");
   } catch (error) {
     res.redirect(500, `/users/login?message=${error}`);

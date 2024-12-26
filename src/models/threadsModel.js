@@ -2,7 +2,42 @@ const client = require("../config/database");
 
 // THIS DOES NOT HANDLE ERRORS.
 // ERRORS ARE HANDLED BY CONTROLLERS
-const threads = {
+const thread = {
+  createThread: async ({ user_id, content, createdAt }) => {
+    const query = `
+    INSERT INTO Threads (user_id, content, created_at)
+    VALUES ($1, $2, NOW())
+    RETURNING *;`;
+    const values = [user_id, content, createdAt];
+    const res = await client.query(query, values);
+    return res.rows[0];
+  },
+  getAllPosts: async () => {
+    const query = `
+    SELECT id FROM Threads ORDER BY created_at DESC;`;
+    const res = await client.query(query);
+    return res.rows;
+  },
+  getThreadWithoutImageById: async (id) => {
+    const query = `
+    SELECT 
+      t.*,
+      u.username,
+      u.profile_picture,
+      (SELECT COUNT(*) FROM Likes WHERE thread_id = t.id) as likes_count,
+      (SELECT COUNT(*) FROM Comments WHERE thread_id = t.id) as comments_count
+    FROM Threads t
+    JOIN Users u ON t.user_id = u.id
+    WHERE t.id = $1;`;
+    const res = await client.query(query, [id]);
+    return res.rows[0];
+  },
+  getThreadImagesById: async (id) => {
+    const query = `
+    SELECT image_url FROM ThreadImages WHERE thread_id = $1;`;
+    const res = await client.query(query, [id]);
+    return res.rows;
+  },
   async getNLikes(id) {
     console.log('thread models: get n likes')
     const query = `
@@ -40,22 +75,12 @@ const threads = {
     if (res.length > 1) throw new Error(`User liked thread ${threadId} more than once`);
     return res.length === 1; // true if liked, false of have not liked yet
   },
-  async getThreadOwner(threadId) {
-    const query = `
-      SELECT u.username AS 'username', u.id AS 'userId', u.profile_picture AS 'avatarImagePath', t.created_at AS 'date', t.content AS 'content'
-      FROM Threads t, Users u
-      WHERE t.id = $1 AND t.user_id = u.id;
-    `;
-    const res = (await client.query(query, [threadId])).rows[0];
-    if (liked) res.liked = true;
-    return res;
-  },
   async getThreadById(threadId, viewerId) {
     const nLike = await this.getNLikes(threadId);
     const nComments = await this.getNComments(threadId);
     const liked = await this.checkUserLikedThread(threadId, viewerId);
     const query = `
-      SELECT u.username AS 'username', u.id AS 'userId', u.profile_picture AS 'avatarImagePath', t.created_at AS 'date', t.content AS 'content', $2 AS 'nLikes', $3 AS 'nComments'
+      SELECT u.username AS "username", u.id AS "userId", u.profile_picture AS "avatarImagePath", t.created_at AS "date", t.content AS "content", $2 AS "nLikes", $3 AS "nComments"
       FROM Threads t, Users u
       WHERE t.id = $1 AND t.user_id = u.id;
     `;
@@ -66,4 +91,4 @@ const threads = {
   },
 };
 
-module.exports = threads;
+module.exports = thread;
