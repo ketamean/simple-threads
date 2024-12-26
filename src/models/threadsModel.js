@@ -7,7 +7,8 @@ const thread = {
     INSERT INTO Threads (user_id, content, created_at)
     VALUES ($1, $2, NOW())
     RETURNING *;`;
-    const values = [user_id, content];
-    const res = await 
+    const values = [user_id, content, createdAt];
+    const res = await client.query(query, values);
+    return res.rows[0];
   },
 };
