@@ -11,7 +11,7 @@
     <div class="flex items-center space-x-3 mb-4">
       <img src="https://placehold.co/36" alt="" class="rounded-full" />
       <div class="flex flex-col">
-        <span class="font-semibold">Your Username</span>
+        <span class="font-semibold" id="username">Your Username</span>
         <button class="flex items-center space-x-1 text-sm">
           <i class="iconoir-globe"></i>
           <span>Anyone can reply</span>
@@ -44,9 +44,11 @@
     {{!-- Post footer --}}
     <div class="flex items-center justify-between mt-3">
         <div class="flex items-center space-x-3">
-          <button class="px-4 py-2 border-none rounded hover:bg-black" >
+          <button class="px-4 py-2 border-none rounded hover:bg-black" id="post-button">
             Post
           </button>
         </div>
   </div>
 </div>
+
+<script type="module" src="/js/create-post.js"></script>

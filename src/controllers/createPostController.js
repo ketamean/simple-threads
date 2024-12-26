@@ -6,7 +6,11 @@ controllers.getCreatePost = (req, res) => {
   res.render("create-post");
 };
 
-controllers.post = (req, res) => {};
+controllers.createPost = (req, res) => {
+  const { content, createdAt } = req.body;
+  const userID = req.userID;
+  console.log(content, userID, createdAt);
+};
 
 controllers.put = (req, res) => {};
 
