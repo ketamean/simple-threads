@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const upload = require("../middleware/upload");
 
 const {
   getCreatePost,
@@ -8,6 +9,6 @@ const {
 
 router.get("/", getCreatePost);
 
-router.post("/", createPost);
+router.post("/", upload.array("images", 10), createPost);
 
 module.exports = router;
