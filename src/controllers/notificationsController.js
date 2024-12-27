@@ -34,7 +34,7 @@ controllers.post = async (req, res) => {
 
     // use post model to find post
     const post = await threadsModel.getThreadById(post_id);
-    
+
     //Type of content
     let content, link;
 
@@ -42,7 +42,7 @@ controllers.post = async (req, res) => {
       content = post.content;
       link = "/auth/comments?id=" + post_id;
     } else {
-      content = "Follow back";
+      content = "See profile";
       link = "/auth/profile/" + user.id;
     }
     const notificationData = {
