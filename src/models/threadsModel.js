@@ -103,10 +103,15 @@ const thread = {
     `;
     const res = (await client.query(query, [userId])).rows;
     for (let i = 0; i < res.length; i++) {
-      if(res[i].profile_picture === null || res[i].profile_picture === "" || res[i].profile_picture === "undefined" || res[i].profile_picture === undefined || res[i].profile_picture === "null") {
+      if (
+        res[i].profile_picture === null ||
+        res[i].profile_picture === "" ||
+        res[i].profile_picture === "undefined" ||
+        res[i].profile_picture === undefined ||
+        res[i].profile_picture === "null"
+      ) {
         res[i].profile_picture = "/img/user-placeholder.jpg";
-      }
-      else{
+      } else {
         res[i].profile_picture = res[i].profile_picture.replace("public", "");
       }
       res[i].likes_count = await this.getNLikes(res[i].id);
@@ -114,7 +119,7 @@ const thread = {
       res[i].liked = await this.checkUserLikedThread(res[i].id, userId);
     }
     return res;
-  }
+  },
 };
 
 module.exports = thread;
