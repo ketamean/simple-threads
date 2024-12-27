@@ -1,6 +1,7 @@
 const notificationModel = require("../models/notificationModel.js");
 const userModel = require("../models/usersModel.js");
 const threadsModel = require("../models/threadsModel.js");
+const { formatISO } = require("date-fns");
 //insert post model
 
 const controllers = {};
@@ -11,7 +12,6 @@ controllers.get = async (req, res) => {
   const notificationData = await notificationModel.getNotificationsByUserId(
     userID
   );
-  console.log(notificationData);
   res.locals.metadata = notificationData;
   res.locals.tab_notifications = true;
   res.render("activity", { layout: "layoutNotification" });
@@ -49,11 +49,12 @@ controllers.post = async (req, res) => {
       userId: user_id,
       interactorId: user.id,
       imgInteractor: user.profile_picture,
-      nameInteractor: user.alias,
+      nameInteractor: user.username,
       link: link,
       describe: descriptions[type],
       content: content,
       type: type,
+      date: formatISO(new Date()),
     };
 
     const result = await notificationModel.addNotification(notificationData);
