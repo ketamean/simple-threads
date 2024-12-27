@@ -11,4 +11,18 @@
     {{/each}}
     </div>
     
+    {{!-- Pagination --}}
+    {{#if pagination}}
+    <div class="flex justify-center items-center space-x-4 py-4">
+        {{#if pagination.hasPrev}}
+        <a href="?page={{subtract pagination.page 1}}" class="px-4 py-2 bg-gray-800 rounded">Previous</a>
+        {{/if}}
+        
+        <span>Page {{pagination.page}} of {{pagination.totalPages}}</span>
+        
+        {{#if pagination.hasNext}}
+        <a href="?page={{add pagination.page 1}}" class="px-4 py-2 bg-gray-800 rounded">Next</a>
+        {{/if}}
+    </div>
+    {{/if}}
 </div>
