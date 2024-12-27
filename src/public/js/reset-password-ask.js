@@ -4,9 +4,8 @@ document.addEventListener("DOMContentLoaded", function () {
     event.preventDefault();
     const formData = new FormData(form);
     const emailOrUsername = formData.get("username-email");
-
     try {
-      const response = await fetch("/users/resetpassword", {
+      const response = await fetch("/users/reset-password", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
