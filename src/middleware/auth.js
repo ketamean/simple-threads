@@ -75,8 +75,9 @@ const verifyRefreshToken = async (req, res, next) => {
           }
           return next(err);
         }
-
+        console.log('redis')
         const token = await redis.getKey(decoded.userID.toString());
+        console.log('after redis')
         if (!token || token != refreshToken) {
           return res
             .status(401)

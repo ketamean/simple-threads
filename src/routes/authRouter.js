@@ -4,7 +4,6 @@ const router = express.Router();
 const feedRouter = require("./feedRouter");
 const likeRouter = require("./likeRouter");
 const commentsRouter = require("./commentsRouter");
-const createPostRouter = require("./createPostRouter");
 const profileRouter = require("./profileRouter");
 const notificationsRouter = require("./notificationsRouter");
 
