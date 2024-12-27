@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
       console.log(resetToken);
 
       const response = await fetch(
-        `/users/auth/setpassword?resetToken=${resetToken}`,
+        `/users/set-password?resetToken=${resetToken}`,
         {
           method: "PUT",
           headers: {
@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (response.ok) {
         // Handle successful response
         alert("Password reset successfully!");
-        window.location.href = "/login"; // Redirect to login page
+        window.location.href = "/users/login"; // Redirect to login page
       } else {
         // Handle error response
         const errorData = await response.json();
