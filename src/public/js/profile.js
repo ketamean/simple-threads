@@ -207,12 +207,7 @@ followStatus.forEach((status, index) => {
     if (status.textContent === "Follow") {
       event.preventDefault();
       const followed_id = status.getAttribute("data-id");
-      let data = {
-        user_id: userID,
-        target_id: followed_id,
-      };
-      data = JSON.stringify(data);
-      await axiosInstance.post(
+      const result = await axiosInstance.post(
         `auth-header/profile/${userID}/follow`,
         {
           user_id: userID,
@@ -224,11 +219,14 @@ followStatus.forEach((status, index) => {
           },
         }
       );
-      numFollowings.textContent = parseInt(numFollowings.textContent) + 1;
-      status.textContent = "Following";
-      status.style.backgroundColor = "transparent";
-      status.style.border = "0.8px solid rgba(243, 245, 247, 0.15)";
-      status.style.color = "rgb(119, 119, 119)";
+      if (result.status === 200) {
+        await await axiosInstance.post('/auth-header/notifications', {user_id: targetID, type: 'follow', post_id: 0});
+        numFollowings.textContent = parseInt(numFollowings.textContent) + 1;
+        status.textContent = "Following";
+        status.style.backgroundColor = "transparent";
+        status.style.border = "0.8px solid rgba(243, 245, 247, 0.15)";
+        status.style.color = "rgb(119, 119, 119)";
+      }
     }
   });
 });
@@ -435,12 +433,7 @@ followersBoard.addEventListener("click", async (event) => {
       if (status.textContent === "Follow") {
         event.preventDefault();
         const targetID = followStatus[index].getAttribute("data-id");
-        let data = {
-          user_id: userID,
-          target_id: targetID,
-        };
-        data = JSON.stringify(data);
-        await axiosInstance.post(
+        const result = await axiosInstance.post(
           `auth-header/profile/${userID}/follow`,
           {
             user_id: userID,
@@ -452,11 +445,14 @@ followersBoard.addEventListener("click", async (event) => {
             },
           }
         );
-        numFollowings.textContent = parseInt(numFollowings.textContent) + 1;
-        status.textContent = "Following";
-        status.style.backgroundColor = "transparent";
-        status.style.border = "0.8px solid rgba(243, 245, 247, 0.15)";
-        status.style.color = "rgb(119, 119, 119)";
+        if(result.status === 200){
+          await await axiosInstance.post('/auth-header/notifications', {user_id: targetID, type: 'follow', post_id: 0});
+          numFollowings.textContent = parseInt(numFollowings.textContent) + 1;
+          status.textContent = "Following";
+          status.style.backgroundColor = "transparent";
+          status.style.border = "0.8px solid rgba(243, 245, 247, 0.15)";
+          status.style.color = "rgb(119, 119, 119)";
+        }
       }
     });
   });
@@ -547,12 +543,7 @@ followingBoard.addEventListener("click", async (event) => {
       if (status.textContent === "Follow") {
         event.preventDefault();
         const targetID = followStatus[index].getAttribute("data-id");
-        let data = {
-          user_id: userID,
-          target_id: targetID,
-        };
-        data = JSON.stringify(data);
-        await axiosInstance.post(
+        const result = await axiosInstance.post(
           `auth-header/profile/${userID}/follow`,
           {
             user_id: userID,
@@ -564,11 +555,14 @@ followingBoard.addEventListener("click", async (event) => {
             },
           }
         );
-        numFollowings.textContent = parseInt(numFollowings.textContent) + 1;
-        status.textContent = "Following";
-        status.style.backgroundColor = "transparent";
-        status.style.border = "0.8px solid rgba(243, 245, 247, 0.15)";
-        status.style.color = "rgb(119, 119, 119)";
+        if (result.status === 200) {
+          numFollowings.textContent = parseInt(numFollowings.textContent) + 1;
+          await await axiosInstance.post('/auth-header/notifications', {user_id: targetID, type: 'follow', post_id: 0});
+          status.textContent = "Following";
+          status.style.backgroundColor = "transparent";
+          status.style.border = "0.8px solid rgba(243, 245, 247, 0.15)";
+          status.style.color = "rgb(119, 119, 119)";
+        }
       }
     });
   });
@@ -579,7 +573,7 @@ if (!personal) {
   followButton.addEventListener("click", async (event) => {
     event.preventDefault();
     if (followButton.textContent === "Follow") {
-      await axiosInstance.post(
+      const result = await axiosInstance.post(
         `auth-header/profile/${userID}/follow`,
         {
           user_id: tokenID,
@@ -591,11 +585,14 @@ if (!personal) {
           },
         }
       );
-      numFollowings.textContent = parseInt(numFollowings.textContent) + 1;
-      followButton.textContent = "Following";
-      followButton.style.backgroundColor = "transparent";
-      followButton.style.border = "0.8px solid rgba(243, 245, 247, 0.15)";
-      followButton.style.color = "rgb(119, 119, 119)";
+      if(result.status === 200){
+        await axiosInstance.post('/auth-header/notifications', {user_id: userID, type: 'follow', post_id: 0});
+        numFollowings.textContent = parseInt(numFollowings.textContent) + 1;
+        followButton.textContent = "Following";
+        followButton.style.backgroundColor = "transparent";
+        followButton.style.border = "0.8px solid rgba(243, 245, 247, 0.15)";
+        followButton.style.color = "rgb(119, 119, 119)";
+      }
     } else {
       let data = {
         user_id: tokenID,
@@ -621,6 +618,7 @@ if (!personal) {
   });
 }
 
+if(personal){
 document
   .querySelector("#button-logout")
   .addEventListener("click", async (e) => {
@@ -637,3 +635,4 @@ document
         console.error("Logout error:", error);
       });
   });
+}
