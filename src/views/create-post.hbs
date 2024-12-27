@@ -11,7 +11,7 @@
     <div class="flex items-center space-x-3 mb-4">
       <img src="https://placehold.co/36" alt="" class="rounded-full" />
       <div class="flex flex-col">
-        <span class="font-semibold" id="username">Your Username</span>
+        <span class="font-semibold" id="username">{{username}}</span>
         <button class="flex items-center space-x-1 text-sm">
           <i class="iconoir-globe"></i>
           <span>Anyone can reply</span>
@@ -30,24 +30,34 @@
     <div
       class="flex items-center space-x-3 border-t border-b border-gray-200 py-3 border-opacity-25"
     >
-      <button class="p-2">
+      <button class="p-2" id="image-upload">
         <i class="iconoir-media-image"></i>
       </button>
-      <button class="p-2">
+      {{! <button class="p-2">
         <i class="iconoir-at-sign"></i>
       </button>
       <button class="p-2">
         <i class="iconoir-link"></i>
-      </button>
+      </button> }}
     </div>
+    {{! File uploads }}
+    <input type="file" id="file-input" multiple style="display: none;" />
+    <div
+      id="preview-container"
+      class="mt-4 flex flex-nowrap gap-4 overflow-auto w-full"
+    ></div>
 
-    {{!-- Post footer --}}
+    {{! Post footer }}
     <div class="flex items-center justify-between mt-3">
-        <div class="flex items-center space-x-3">
-          <button class="px-4 py-2 border-none rounded hover:bg-black" id="post-button">
-            Post
-          </button>
-        </div>
+      <div class="flex items-center space-x-3">
+        <button
+          class="px-4 py-2 border-none rounded hover:bg-black"
+          id="post-button"
+        >
+          Post
+        </button>
+      </div>
+    </div>
   </div>
 </div>
 

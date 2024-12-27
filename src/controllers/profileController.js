@@ -1,11 +1,13 @@
 const usersModel = require("../models/usersModel");
+const threadsModel = require("../models/threadsModel");
 const controller = {};
 
 controller.getProfile = async (req, res) => {
 	try {
 		const tokenID = req.userID;
 		const user = await usersModel.findById(req.params.id);
-		// const userPost = await usersModel.getUserPosts(req.params.id);
+		const userPosts = await threadsModel.getThreadByUserID(req.params.id);
+		console.log(userPosts);
 		if (
 			user.profile_picture === null ||
 			user.profile_picture === "" ||
@@ -30,9 +32,12 @@ controller.getProfile = async (req, res) => {
 					personal: personal,
 					followerNum: follower.length,
 					followingNum: following.length,
+					posts: userPosts,
+					tokenID: tokenID,
 				},
 			});
 		} else {
+			const isFollowing = await usersModel.checkFollowing(tokenID, req.params.id);
 			res.render("other-user-profile", {
 				title: "Profile",
 				profileData: {
@@ -40,6 +45,9 @@ controller.getProfile = async (req, res) => {
 					personal: personal,
 					followerNum: follower.length,
 					followingNum: following.length,
+					posts: userPosts,
+					isFollowing: isFollowing,
+					tokenID: tokenID,
 				},
 			});
 		}
@@ -106,13 +114,12 @@ controller.getFollowings = async (req, res) => {
 
 controller.updateProfile = async (req, res) => {
 	try {
-		let { alias, bio } = JSON.parse(req.body.user);
+		let { username, bio } = JSON.parse(req.body.user);
 		let avatar = req.file ? req.file.path : "";
-		console.log(req);
 		const userID = req.params.id;
 		const currentUser = await usersModel.findById(userID);
-		if (alias === "" || alias === undefined || alias === "undefined")
-			alias = currentUser.alias;
+		if (username === "" || username === undefined || username === "undefined")
+			username = currentUser.username;
 		if (bio === "" || bio === undefined || bio === "undefined")
 			bio = currentUser.bio;
 		if (
@@ -125,11 +132,13 @@ controller.updateProfile = async (req, res) => {
 			avatar = currentUser.profile_picture;
 		const user = await usersModel.updateUserInfo(
 			userID,
-			alias,
+			username,
 			bio,
 			avatar
 		);
-		res.redirect(`/profile/${userID}`);
+		res.status(200).json({
+			message: "OK"
+		});
 	} catch (err) {
 		console.error("Error updating user profile", err.stack);
 		res.status(500).send("Internal server error");

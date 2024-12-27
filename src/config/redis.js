@@ -1,13 +1,23 @@
 const redis = require("redis");
 require("dotenv").config();
 
-let client;
+let client, redisTimeout;
 
 const REFRESH_TOKEN_EXPIRE_TIME = 24 * 60 * 60; // 1 day
+const REDIS_CONNECT_TIMEOUT = 10000; // 10 seconds
+
+const handleTimeout = () => {
+  redisTimeout = setTimeout(() => {
+    console.error("Disconnecting Redis due to timeout");
+    del();
+    throw new Error("Disconnect redis");
+  }, REDIS_CONNECT_TIMEOUT);
+};
 
 const handleEventConnection = (instanceRedis) => {
   instanceRedis.on("connect", function () {
     console.log("Redis client connected");
+    clearTimeout(redisTimeout);
   });
 
   instanceRedis.on("ready", function () {
@@ -16,14 +26,17 @@ const handleEventConnection = (instanceRedis) => {
 
   instanceRedis.on("reconnecting", function () {
     console.log("Redis client reconnecting");
+    clearTimeout(redisTimeout);
   });
 
   instanceRedis.on("end", function () {
     console.log("Redis client connection closed");
+    handleTimeout();
   });
 
   instanceRedis.on("error", function (err) {
     console.log("Redis client error", err);
+    handleTimeout();
   });
 
   instanceRedis.on("warning", function (warning) {

@@ -5,7 +5,7 @@ const redis = require("../config/redis");
 
 // for get data from server
 const verifyToken = async (req, res, next) => {
-  console.log("verify token");
+  console.log("verify accesss token");
   try {
     const token = req.headers["authorization"]?.split(" ")[1];
     console.log(token);
@@ -31,13 +31,7 @@ const verifyToken = async (req, res, next) => {
         return next(err);
       }
 
-      const user = await User.findById(decoded.userID);
-      if (!user) {
-        return res.status(401).redirect("/users/login?message=User not found");
-      }
-
-      req.user = user;
-      req.user.password = null;
+      req.userID = decoded.userID;
       next();
     });
   } catch (error) {
