@@ -248,13 +248,12 @@ controllers.signOut = async (req, res) => {
     const refreshToken = req.cookies.refreshToken;
     if (refreshToken) {
       const decoded = jwt.verify(refreshToken, JWT_REFRESH_SECRET);
-      await redis.deleteKey(decoded.userId.toString());
+      await redis.deleteKey(decoded.userID.toString());
     }
     res.clearCookie("refreshToken");
-    res.clearCookie("userid");
-    res.redirect(200, "/users/login?message=Logged out successfully");
+    res.status(200).json({ message: "Sign out successful" });
   } catch (error) {
-    res.redirect(500, `/users/login?message=${error}`);
+    res.status(500).json({ message: "Sign out successful" });
   }
 };
 

@@ -26,10 +26,11 @@ const Notification = {
     content,
     type,
     interactorId,
+    date
   }) => {
     const query = `
             INSERT INTO notifications (user_id, img_interactor, name_interactor, link, describe, content, type, interactor_id, created_at)
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NOW())
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
             RETURNING *;
         `;
     const values = [
@@ -41,6 +42,7 @@ const Notification = {
       content,
       type,
       interactorId,
+      date
     ];
     try {
       const res = await client.query(query, values);

@@ -193,6 +193,8 @@ confirmDeleteButton.addEventListener("click", async () => {
     return;
   }
 
+  deleteConfirmationOverlay.classList.add("hidden");
+
   await axiosInstance
     .delete("/auth-header/notifications", {
       data: { id_arr: Array.from(deleteSet) },
@@ -203,7 +205,6 @@ confirmDeleteButton.addEventListener("click", async () => {
     .catch((error) => {
       console.error("Error deleting notifications:", error);
     });
-  deleteConfirmationOverlay.classList.add("hidden");
   return location.reload();
 });
 

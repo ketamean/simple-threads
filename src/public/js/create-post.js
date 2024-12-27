@@ -18,7 +18,7 @@ $postButton.addEventListener("click", async (e) => {
   });
 
   await axiosInstance
-    .post("/auth/create-post", formData, {
+    .post("/auth-header/create-post", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

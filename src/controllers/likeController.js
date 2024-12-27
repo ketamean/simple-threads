@@ -1,19 +1,15 @@
 const controllers = {}
-
-controllers.get = (req, res) => {
-
-}
-
-controllers.post = (req, res) => {
+const like = require('../models/likeModels');
+const threads = require('../models/threadsModel')
+controllers.post = async (req, res) => {
+  console.log('like post');
+  const userId = req.userID;
+  const { threadId } = req.body;
   
-}
-
-controllers.put = (req, res) => {
+  const post = await threads.getThreadById(threadId, userId);
   
-}
+  const liked = await like.like(userId, threadId);
+  return res.status(200).json( { liked, ownerId: post.userId } );
+};
 
-controllers.del = (req, res) => {
-  
-}
-
-module.exports = controllers
+module.exports = controllers;

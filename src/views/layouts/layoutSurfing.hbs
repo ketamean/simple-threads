@@ -14,8 +14,11 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <script type="module" src="/js/axiosInstance.js"></script>
-
+    <script type="module" src="/js/toastHandler.js"></script>
+    <script type="module" src="/js/heartReact.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+
+
     
     {{#if css}}
         {{#each css}}
@@ -79,7 +82,7 @@
             {{{body}}}
         </main>
         
-        <footer class="py-2 z-40 w-full h-14 bg-black/50 text-center fixed bottom-0 left-0 grid grid-cols-4 min-w-52 sm:h-full sm:py-0 sm:pl-2 sm:min-w-14 sm:w-14 sm:grid-rows-4 sm:grid-cols-1 sm:min-h-54 sm:max-h-96">
+        <footer class="py-2 z-40 w-full h-14 bg-black/50 text-center fixed bottom-0 left-0 grid grid-cols-4 min-w-52 sm:h-screen sm:py-0 sm:pl-2 sm:min-w-14 sm:w-14 sm:grid-rows-4 sm:grid-cols-1 sm:min-h-54 sm:max-h-96">
             <a href="/auth/feed" class="flex justify-center items-center cursor-pointer">
                 <svg
                     aria-label="Newsfeed"
@@ -156,6 +159,16 @@
                 </svg>
             </a>
         </footer>
+    </div>
+
+    {{!-- toast noti --}}
+    <div class="fixed top-5 right-5 z-50 hidden" id="toast">
+        <div class="flex items-center w-80 max-w-sm p-4 mb-4 text-lg text-blue-800 bg-blue-50 border border-blue-300 rounded-lg shadow-lg" role="alert">
+        <svg class="w-8 h-auto min-h-10 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-1-4h2v2H9v-2zm0-8h2v6H9V6z" clip-rule="evenodd"></path>
+        </svg>
+        <span id="toast-content"></span>
+        </div>
     </div>
 </body>
 </html>
