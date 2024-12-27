@@ -4,8 +4,8 @@ const client = require("../config/database");
 const user = {
   createUser: async ({ email, password, username }) => {
     const query = `
-    INSERT INTO Users (email, password, username, fullname, bio, profile_picture, created_at, updated_at, alias)
-    VALUES ($1, $2, $3, NULL, NULL, NULL, NOW(), NOW(), NULL)
+    INSERT INTO Users (email, password, username, bio, profile_picture, created_at, updated_at, alias)
+    VALUES ($1, $2, $3, NULL, NULL, NOW(), NOW(), NULL)
     RETURNING *;`;
     const values = [email, password, username];
     console.log(values);

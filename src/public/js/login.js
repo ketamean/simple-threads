@@ -23,7 +23,7 @@ document.querySelector("form").addEventListener("submit", async (e) => {
     })
     .catch((error) => {
       console.log(error);
-      // console.error("Error during login:", error.response.data.message);
-      // alert(`Login failed: ${error.response.data.message}`);
+      console.error("Error during login:", error.response.data.message);
+      alert(`Login failed: ${error.response.data.message}`);
     });
 });

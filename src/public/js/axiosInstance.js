@@ -1,5 +1,5 @@
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:3000', //"http://localhost:3000", // Thay thế bằng URL API của bạn
+  baseURL: 'http://192.168.1.13:3000', //"http://localhost:3000", // Thay thế bằng URL API của bạn
   timeout: 20000,
   headers: {
     "Content-Type": "application/json",
