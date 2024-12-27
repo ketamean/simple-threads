@@ -27,7 +27,7 @@ metadata.md_createPost = {
 metadata.md_profile = {};
 
 metadata.md_comments = {
-  css: ["hide-hover.css"],
+  css: ["hide-hover.css", 'account-input.css'],
 };
 
 module.exports = metadata;

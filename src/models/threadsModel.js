@@ -1,4 +1,5 @@
 const client = require("../config/database");
+const { formatDistanceToNow } = require("date-fns");
 
 // THIS DOES NOT HANDLE ERRORS.
 // ERRORS ARE HANDLED BY CONTROLLERS
@@ -78,14 +79,16 @@ const thread = {
   async getThreadById(threadId, viewerId) {
     const nLike = await this.getNLikes(threadId);
     const nComments = await this.getNComments(threadId);
-    const liked = await this.checkUserLikedThread(threadId, viewerId);
     const query = `
-      SELECT u.username AS "username", u.id AS "userId", u.profile_picture AS "avatarImagePath", t.created_at AS "date", t.content AS "content", $2 AS "nLikes", $3 AS "nComments"
+      SELECT u.username AS "username", u.id AS "userId", u.profile_picture AS "profile_picture", t.created_at AS "createdAt", t.content AS "content", $2 AS "likes_count", $3 AS "comments_count"
       FROM Threads t, Users u
       WHERE t.id = $1 AND t.user_id = u.id;
     `;
     const values = [threadId, nLike, nComments];
     const res = (await client.query(query, values)).rows[0];
+    res.dateDistance = formatDistanceToNow(res.createdAt);
+
+    const liked = await this.checkUserLikedThread(threadId, viewerId);
     if (liked) res.liked = true;
     return res;
   },

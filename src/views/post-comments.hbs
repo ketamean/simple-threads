@@ -1,43 +1,89 @@
-<div class="w-full h-full">
-  {{> post post}}
-  <div class="h-full w-full flex flex-col gap-y-3">
-      {{#each comments}}
-      <div class="w-full my-4 grid grid-cols[3rem_1fr] gap-x-4">
-        <!-- left: user avatar -->
-        <div class="w-full h-full col-start-1 col-end-1">
-          <a href="/profile/{{userId}}" class="m-0 p-0" role="link" tabindex="0">
-            <img
-              class="border-none object-cover rounded-full"
-              height="36" width="36" src="{{avatarImagePath}}" alt="{{username}}'s profile picture"
-            >
-          </a>
-        </div>
-        
-        <!-- right: username-date & content -->
-        <div class="grid grid-rows-[1.5rem_1fr] col-start-2 col-end-2 h-full w-full">
-          <!-- username-date -->
-          <div class="flex gap-x-2 w-full max-w-full overflow-hidden self-center items-center justify-start row-start-1 row-end-1">
-            <!-- username -->
-            <div class="max-w-40 overflow-hidden text-ellipsis whitespace-nowrap">
-                <a
-                  class="w-full visited:text-white visited:no-underline link:text-white link:no-underline hover:underline hover:font-bold hover:text-white"
-                  href="/profile/{{userId}}"
+<div class="w-full">
+  <div class="mx-auto max-w-4xl w-full py-4 border-b border-slate-100 border-opacity-50 sm:border-none ">
+    <p class="font-bold w-full text-center">Threads</p>
+  </div>
+  <div class="py-2 w-full sm:bg-eerie-black mx-auto max-w-4xl sm:mt-4 rounded-3xl">
+    {{> post post}}
+    <div class="w-full">
+      {{!-- comments --}}
+      <div class="px-4 h-full w-full flex flex-col gap-y-3 divide-y divide-zinc-800">
+        {{!-- write comments --}}
+        {{#with post}}
+        <div class="pt-3">
+          <form class="w-full h-12 relative" id="commemt" data-thread-id="{{threadId}}">
+            <input
+              class="z-40 absolute left-0 w-full h-12 rounded-2xl border-zinc-400 py-2 px-3 bg-zinc-600 focus:outline-none focus:border-none active:outline-none active:border-none"
+              name="content"
+              type="text"
+              placeholder="Reply to {{username}}"
+              minlength="1"
+              required
+              value=""
+              autocomplete="off"
+            />
+            <label class="absolute right-4 top-1.5 z-50 cursor-pointer" for="q">
+              <input type="submit" id="q" name="q" class="hidden">
+              <div>
+                <svg
+                  width="32"
+                  height="32"
+                  viewBox="0 0 32 32"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="icon-2xl"
                 >
-                    <span>{{username}}</span>
-                </a>
-            </div>
-            <!-- date -->
-            <div class="max-w-40 overflow-hidden text-ellipsis font-normal text-slate-500 leading-5">
-                <span>{{date}}</span>
-            </div>
-          </div>
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M15.1918 8.90615C15.6381 8.45983 16.3618 8.45983 16.8081 8.90615L21.9509 14.049C22.3972 14.4953 22.3972 15.2189 21.9509 15.6652C21.5046 16.1116 20.781 16.1116 20.3347 15.6652L17.1428 12.4734V22.2857C17.1428 22.9169 16.6311 23.4286 15.9999 23.4286C15.3688 23.4286 14.8571 22.9169 14.8571 22.2857V12.4734L11.6652 15.6652C11.2189 16.1116 10.4953 16.1116 10.049 15.6652C9.60265 15.2189 9.60265 14.4953 10.049 14.049L15.1918 8.90615Z"                  fill="currentColor"
+                  ></path>
+                </svg>
+              </div>
+            </label>
 
-          <!-- content -->
-          <div class="row-start-2 row-end-2 font-normal break-words text-slate-100">
-            <span>{{content}}</span>
+          </form>
+        </div>
+        {{/with}}
+        {{#each comments}}
+        <div class="w-full py-2 flex flex-row gap-x-4">
+          <!-- left: user avatar -->
+          <div class="w-9 h-9">
+            <a href="/profile/{{userId}}" class="m-0 p-0" role="link" tabindex="0">
+              <img
+                class="border-none object-cover rounded-full"
+                height="36" width="36" src="{{avatarImagePath}}"
+              >
+            </a>
+          </div>
+          
+          <!-- right: username-date & content -->
+          <div class="grid grid-rows-[1.5rem_1fr] col-start-2 col-end-2 h-full w-full">
+            <!-- username-date -->
+            <div class="flex gap-x-2 w-full max-w-full overflow-hidden self-center items-center justify-start row-start-1 row-end-1">
+              <!-- username -->
+              <div class="max-w-40 overflow-hidden text-ellipsis whitespace-nowrap">
+                  <a
+                    class="w-full visited:text-white visited:no-underline link:text-white link:no-underline hover:underline font-bold text-white"
+                    href="/profile/{{userId}}"
+                  >
+                      <span>{{username}}</span>
+                  </a>
+              </div>
+              <!-- date -->
+              <div class="max-w-40 overflow-hidden text-ellipsis font-normal text-slate-500 leading-5">
+                  <span>{{date}}</span>
+              </div>
+            </div>
+
+            <!-- content -->
+            <div class="row-start-2 row-end-2 font-normal break-words text-slate-100">
+              <span>{{content}}</span>
+            </div>
           </div>
         </div>
+        {{/each}}
       </div>
-      {{/each}}
+    </div>
   </div>
 </div>
+<script type="module" src="/js/comments.js"></script>"
