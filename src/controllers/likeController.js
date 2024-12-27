@@ -1,19 +1,11 @@
 const controllers = {}
+const like = require('../models/likeModels');
+controllers.post = async (req, res) => {
+  console.log('like post');
+  const userId = req.userID;
+  const { threadId } = req.body;
+  const liked = await like.like(userId, threadId);
+  return res.status(200).json( { liked } );
+};
 
-controllers.get = (req, res) => {
-
-}
-
-controllers.post = (req, res) => {
-  
-}
-
-controllers.put = (req, res) => {
-  
-}
-
-controllers.del = (req, res) => {
-  
-}
-
-module.exports = controllers
+module.exports = controllers;
