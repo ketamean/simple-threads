@@ -19,11 +19,27 @@ const thread = {
     const values = [thread_id, image_url];
     await client.query(query, values);
   },
-  getAllPosts: async () => {
+  getThreadIdByUserId: async (user_id) => {
     const query = `
-    SELECT id FROM Threads ORDER BY created_at DESC;`;
-    const res = await client.query(query);
+    SELECT id FROM Threads WHERE user_id = $1;`;
+    const values = [user_id];
+    const res = await client.query(query, values);
     return res.rows;
+  },
+  getAllPosts: async (limit, offset) => {
+    const countQuery = `SELECT COUNT(*) FROM Threads`;
+    const totalCount = await client.query(countQuery);
+
+    const query = `
+      SELECT id FROM Threads 
+      ORDER BY created_at DESC
+      LIMIT $1 OFFSET $2;
+    `;
+    const res = await client.query(query, [limit, offset]);
+    return {
+      posts: res.rows,
+      total: parseInt(totalCount.rows[0].count),
+    };
   },
   getThreadWithoutImageById: async (id) => {
     const query = `
