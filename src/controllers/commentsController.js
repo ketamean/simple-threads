@@ -9,6 +9,10 @@ controllers.getComments = async (req, res) => {
     const post = await threads.getThreadById(id);
     if (!post) throw new Error('Post does not exist');
     post.threadId = id;
+    const images = await threads.getThreadImagesById(id);
+    post.postImagePaths = images
+      ? images.map((image) => image.image_url)
+      : [];
     res.locals.post = post;
     res.locals.comments = await comments.getComments(id);
     res.locals.css = require('../metadata').md_comments.css;
