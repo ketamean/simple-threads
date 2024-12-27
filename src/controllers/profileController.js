@@ -1,5 +1,10 @@
 const usersModel = require("../models/usersModel");
 const threadsModel = require("../models/threadsModel");
+const createClient = require("@supabase/supabase-js").createClient;
+const supabaseUrl = process.env.SUPABASE_PROJECT_URL;
+const supabaseKey = process.env.SUPABASE_API_KEY;
+const supabase = createClient(supabaseUrl, supabaseKey);
+const decode = require("base64-arraybuffer").decode;
 const controller = {};
 
 controller.getProfile = async (req, res) => {
@@ -37,7 +42,10 @@ controller.getProfile = async (req, res) => {
 				},
 			});
 		} else {
-			const isFollowing = await usersModel.checkFollowing(tokenID, req.params.id);
+			const isFollowing = await usersModel.checkFollowing(
+				tokenID,
+				req.params.id
+			);
 			res.render("other-user-profile", {
 				title: "Profile",
 				profileData: {
@@ -116,9 +124,27 @@ controller.updateProfile = async (req, res) => {
 	try {
 		let { username, bio } = JSON.parse(req.body.user);
 		let avatar = req.file ? req.file.path : "";
+		const file = req.file;
+		if(file) {
+			const buffer = decode(file.buffer.toString("base64"));
+			file.originalname = file.originalname.split(".")[0] + "-" + Date.now() + "." + file.originalname.split(".")[1];
+			const { data, error } = await supabase.storage
+				.from("image_storage")
+				.upload(file.originalname, buffer);
+			if (error) {
+				console.error("Error uploading image", error);
+				res.status(500).send("Internal server error");
+			}
+			const publicURL = await supabase.storage.from("image_storage").getPublicUrl(data.path);
+			avatar = publicURL.data.publicUrl;
+		}
 		const userID = req.params.id;
 		const currentUser = await usersModel.findById(userID);
-		if (username === "" || username === undefined || username === "undefined")
+		if (
+			username === "" ||
+			username === undefined ||
+			username === "undefined"
+		)
 			username = currentUser.username;
 		if (bio === "" || bio === undefined || bio === "undefined")
 			bio = currentUser.bio;
@@ -137,7 +163,7 @@ controller.updateProfile = async (req, res) => {
 			avatar
 		);
 		res.status(200).json({
-			message: "OK"
+			message: "OK",
 		});
 	} catch (err) {
 		console.error("Error updating user profile", err.stack);
