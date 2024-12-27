@@ -23,10 +23,12 @@ controllers.postComments = async (req, res) => {
   console.log('post a comment');
   try {
     const {content, threadId} = req.body;
-    const post = await threads.getThreadById(threadId);
+    const userId = req.userID;
+    console.log('content ', content);
+    const post = await threads.getThreadById(threadId, userId);
     if (!post) throw new Error('Post does not exist');
     comments.addComment(req.userID, threadId, content);
-    return res.status(200);
+    return res.status(201).json({});
   } catch (err) {
     console.log(err);
     return res.status(400).json({message: 'Cannot post your comment. Please try again'})

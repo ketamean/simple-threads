@@ -1,3 +1,4 @@
+const { captureRejectionSymbol } = require("nodemailer/lib/xoauth2");
 const client = require("../config/database");
 const { formatDistanceToNow } = require("date-fns");
 
@@ -85,7 +86,9 @@ const thread = {
       WHERE t.id = $1 AND t.user_id = u.id;
     `;
     const values = [threadId, nLike, nComments];
-    const res = (await client.query(query, values)).rows[0];
+    let res = (await client.query(query, values)).rows;
+    if (res.length === 0) return [];
+    res = res[0];
     res.dateDistance = formatDistanceToNow(res.createdAt);
 
     const liked = await this.checkUserLikedThread(threadId, viewerId);

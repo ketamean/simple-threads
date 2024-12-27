@@ -4,14 +4,13 @@ import displayToast from './toastHandler.js'
 document.querySelector('form#commemt').addEventListener('submit', async (e) => {
   console.log('post a comment')
   e.preventDefault();
-  const content = e.target.content;
+  const content = e.target.content.value;
   const threadId = e.target.dataset.threadId;
-  console.log({content, threadId});
   await axiosInstance
     .post('/auth/comments', {content, threadId})
     .then((res) => {
       console.log(res);
-      window.location.reload();
+      window.location.href = `/auth/comments?id=${threadId}`;
     })
     .catch((err) => {
       let msg = '';

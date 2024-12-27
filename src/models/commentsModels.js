@@ -1,5 +1,5 @@
 const client = require("../config/database");
-const { formatDistanceToNow } = require("date-fns");
+const { formatDistanceToNow, formatISO } = require("date-fns");
 
 const comments = {
   async getComments(threadId) {
@@ -21,11 +21,11 @@ const comments = {
 
   async addComment(userid, threadid, content) {
     const query = `
-      INSERT INTO Comments(user_id, thread_id, content)
-      VALUES ($1, $2, $3)
+      INSERT INTO Comments(user_id, thread_id, content, created_at)
+      VALUES ($1, $2, $3, $4)
       RETURNING *;
     `
-    const values = [userid, threadid, content];
+    const values = [userid, threadid, content, formatISO(new Date())];
     return (await client.query(query, values)).rows[0];
   }
 }
