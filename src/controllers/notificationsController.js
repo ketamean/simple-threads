@@ -38,7 +38,7 @@ controllers.post = async (req, res) => {
     //Type of content
     let content, link;
 
-    if (post_id) {
+    if (post_id != 0) {
       content = post.content;
       link = "/auth/comments?id=" + post_id;
     } else {
