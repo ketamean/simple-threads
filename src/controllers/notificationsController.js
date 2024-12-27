@@ -1,5 +1,6 @@
 const notificationModel = require("../models/notificationModel.js");
 const userModel = require("../models/usersModel.js");
+const threadsModel = require("../models/threadsModel.js");
 //insert post model
 
 const controllers = {};
@@ -28,23 +29,22 @@ controllers.post = async (req, res) => {
     };
 
     //find user interact and post
-    const { user_id, type, post_id } = req.query;
-    // use post model to find post
-    const post = {
-      content: "123",
-    };
+    const { user_id, type, post_id } = req.body;
+    console.log(user_id);
 
+    // use post model to find post
+    const post = await threadsModel.getThreadById(post_id);
+    
     //Type of content
     let content, link;
 
     if (post_id) {
       content = post.content;
-      link = "post/" + post_id;
+      link = "/auth/comments?id=" + post_id;
     } else {
       content = "Follow back";
-      link = "profile/" + user.id;
+      link = "/auth/profile/" + user.id;
     }
-
     const notificationData = {
       userId: user_id,
       interactorId: user.id,

@@ -9,7 +9,7 @@ controllers.getFeed = async (req, res) => {
     const postIDs = await Threads.getAllPosts();
     const finalPosts = await Promise.all(
       postIDs.map(async (postID) => {
-        const post = await Threads.getThreadWithoutImageById(postID.id);
+        const post = await Threads.getThreadWithoutImageById(postID.id, req.userID);
         const images = await Threads.getThreadImagesById(postID.id);
         post.postImagePaths = images
           ? images.map((image) => image.image_url)

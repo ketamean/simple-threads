@@ -26,16 +26,21 @@ const thread = {
     const res = await client.query(query);
     return res.rows;
   },
-  getThreadWithoutImageById: async (id) => {
+  getThreadWithoutImageById: async (id, viewerId) => {
     const query = `
     SELECT 
       t.*,
       u.username,
       u.profile_picture,
       (SELECT COUNT(*) FROM Likes WHERE thread_id = t.id) as likes_count,
-      (SELECT COUNT(*) FROM Comments WHERE thread_id = t.id) as comments_count
-    FROM Threads t
-    JOIN Users u ON t.user_id = u.id
+      (SELECT COUNT(*) FROM Comments WHERE thread_id = t.id) as comments_count,
+      CASE 
+          WHEN l.thread_id IS NOT NULL THEN true 
+          ELSE false
+      END AS liked
+    FROM Threads t 
+      JOIN Users u ON t.user_id = u.id
+      LEFT JOIN Likes l ON t.id = l.thread_id
     WHERE t.id = $1;`;
     const res = await client.query(query, [id]);
     return res.rows[0];
@@ -67,7 +72,7 @@ const thread = {
     const res = (await client.query(query, values)).rows[0];
     return res.count;
   },
-  async getThreadById(threadId, viewerId) {
+  async getThreadById(threadId, viewerId = null) {
     const nLike = await this.getNLikes(threadId);
     const nComments = await this.getNComments(threadId);
     const query = `
@@ -80,11 +85,12 @@ const thread = {
     if (res.length === 0) return [];
     res = res[0];
     res.dateDistance = formatDistanceToNow(res.createdAt);
-
-    const liked = await like.hasAlreadyLiked(viewerId, threadId);
-    console.log('getThreadById ', liked)
-    if (liked) res.liked = true;
-    else res.liked = false;
+    if (viewerId) {
+      const liked = await like.hasAlreadyLiked(viewerId, threadId);
+      console.log('getThreadById ', liked)
+      if (liked) res.liked = true;
+      else res.liked = false;
+    }
     return res;
   },
   async getThreadByUserID(userId) {

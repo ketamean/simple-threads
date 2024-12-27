@@ -8,8 +8,9 @@ document.querySelector('form#commemt').addEventListener('submit', async (e) => {
   const threadId = e.target.dataset.threadId;
   await axiosInstance
     .post('/auth/comments', {content, threadId})
-    .then((res) => {
-      console.log(res);
+    .then(async (res) => {
+      console.log(res.data);
+      await axiosInstance.post('/auth-header/notifications', {user_id: res.data.ownerId, type: 'comment', post_id: threadId});
       window.location.href = `/auth/comments?id=${threadId}`;
     })
     .catch((err) => {
