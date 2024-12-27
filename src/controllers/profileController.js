@@ -77,13 +77,10 @@ controller.getFollowers = async (req, res) => {
 				followers[i].profile_picture === "null"
 			) {
 				followers[i].profile_picture = "/img/user-placeholder.jpg";
-			} else if (followers[user].profile_picture.includes("http")) {
-				followers[user].profile_picture =
-					followers[user].profile_picture;
-			} else if (followers[user].profile_picture.includes("public")) {
-				followers[user].profile_picture = followers[
-					user
-				].profile_picture.replace("public", "");
+			} else if (followers[i].profile_picture.includes("http")) {
+				followers[i].profile_picture = followers[i].profile_picture;
+			} else if (followers[i].profile_picture.includes("public")) {
+				followers[i].profile_picture = followers[i].profile_picture.replace("public", "");
 			}
 		}
 		res.status(200).json(followers);
@@ -125,9 +122,14 @@ controller.updateProfile = async (req, res) => {
 		let { username, bio } = JSON.parse(req.body.user);
 		let avatar = req.file ? req.file.path : "";
 		const file = req.file;
-		if(file) {
+		if (file) {
 			const buffer = decode(file.buffer.toString("base64"));
-			file.originalname = file.originalname.split(".")[0] + "-" + Date.now() + "." + file.originalname.split(".")[1];
+			file.originalname =
+				file.originalname.split(".")[0] +
+				"-" +
+				Date.now() +
+				"." +
+				file.originalname.split(".")[1];
 			const { data, error } = await supabase.storage
 				.from("image_storage")
 				.upload(file.originalname, buffer);
@@ -135,7 +137,9 @@ controller.updateProfile = async (req, res) => {
 				console.error("Error uploading image", error);
 				res.status(500).send("Internal server error");
 			}
-			const publicURL = await supabase.storage.from("image_storage").getPublicUrl(data.path);
+			const publicURL = await supabase.storage
+				.from("image_storage")
+				.getPublicUrl(data.path);
 			avatar = publicURL.data.publicUrl;
 		}
 		const userID = req.params.id;
