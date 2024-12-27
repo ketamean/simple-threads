@@ -11,8 +11,8 @@ indexes.Followers_followingId = `
   CREATE INDEX IF NOT EXISTS Follows_followingId ON "public"."followers" USING btree ("following_id");
 `
 
-indexes.Notifications_ownerId = `
-  CREATE INDEX IF NOT EXISTS Notifications_ownerId ON "public"."notifications" USING btree ("owner_id");
+indexes.Notifications_userId = `
+  CREATE INDEX IF NOT EXISTS Notifications_userId ON "public"."notifications" USING btree ("user_id");
 `
 
 indexes.ThreadImages_threadId = `
