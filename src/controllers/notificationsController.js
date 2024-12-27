@@ -1,5 +1,7 @@
 const notificationModel = require("../models/notificationModel.js");
 const userModel = require("../models/usersModel.js");
+const threadsModel = require("../models/threadsModel.js");
+const { formatISO } = require("date-fns");
 //insert post model
 
 const controllers = {};
@@ -10,7 +12,6 @@ controllers.get = async (req, res) => {
   const notificationData = await notificationModel.getNotificationsByUserId(
     userID
   );
-  console.log(notificationData);
   res.locals.metadata = notificationData;
   res.locals.tab_notifications = true;
   res.render("activity", { layout: "layoutNotification" });
@@ -28,32 +29,32 @@ controllers.post = async (req, res) => {
     };
 
     //find user interact and post
-    const { user_id, type, post_id } = req.query;
-    // use post model to find post
-    const post = {
-      content: "123",
-    };
+    const { user_id, type, post_id } = req.body;
+    console.log(user_id);
 
+    // use post model to find post
+    const post = await threadsModel.getThreadById(post_id);
+    
     //Type of content
     let content, link;
 
-    if (post_id) {
+    if (post_id != 0) {
       content = post.content;
-      link = "post/" + post_id;
+      link = "/auth/comments?id=" + post_id;
     } else {
       content = "Follow back";
-      link = "profile/" + user.id;
+      link = "/auth/profile/" + user.id;
     }
-
     const notificationData = {
       userId: user_id,
       interactorId: user.id,
       imgInteractor: user.profile_picture,
-      nameInteractor: user.alias,
+      nameInteractor: user.username,
       link: link,
       describe: descriptions[type],
       content: content,
       type: type,
+      date: formatISO(new Date()),
     };
 
     const result = await notificationModel.addNotification(notificationData);

@@ -272,6 +272,7 @@ div {
 
 .active {
   fill: #f3f5f7;
+  color: #f3f5f7;
 }
 
 /* tag bar thread*/
@@ -309,7 +310,7 @@ div {
 }
 
 .unread {
-  background-color: rgba(30, 30, 30, 0.9);
+  background-color: rgba(57, 56, 56, 0.9);
   margin-left: 3px;
   border-top-left-radius: 16px;
   border-bottom-left-radius: 16px;
@@ -538,3 +539,4 @@ div {
   color: rgb(243, 245, 247);
   fill: currentColor;
 }
+

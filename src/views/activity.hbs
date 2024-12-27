@@ -1,4 +1,4 @@
-<div class="activity-follow all">
+<div class="activity-follow all sm:bg-eerie-black sm:rounded-3xl sm:h-[calc(100vh-7rem)]">
     {{#each metadata}}
         {{#if (eq this.type "follow")}}
             {{>followNotification context=this}}
@@ -9,7 +9,7 @@
 </div>
 
 <!-- follow screen -->
-<div class="activity-follow follow hidden">
+<div class="activity-follow follow hidden sm:bg-eerie-black sm:rounded-3xl">
     {{#each metadata}}
             {{#if (eq this.type "follow")}}
                 {{>followNotification context=this}}
@@ -18,7 +18,7 @@
 </div>
 
 <!-- like screen -->
-<div class="activity-follow like hidden">
+<div class="activity-follow like hidden sm:bg-eerie-black sm:rounded-3xl">
     {{#each metadata}}
         {{#if (eq this.type "like")}}
             {{>contentNotification context=this}}
@@ -27,7 +27,7 @@
 </div>
 
 <!-- comment screen -->
-<div class="activity-follow comment hidden">
+<div class="activity-follow comment hidden sm:bg-eerie-black sm:rounded-3xl">
     {{#each metadata}}
         {{#if (eq this.type "comment")}}
             {{>contentNotification context=this}}
