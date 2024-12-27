@@ -28,5 +28,4 @@ router.use(
   middlewareCookie.setCookieResponse,
   authRouter
 );
-
 module.exports = router;

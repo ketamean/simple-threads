@@ -1,7 +1,5 @@
 const client = require("../config/database");
 
-// THIS DOES NOT HANDLE ERRORS.
-// ERRORS ARE HANDLED BY CONTROLLERS
 const thread = {
   createThread: async (user_id, content, created_at) => {
     const query = `
