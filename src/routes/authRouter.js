@@ -3,10 +3,10 @@ const router = express.Router();
 
 const createPostRouter = require("./createPostRouter");
 const feedRouter = require("./feedRouter");
-const profileRouter = require("./profileRouter");
 const likeRouter = require("./likeRouter");
 const commentsRouter = require("./commentsRouter");
-
+const createPostRouter = require("./createPostRouter");
+const profileRouter = require("./profileRouter");
 const notificationsRouter = require("./notificationsRouter");
 
 router.get("/", (req, res) => {

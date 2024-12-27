@@ -128,25 +128,25 @@ editProfileCancel.addEventListener("click", () => {
 editProfileSave.addEventListener("click", async(event) => {
 	event.preventDefault();
 	const formData = new FormData(editProfileForm);
-	const alias = formData.get("alias");
+	const username = formData.get("username");
 	const bio = formData.get("bio");
 	const avatar = formData.get("avatar");
-	console.log(avatar);
 	const userForm = new FormData();
 	userForm.append("user", JSON.stringify({
-		alias,
+		username,
 		bio,
 	}));
 	userForm.append("avatar", avatar);
-	await axiosInstance.post(`auth/profile/${userID}`, userForm, {
+	await axiosInstance.post(`auth-header/profile/${userID}`, userForm, {
 		headers: {
 			"Content-Type": "multipart/form-data",
 		},
-	});
-	setTimeout(() => {
+	}).then((res) => {
 		editProfileModal.classList.remove("active");
-		window.location.reload();
-	}, 500);
+		return location.reload();
+	}).catch((err) => {
+		console.error(err);
+	});
 });
 
 editProfileAvatarInput.addEventListener("change", () => {
@@ -180,7 +180,7 @@ if (personal) {
 			target_id: targetID,
 		}
 		data = JSON.stringify(data);
-		await axiosInstance.delete(`auth/profile/${userID}/unfollow`, {
+		await axiosInstance.delete(`auth-header/profile/${userID}/unfollow`, {
 			data
 		}, {
 			headers: {
@@ -206,7 +206,7 @@ followStatus.forEach((status, index) => {
 				target_id: followed_id,
 			}
 			data = JSON.stringify(data);
-			await axiosInstance.post(`auth/profile/${userID}/follow`, {
+			await axiosInstance.post(`auth-header/profile/${userID}/follow`, {
 				user_id: userID,
 				target_id: followed_id,
 			}, {
@@ -227,7 +227,6 @@ followersPreview.addEventListener("click", async () => {
 	followBoard.classList.toggle("active");
 	if (followBoard.classList.contains("active")) {
 		if (
-			window.matchMedia("(min-width: 640px)").matches &&
 			window.matchMedia("(max-width: 768px)").matches
 		) {
 			document.body.style.overflow = "hidden";
@@ -237,7 +236,7 @@ followersPreview.addEventListener("click", async () => {
 	followersTab.classList.add("block");
 	followingTab.classList.add("hidden");
 	followingTab.classList.remove("block");
-	let followers = await axiosInstance.post(`auth/profile/:{id}/followers`, {
+	let followers = await axiosInstance.post(`auth-header/profile/:{id}/followers`, {
 		user_id: userID,
 	});
 	followers = followers.data;
@@ -343,7 +342,7 @@ followersBoard.addEventListener("click", async (event) => {
 	followersTab.classList.add("block");
 	followingTab.classList.add("hidden");
 	followingTab.classList.remove("block");
-	let followers = await axiosInstance.post(`auth/profile/:{id}/followers`, {
+	let followers = await axiosInstance.post(`auth-header/profile/:{id}/followers`, {
 		user_id: userID,
 	});
 	followers = followers.data;
@@ -428,7 +427,7 @@ followersBoard.addEventListener("click", async (event) => {
 					target_id: targetID,
 				};
 				data = JSON.stringify(data);
-				await axiosInstance.post(`auth/profile/${userID}/follow`, {
+				await axiosInstance.post(`auth-header/profile/${userID}/follow`, {
 					user_id: userID,
 					target_id: targetID
 				}, {
@@ -452,7 +451,7 @@ followingBoard.addEventListener("click", async (event) => {
 	followersTab.classList.remove("block");
 	followingTab.classList.remove("hidden");
 	followingTab.classList.add("block");
-	let followings = await axiosInstance.post(`auth/profile/:{id}/followings`, {
+	let followings = await axiosInstance.post(`auth-header/profile/:{id}/followings`, {
 		user_id: userID,
 	});
 	followings = followings.data;
@@ -534,7 +533,7 @@ followingBoard.addEventListener("click", async (event) => {
 					target_id: targetID,
 				}
 				data = JSON.stringify(data);
-				await axiosInstance.post(`auth/profile/${userID}/follow`, {
+				await axiosInstance.post(`auth-header/profile/${userID}/follow`, {
 					user_id: userID,
 					target_id: targetID
 				}, {
@@ -558,7 +557,7 @@ if(!personal) {
 	followButton.addEventListener("click", async (event) => {
 		event.preventDefault();
 		if(followButton.textContent === "Follow") {
-			await axiosInstance.post(`auth/profile/${userID}/follow`, {
+			await axiosInstance.post(`auth-header/profile/${userID}/follow`, {
 				user_id: tokenID,
 				target_id: userID
 			}, {
@@ -578,7 +577,7 @@ if(!personal) {
 				target_id: userID,
 			}
 			data = JSON.stringify(data);
-			await axiosInstance.delete(`auth/profile/${userID}/unfollow`, {
+			await axiosInstance.delete(`auth-header/profile/${userID}/unfollow`, {
 				data
 			}, {
 				headers: {

@@ -166,10 +166,7 @@
 			class="edit-profile-card bg-chinese-black border border-solid border-neon-white-15 rounded-2xl w-96 h-13 flex flex-col justify-evenly p-3 text-base relative"
 		>
 			<form
-				action="auth/profile/{{{user.id}}}"
 				class="edit-profile-form"
-				enctype="multipart/form-data"
-				method="POST"
 			>
 				<label
 					for="avatar"
@@ -185,11 +182,11 @@
 				<div
 					class="form-item w-full h-20 flex flex-col justify-evenly p-2"
 				>
-					<label for="alias" class="text-white">Name</label>
+					<label for="username" class="text-white">Name</label>
 					<input
 						type="text"
-						name="alias"
-						placeholder="{{{user.alias}}}"
+						name="username"
+						placeholder="{{{user.username}}}"
 						class="w-full h-10 text-neon-white border-b-2 p-0 focus:border-b-2 focus:border-solid focus:border-neon-white bg-transparent text-neon-white outline-none"
 					/>
 				</div>

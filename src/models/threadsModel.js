@@ -44,7 +44,6 @@ const thread = {
     return res.rows;
   },
   async getNLikes(id) {
-    console.log("thread models: get n likes");
     const query = `
       SELECT count(*)
       FROM Likes
@@ -56,7 +55,6 @@ const thread = {
     return res.count;
   },
   async getNComments(id) {
-    console.log("thread models: get n comments");
     const query = `
       SELECT count(*)
       FROM Comments
@@ -64,11 +62,9 @@ const thread = {
     `;
     const values = [id];
     const res = (await client.query(query, values)).rows[0];
-    console.log(res.count);
     return res.count;
   },
   async checkUserLikedThread(threadId, userId) {
-    console.log("check user liked");
     const query = `
       SELECT count(*)
       FROM Likes
@@ -76,7 +72,6 @@ const thread = {
     `;
     const values = [threadId, userId];
     const res = (await client.query(query, values)).rows;
-    console.log(res.length);
     if (res.length > 1)
       throw new Error(`User liked thread ${threadId} more than once`);
     return res.length === 1; // true if liked, false of have not liked yet
@@ -117,6 +112,11 @@ const thread = {
       res[i].likes_count = await this.getNLikes(res[i].id);
       res[i].comments_count = await this.getNComments(res[i].id);
       res[i].liked = await this.checkUserLikedThread(res[i].id, userId);
+      const postImagePaths = await this.getThreadImagesById(res[i].id);
+      res[i].postImagePaths = [];
+      for (let j = 0; j < postImagePaths.length; j++) {
+        res[i].postImagePaths.push(postImagePaths[j].image_url);
+      }
     }
     return res;
   },

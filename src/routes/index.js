@@ -28,9 +28,4 @@ router.use(
   middlewareCookie.setCookieResponse,
   authRouter
 );
-
-// profile router, must logged in before use
-router.use("/profile", profileRouter);
-
-
 module.exports = router;
