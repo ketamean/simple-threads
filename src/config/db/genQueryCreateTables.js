@@ -51,12 +51,16 @@ tables.Comments = `
 tables.Notifications = `
   CREATE TABLE IF NOT EXISTS Notifications (
     id SERIAL PRIMARY KEY,
-    owner_id INT NOT NULL REFERENCES Users(id),
+    user_id INT NOT NULL REFERENCES Users(id),
+    img_interactor VARCHAR(255),
+    name_interactor VARCHAR(50),
+    link VARCHAR(255),
+    describe VARCHAR(255) NOT NULL,
+    content TEXT NOT NULL,
     type VARCHAR(50) NOT NULL,
-    related_id INT NOT NULL REFERENCES Users(id),
-    link VARCHAR(255) NOT NULL,
     is_read BOOLEAN DEFAULT FALSE,
-    created_at TIMESTAMP DEFAULT NOW()
+    created_at TIMESTAMP DEFAULT NOW(),
+    interactor_id INT NOT NULL REFERENCES Users(id)
   );
 `
 
